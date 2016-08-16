@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bunk</string>
+
+    <string name="activity_main">Bunk</string>
+    <string name="activity_about">About</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_about">About</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="action_refresh">Refresh</string>
+
+    <string name="about_disclaimer">USE THE APP RESPONSIBLY. THIS APP DOES NOT PROMOTE BUNKING CLASSES. THE CALCULATED DATA MIGHT BE INACCURATE. THE DEVELOPER IS NOT RESPONSIBLE FOR THE USER\'S ATTENDANCE.</string>
+    <string name="about_github">Contribute on GitHub:</string>
+    <string name="about_github_link">github.com/abhijitparida/bunk</string>
+    <string name="about_icons">Icons from flaticon.com made by:</string>
+    <string name="about_icons_link">Freepik\nMadebyoliver\nPixel Buddha</string>
+
+    <string name="label_registration_number">Registration Number</string>
+    <string name="label_add">ADD</string>
+    <string name="label_update_available">Update Available</string>
+    <string name="label_update">Update</string>
+    <string name="label_attendance">Attendance:</string>
+    <string name="label_last_updated">Last Updated:</string>
+    <string name="label_present">Present:</string>
+    <string name="label_absent">Absent:</string>
+
+    <string name="hint_getting_started_1">"Tap the "</string> <!-- hamburger menu -->
+    <string name="hint_getting_started_2">" button or swipe from the left edge to get started"</string>
+    <string name="hint_subjects_empty">Subjects will appear here when they are available</string>
+    <string name="hint_students_empty">Registration numbers will appear here after you add them</string>
+
+    <string name="url_feedback">https://goo.gl/forms/MsrY3JciZD</string>
+    <string name="url_store">https://play.google.com/store/apps/details?id=app.abhijit.iter</string>
+
+    <string name="message_student_deleted">Registration number %1$s removed</string>
+    <string name="message_update_available">A new version of this app is available!</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3302975669737541/4253342310</string>
+
+</resources>
