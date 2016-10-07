@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:text="@string/about_disclaimer"
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/text_small" />
@@ -71,19 +71,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="@string/about_github"
-                android:textColor="@color/grey_dark"
-                android:textSize="@dimen/text_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:gravity="center"
-                android:text="@string/about_github_link"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:text="@string/about_unofficial"
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/text_small" />
 

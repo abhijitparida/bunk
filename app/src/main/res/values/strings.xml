@@ -13,9 +13,8 @@
     <string name="action_feedback">Feedback</string>
     <string name="action_refresh">Refresh</string>
 
-    <string name="about_disclaimer">USE THE APP RESPONSIBLY. THIS APP DOES NOT PROMOTE BUNKING CLASSES. THE CALCULATED DATA MIGHT BE INACCURATE. THE DEVELOPER IS NOT RESPONSIBLE FOR THE USER\'S ATTENDANCE.</string>
-    <string name="about_github">Contribute on GitHub:</string>
-    <string name="about_github_link">github.com/abhijitparida/bunk</string>
+    <string name="about_disclaimer">USE THE APP RESPONSIBLY. THIS APP DOES NOT PROMOTE BUNKING. THE CALCULATED DATA MIGHT BE INACCURATE. THE DEVELOPER IS NOT RESPONSIBLE FOR THE USER\'S ATTENDANCE.</string>
+    <string name="about_unofficial">THIS IS NOT AN OFFICIAL APP.</string>
     <string name="about_icons">Icons from flaticon.com made by:</string>
     <string name="about_icons_link">Freepik\nMadebyoliver\nPixel Buddha</string>
 
