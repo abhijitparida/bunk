@@ -262,8 +262,9 @@ public class StudentDataSource {
                 if (!studentSubjects.get(i).getAsJsonObject().has("subjectcode") ||
                         !studentSubjects.get(i).getAsJsonObject().has("subject") ||
                         !studentSubjects.get(i).getAsJsonObject().has("totalpresentclass") ||
-                        !studentSubjects.get(i).getAsJsonObject().has("totalclasses")) {
-                    throw new Exception();
+                        !studentSubjects.get(i).getAsJsonObject().has("totalclasses") ||
+                        studentSubjects.get(i).getAsJsonObject().get("totalclasses").getAsInt() == 0) {
+                    continue;
                 }
                 String code = studentSubjects.get(i).getAsJsonObject().get("subjectcode").getAsString();
                 String name = studentSubjects.get(i).getAsJsonObject().get("subject").getAsString();
