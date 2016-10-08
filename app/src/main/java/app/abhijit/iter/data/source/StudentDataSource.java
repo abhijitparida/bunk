@@ -262,14 +262,14 @@ public class StudentDataSource {
                 if (!studentSubjects.get(i).getAsJsonObject().has("subjectcode") ||
                         !studentSubjects.get(i).getAsJsonObject().has("subject") ||
                         !studentSubjects.get(i).getAsJsonObject().has("totalpresentclass") ||
-                        !studentSubjects.get(i).getAsJsonObject().has("totalclasses") ||
-                        studentSubjects.get(i).getAsJsonObject().get("totalclasses").getAsInt() == 0) {
+                        !studentSubjects.get(i).getAsJsonObject().has("totalclasses")) {
                     continue;
                 }
                 String code = studentSubjects.get(i).getAsJsonObject().get("subjectcode").getAsString();
                 String name = studentSubjects.get(i).getAsJsonObject().get("subject").getAsString();
                 int presentClasses = studentSubjects.get(i).getAsJsonObject().get("totalpresentclass").getAsInt();
                 int totalClasses = studentSubjects.get(i).getAsJsonObject().get("totalclasses").getAsInt();
+                if (totalClasses <= 0 || presentClasses < 0 || presentClasses > totalClasses) continue;
                 long lastUpdated = new Date().getTime();
                 int oldPresentClasses = presentClasses;
                 int oldTotalClasses = totalClasses;
