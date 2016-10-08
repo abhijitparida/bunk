@@ -379,10 +379,10 @@ public class StudentDataSource {
                 String.format(Locale.US, "%.2f", attendance) + "%",
                 status,
                 DateUtils.getRelativeTimeSpanString(lastUpdated, new Date().getTime(), 0).toString(),
-                presentClasses == oldPresentClasses && totalClasses == oldTotalClasses ? null : oldPresentClasses + "/" + oldTotalClasses + " classes",
-                presentClasses + "/" + totalClasses + " classes",
-                absentClasses == oldAbsentClasses ? null : oldAbsentClasses + " classes",
-                absentClasses + " classes",
+                presentClasses == oldPresentClasses && totalClasses == oldTotalClasses ? null : oldPresentClasses + "/" + oldTotalClasses + (oldTotalClasses == 1 ? " class" : " classes"),
+                presentClasses + "/" + totalClasses + (totalClasses == 1 ? " class" : " classes"),
+                absentClasses == oldAbsentClasses ? null : oldAbsentClasses + (oldAbsentClasses == 1 ? " class" : " classes"),
+                absentClasses + (absentClasses == 1 ? " class" : " classes"),
                 generateBunkStats((int) attendance, totalClasses, presentClasses, absentClasses)
         );
     }
