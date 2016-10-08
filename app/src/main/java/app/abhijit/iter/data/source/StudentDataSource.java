@@ -413,6 +413,7 @@ public class StudentDataSource {
 
         int nextAttendance = (attendance + 4) / 5 * 5;
         if (nextAttendance == attendance) nextAttendance = attendance + 5;
+        if (nextAttendance < 75) nextAttendance = 75;
         for (int a = nextAttendance; a <= 95; a += 5) {
             int daysNeed = (int) ((a * totalClasses - 100 * presentClasses) / (float) (100 - a));
             if (daysNeed > 0 && (daysNeed + totalClasses <= 50)) {
