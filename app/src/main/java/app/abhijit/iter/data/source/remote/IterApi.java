@@ -33,7 +33,7 @@ public class IterApi {
     private static final String API_ENDPOINT = "http://111.93.164.202:8282/CampusLynxSOA/CounsellingRequest?refor=StudentOnlineDetailService";
 
     private static final String INSTITUTE_ID = "SOAUINSD1312A0000002";
-    private static final String REGISTRATION_ID = "ITERRETD1606A0000001";
+    private static final String REGISTRATION_ID = "ITERRETD1612A0000002";
 
     public static String fetchStudentId(String registrationNumber) throws Exception {
         JsonObject request = new JsonObject();
