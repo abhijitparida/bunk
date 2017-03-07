@@ -28,12 +28,10 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import app.abhijit.iter.data.source.StudentDataSource;
-import app.abhijit.iter.data.source.TelemetryDataSource;
 
 public class MainApplication extends Application {
 
     private StudentDataSource mStudentDataSource;
-    private TelemetryDataSource mTelemetryDataSource;
 
     public StudentDataSource getStudentDataSource() {
         if (mStudentDataSource == null) {
@@ -42,13 +40,5 @@ public class MainApplication extends Application {
         }
 
         return mStudentDataSource;
-    }
-
-    public TelemetryDataSource getTelemetryDataSource() {
-        if (mTelemetryDataSource == null) {
-            mTelemetryDataSource = new TelemetryDataSource();
-        }
-
-        return mTelemetryDataSource;
     }
 }
