@@ -22,7 +22,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles 'proguard-support-v7-appcompat.pro'
+            proguardFiles 'proguard-support-design.pro'
+            proguardFiles 'proguard-eventbus-3.pro'
+            proguardFiles 'proguard-guava.pro'
+            proguardFiles 'proguard-gson.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
