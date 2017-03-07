@@ -91,7 +91,10 @@ public class MainActivity extends AppCompatActivity {
         setupListAdapters();
         setupGettingStartedHint();
         setupAddStudentButton();
-        setupAd();
+
+        if (!BuildConfig.DEBUG) {
+            setupAd();
+        }
     }
 
     @Override
