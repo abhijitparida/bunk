@@ -71,7 +71,6 @@ import java.util.Comparator;
 import app.abhijit.iter.data.model.Error;
 import app.abhijit.iter.data.model.Student;
 import app.abhijit.iter.data.model.Subject;
-import app.abhijit.iter.data.model.Telemetry;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -143,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
         displayStudentDetail(selectedStudent);
 
-        ((MainApplication) getApplication()).getTelemetryDataSource().fetch(selectedStudent.getRegistrationNumber());
-
         if (selectedStudent.getSubjects() == null) {
             displayLoading(true);
             return;
@@ -163,14 +160,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-    }
-
-    @Subscribe
-    public void onTelemetryDataEvent(Telemetry telemetry) {
-        if (telemetry.isUpdateAvailable()) {
-            displayUpdateAvailableDialog();
-        }
-        displayAd(telemetry.shouldDisplayAds());
     }
 
     @Subscribe
@@ -308,11 +297,6 @@ public class MainActivity extends AppCompatActivity {
     public void displayLoading(boolean visible) {
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_indicator);
         progressBar.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
-    public void displayAd(boolean visible) {
-        AdView adView = (AdView) findViewById(R.id.ad);
-        adView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     public void displayStudents(ArrayList<Student> students) {
