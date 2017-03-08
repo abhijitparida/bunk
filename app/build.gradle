@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 12
         versionName "v2.1"
+        resConfig "en"
     }
 
     applicationVariants.all { variant ->
