@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 12
         versionName "v2.1"
+        resConfig "en"
     }
 
     applicationVariants.all { variant ->
@@ -22,9 +23,8 @@ android {
 
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled true
-            proguardFiles 'proguard-support-v7-appcompat.pro'
-            proguardFiles 'proguard-support-design.pro'
             proguardFiles 'proguard-eventbus-3.pro'
             proguardFiles 'proguard-guava.pro'
             proguardFiles 'proguard-gson.pro'
