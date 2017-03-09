@@ -22,6 +22,7 @@ android {
 
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled true
             proguardFiles 'proguard-support-v7-appcompat.pro'
             proguardFiles 'proguard-support-design.pro'
