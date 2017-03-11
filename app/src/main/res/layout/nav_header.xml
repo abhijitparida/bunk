@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@color/grey_dark"
+    android:layout_height="@dimen/nav_header"
+    android:background="@drawable/nav_background"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/margin_large"
@@ -11,18 +12,20 @@
     android:paddingTop="@dimen/margin_large"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/nav_avatar"
+        android:layout_height="@dimen/nav_avatar"
         android:paddingTop="@dimen/margin_large"
-        android:src="@android:drawable/sym_def_app_icon" />
+        android:src="@drawable/nav_avatar"
+        app:civ_border_color="@color/white" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/margin_large"
         android:text="Abhijit Parida"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView

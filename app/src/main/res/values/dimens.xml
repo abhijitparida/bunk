@@ -18,6 +18,7 @@
 
     <dimen name="avatar_subject">48sp</dimen>
 
-    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="nav_header">180dp</dimen>
+    <dimen name="nav_avatar">78dp</dimen>
 
 </resources>

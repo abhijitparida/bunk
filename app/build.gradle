@@ -42,6 +42,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.google.android.gms:play-services-ads-lite:10.2.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
