@@ -28,7 +28,7 @@ android {
             proguardFiles 'proguard-eventbus-3.pro'
             proguardFiles 'proguard-guava.pro'
             proguardFiles 'proguard-gson.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
 }
