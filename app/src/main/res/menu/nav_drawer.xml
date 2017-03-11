@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/nav_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_settings"
         android:title="@string/label_settings" />
 
     <item
         android:id="@+id/nav_logout"
-        android:icon="@android:drawable/ic_lock_power_off"
+        android:icon="@drawable/ic_logout"
         android:title="@string/label_logout" />
 </menu>
