@@ -39,7 +39,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
+                    android:hint="@string/label_username"
                     android:textSize="@dimen/text_medium"
                     android:inputType="number" />
 
@@ -52,13 +52,14 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/label_password"
                     android:textSize="@dimen/text_medium"
                     android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
+                android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/indigo"
@@ -66,7 +67,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_large"
                 android:textSize="@dimen/text_medium"
-                android:text="Login" />
+                android:text="@string/label_login" />
 
         </LinearLayout>
 
