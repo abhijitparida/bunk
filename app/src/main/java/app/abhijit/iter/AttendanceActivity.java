@@ -36,7 +36,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -86,7 +85,7 @@ public class AttendanceActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
         } else if (id == R.id.nav_logout) {
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
         }
