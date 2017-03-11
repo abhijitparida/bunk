@@ -88,7 +88,7 @@ public class AttendanceActivity extends AppCompatActivity
         if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
-            finish();
+            startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,8 +102,7 @@ public class AttendanceActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            // TODO: clear back stack
-            finish(); // or super.onBackPressed();
+            finish();
         }
     }
 

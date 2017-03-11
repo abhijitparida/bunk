@@ -24,16 +24,11 @@
 
 package app.abhijit.iter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -56,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, AttendanceActivity.class));
+                finish();
             }
         });
     }
