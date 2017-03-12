@@ -145,8 +145,7 @@ public class AttendanceActivity extends AppCompatActivity
 
         final ProgressDialog progressDialog = new ProgressDialog(mContext);
         progressDialog.setMessage("Logging out...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         interstitialAd.setAdListener(new AdListener() {
