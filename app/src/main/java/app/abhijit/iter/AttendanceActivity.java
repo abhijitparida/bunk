@@ -67,6 +67,16 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!((MainApplication) getApplication()).isLoggedIn()) {
+            startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            return;
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.three_dots, menu);
         return true;
@@ -153,6 +163,7 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private void performLogout() {
+        ((MainApplication) getApplication()).setLoggedIn(false);
         Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
     }
 }

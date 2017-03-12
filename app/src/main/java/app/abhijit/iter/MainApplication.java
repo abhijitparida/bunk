@@ -31,7 +31,17 @@ import app.abhijit.iter.data.source.StudentDataSource;
 
 public class MainApplication extends Application {
 
+    private boolean mLoggedIn = false;
+
     private StudentDataSource mStudentDataSource;
+
+    public boolean isLoggedIn() {
+        return mLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        mLoggedIn = loggedIn;
+    }
 
     public StudentDataSource getStudentDataSource() {
         if (mStudentDataSource == null) {
