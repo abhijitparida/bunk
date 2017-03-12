@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/margin_large"
                 android:text="@string/app_name"
                 android:textColor="@color/black_opacity_87"
                 android:textSize="@dimen/text_large" />
@@ -55,7 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_extra_large"
                 android:gravity="center"
                 android:text="@string/app_version"
                 android:textColor="@color/black_opacity_87"
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:text="@string/about_disclaimer"
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/text_small" />
@@ -72,7 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:layout_marginTop="@dimen/margin_large"
                 android:text="@string/about_unofficial"
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/text_small" />
@@ -82,17 +82,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:text="@string/about_icons"
-                android:textColor="@color/grey_dark"
-                android:textSize="@dimen/text_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_extra_large"
-                android:gravity="center"
-                android:text="@string/about_icons_link"
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/text_small" />
 
