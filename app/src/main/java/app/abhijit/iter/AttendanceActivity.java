@@ -24,6 +24,7 @@
 
 package app.abhijit.iter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,9 +37,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 public class AttendanceActivity extends AppCompatActivity
@@ -57,7 +61,7 @@ public class AttendanceActivity extends AppCompatActivity
         setupDrawer();
 
         if (!BuildConfig.DEBUG) {
-            setupAd();
+            displayBannerAd();
         }
     }
 
@@ -87,7 +91,12 @@ public class AttendanceActivity extends AppCompatActivity
         if (id == R.id.nav_settings) {
             startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
         } else if (id == R.id.nav_logout) {
-            startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            if (!BuildConfig.DEBUG) {
+                displayInterstitialAd();
+            } else {
+                performLogout();
+                startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -121,10 +130,54 @@ public class AttendanceActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void setupAd() {
+    private void displayBannerAd() {
         MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
         AdView adView = (AdView) findViewById(R.id.ad);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+    }
+
+    private void displayInterstitialAd() {
+        final InterstitialAd interstitialAd = new InterstitialAd(mContext);
+        interstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+
+        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setMessage("Logging out...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+
+                progressDialog.hide();
+                performLogout();
+                interstitialAd.show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+
+                startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+
+                progressDialog.hide();
+                performLogout();
+                startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            }
+        });
+    }
+
+    private void performLogout() {
+        Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
     }
 }

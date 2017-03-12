@@ -40,5 +40,6 @@
     <string name="message_update_available">A new version of this app is available!</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-3302975669737541/4253342310</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3302975669737541/9078838714</string>
 
 </resources>
