@@ -49,6 +49,7 @@ public class AttendanceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private Context mContext;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class AttendanceActivity extends AppCompatActivity
 
         if (!BuildConfig.DEBUG) {
             displayBannerAd();
+            setupInterstitialAd();
         }
     }
 
@@ -137,43 +139,64 @@ public class AttendanceActivity extends AppCompatActivity
         adView.loadAd(adRequest);
     }
 
-    private void displayInterstitialAd() {
-        final InterstitialAd interstitialAd = new InterstitialAd(mContext);
-        interstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+    private void setupInterstitialAd() {
+        mInterstitialAd = new InterstitialAd(mContext);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
         AdRequest adRequest = new AdRequest.Builder().build();
-        interstitialAd.loadAd(adRequest);
+        mInterstitialAd.loadAd(adRequest);
+    }
 
-        final ProgressDialog progressDialog = new ProgressDialog(mContext);
-        progressDialog.setMessage("Logging out...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+    private void displayInterstitialAd() {
+        if (mInterstitialAd.isLoading()) {
+            final ProgressDialog progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage("Logging out...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
-        interstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
 
-                progressDialog.hide();
-                performLogout();
-                interstitialAd.show();
-            }
+                    progressDialog.hide();
+                    performLogout();
+                    mInterstitialAd.show();
+                }
 
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
 
+                    startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+                }
+
+                @Override
+                public void onAdFailedToLoad(int i) {
+                    super.onAdFailedToLoad(i);
+
+                    progressDialog.hide();
+                    performLogout();
+                    startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+                }
+            });
+        } else {
+            performLogout();
+
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+
+                mInterstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+
+                        startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+                    }
+                });
+            } else {
                 startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-
-                progressDialog.hide();
-                performLogout();
-                startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
-            }
-        });
+        }
     }
 
     private void performLogout() {
