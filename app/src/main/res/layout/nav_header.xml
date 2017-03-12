@@ -13,24 +13,22 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
         android:layout_width="@dimen/nav_avatar"
         android:layout_height="@dimen/nav_avatar"
         android:paddingTop="@dimen/margin_large"
         android:src="@drawable/nav_avatar"
         app:civ_border_color="@color/white" />
 
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/margin_large"
         android:text="Abhijit Parida"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:typeface="roboto_medium" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="1541001337" />
 
