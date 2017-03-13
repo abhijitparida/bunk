@@ -28,6 +28,7 @@ android {
             proguardFiles 'proguard-eventbus-3.pro'
             proguardFiles 'proguard-guava.pro'
             proguardFiles 'proguard-gson.pro'
+            proguardFiles 'proguard-square-okhttp3.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
@@ -59,6 +60,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads-lite:10.2.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.5.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
