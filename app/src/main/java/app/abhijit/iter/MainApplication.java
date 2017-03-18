@@ -43,6 +43,7 @@ public class MainApplication extends Application {
         mLoggedIn = loggedIn;
     }
 
+    @Deprecated
     public StudentDataSource getStudentDataSource() {
         if (mStudentDataSource == null) {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(StudentDataSource.LOCAL_STORE_NAME, MODE_PRIVATE);

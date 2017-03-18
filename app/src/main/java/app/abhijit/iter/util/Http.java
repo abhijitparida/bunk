@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@Deprecated
 public class Http {
 
     private static final int TIMEOUT = 5000;

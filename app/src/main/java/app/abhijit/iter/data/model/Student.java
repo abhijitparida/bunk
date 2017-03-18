@@ -26,6 +26,7 @@ package app.abhijit.iter.data.model;
 
 import com.google.common.collect.ImmutableList;
 
+@Deprecated
 public class Student {
 
     private final String mName;

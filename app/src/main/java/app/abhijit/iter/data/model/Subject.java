@@ -24,6 +24,7 @@
 
 package app.abhijit.iter.data.model;
 
+@Deprecated
 public class Subject {
 
     private final int mAvatar;

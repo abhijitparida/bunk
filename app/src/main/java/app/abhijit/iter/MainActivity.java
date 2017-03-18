@@ -72,6 +72,7 @@ import app.abhijit.iter.data.model.Error;
 import app.abhijit.iter.data.model.Student;
 import app.abhijit.iter.data.model.Subject;
 
+@Deprecated
 public class MainActivity extends AppCompatActivity {
 
     private Context mContext;

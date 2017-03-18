@@ -24,6 +24,7 @@
 
 package app.abhijit.iter.data.model;
 
+@Deprecated
 public class Error {
 
     private final String mMessage;

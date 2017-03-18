@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 
 import app.abhijit.iter.util.Http;
 
+@Deprecated
 public class IterApi {
 
     private static final String API_ENDPOINT = "http://111.93.164.202:8282/CampusLynxSOA/CounsellingRequest?refor=StudentOnlineDetailService";

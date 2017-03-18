@@ -49,6 +49,7 @@ import app.abhijit.iter.data.model.Student;
 import app.abhijit.iter.data.model.Subject;
 import app.abhijit.iter.data.source.remote.IterApi;
 
+@Deprecated
 public class StudentDataSource {
 
     public static final String LOCAL_STORE_NAME = "bunk-v2";
