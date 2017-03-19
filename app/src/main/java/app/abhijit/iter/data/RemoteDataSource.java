@@ -24,6 +24,8 @@
 
 package app.abhijit.iter.data;
 
+import com.google.gson.JsonObject;
+
 import okhttp3.OkHttpClient;
 
 public class RemoteDataSource {
@@ -32,5 +34,12 @@ public class RemoteDataSource {
 
     public RemoteDataSource(OkHttpClient okHttpClient) {
         mOkHttpClient = okHttpClient;
+    }
+
+    public interface Callback {
+
+        public void onData(JsonObject data);
+
+        public void onError(String error);
     }
 }
