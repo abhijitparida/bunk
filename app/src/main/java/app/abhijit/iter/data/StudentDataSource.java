@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.data.source;
+package app.abhijit.iter.data;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -44,10 +44,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import app.abhijit.iter.R;
-import app.abhijit.iter.data.model.Error;
-import app.abhijit.iter.data.model.Student;
-import app.abhijit.iter.data.model.Subject;
-import app.abhijit.iter.data.source.remote.IterApi;
+import app.abhijit.iter.models.Error;
+import app.abhijit.iter.models.Student;
+import app.abhijit.iter.models.Subject;
+import app.abhijit.iter.data.IterApi;
 
 @Deprecated
 public class StudentDataSource {

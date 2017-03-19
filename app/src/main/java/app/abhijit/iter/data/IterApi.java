@@ -22,11 +22,11 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.data.source.remote;
+package app.abhijit.iter.data;
 
 import com.google.gson.JsonObject;
 
-import app.abhijit.iter.util.Http;
+import app.abhijit.iter.helpers.Http;
 
 @Deprecated
 public class IterApi {

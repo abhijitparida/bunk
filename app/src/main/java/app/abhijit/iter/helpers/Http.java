@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.util;
+package app.abhijit.iter.helpers;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

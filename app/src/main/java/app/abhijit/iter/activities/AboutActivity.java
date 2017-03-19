@@ -22,18 +22,41 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.data.model;
+package app.abhijit.iter.activities;
 
-@Deprecated
-public class Error {
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
-    private final String mMessage;
+import app.abhijit.iter.R;
 
-    public Error(String message) {
-        mMessage = message;
+public class AboutActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
+
+        setupToolbar();
     }
 
-    public String getMessage() {
-        return mMessage;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+        }
+
+        return true;
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 }

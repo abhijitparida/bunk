@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Abhijit Parida <abhijitparida.me@gmail.com>
+ * Copyright (c) 2017 Abhijit Parida <abhijitparida.me@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,25 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter;
+package app.abhijit.iter.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class AboutActivity extends AppCompatActivity {
+import app.abhijit.iter.R;
+
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_settings);
 
         setupToolbar();
+        setupPreferences();
     }
 
     @Override
@@ -56,5 +60,18 @@ public class AboutActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void setupPreferences() {
+        getFragmentManager().beginTransaction().replace(R.id.settings_fragment, new SettingsFragment()).commit();
+    }
+
+    public static class SettingsFragment extends PreferenceFragment {
+
+        @Override
+        public void onCreate(final Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+        }
     }
 }

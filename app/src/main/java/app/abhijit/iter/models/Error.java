@@ -22,34 +22,18 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter;
+package app.abhijit.iter.models;
 
-import android.app.Application;
-import android.content.SharedPreferences;
+@Deprecated
+public class Error {
 
-import app.abhijit.iter.data.StudentDataSource;
+    private final String mMessage;
 
-public class MainApplication extends Application {
-
-    private boolean mLoggedIn = false;
-
-    private StudentDataSource mStudentDataSource;
-
-    public boolean isLoggedIn() {
-        return mLoggedIn;
+    public Error(String message) {
+        mMessage = message;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        mLoggedIn = loggedIn;
-    }
-
-    @Deprecated
-    public StudentDataSource getStudentDataSource() {
-        if (mStudentDataSource == null) {
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(StudentDataSource.LOCAL_STORE_NAME, MODE_PRIVATE);
-            mStudentDataSource = new StudentDataSource(sharedPreferences);
-        }
-
-        return mStudentDataSource;
+    public String getMessage() {
+        return mMessage;
     }
 }

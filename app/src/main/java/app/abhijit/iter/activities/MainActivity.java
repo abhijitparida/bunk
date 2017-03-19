@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter;
+package app.abhijit.iter.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,9 +68,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import app.abhijit.iter.data.model.Error;
-import app.abhijit.iter.data.model.Student;
-import app.abhijit.iter.data.model.Subject;
+import app.abhijit.iter.BuildConfig;
+import app.abhijit.iter.MainApplication;
+import app.abhijit.iter.R;
+import app.abhijit.iter.models.Error;
+import app.abhijit.iter.models.Student;
+import app.abhijit.iter.models.Subject;
 
 @Deprecated
 public class MainActivity extends AppCompatActivity {

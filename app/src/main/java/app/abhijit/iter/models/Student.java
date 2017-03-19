@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.data.model;
+package app.abhijit.iter.models;
 
 import com.google.common.collect.ImmutableList;
 
