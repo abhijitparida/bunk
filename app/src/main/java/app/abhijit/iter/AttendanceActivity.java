@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.activities;
+package app.abhijit.iter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -43,10 +43,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-
-import app.abhijit.iter.BuildConfig;
-import app.abhijit.iter.MainApplication;
-import app.abhijit.iter.R;
 
 public class AttendanceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{

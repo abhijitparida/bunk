@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.activities;
+package app.abhijit.iter;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,9 +68,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import app.abhijit.iter.BuildConfig;
-import app.abhijit.iter.MainApplication;
-import app.abhijit.iter.R;
 import app.abhijit.iter.models.Error;
 import app.abhijit.iter.models.Student;
 import app.abhijit.iter.models.Subject;

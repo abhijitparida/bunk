@@ -22,15 +22,13 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.activities;
+package app.abhijit.iter;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
-import app.abhijit.iter.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
