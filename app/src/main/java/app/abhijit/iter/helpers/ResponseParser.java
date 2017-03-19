@@ -24,16 +24,64 @@
 
 package app.abhijit.iter.helpers;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 public class ResponseParser {
 
+    private static JsonParser mJsonParser = new JsonParser();
+
     public static JsonObject parseLoginResponse(String loginResponse) throws JsonSyntaxException {
-        return null;
+        JsonObject response;
+        try {
+            response = mJsonParser.parse(loginResponse).getAsJsonObject();
+        } catch (Exception e) {
+            throw new JsonSyntaxException("json parse error");
+        }
+        JsonObject login = new JsonObject();
+
+        if (!response.has("name")) throw new JsonSyntaxException("name missing");
+        login.addProperty("name", WordUtils.capitalizeFully(response.get("name").getAsString()));
+
+        if (!response.has("status")) throw new JsonSyntaxException("status missing");
+        login.add("status", response.get("status"));
+
+        return login;
     }
 
     public static JsonObject parseAttendanceResponse(String attendanceResponse) throws JsonSyntaxException {
-        return null;
+        JsonObject response;
+        try {
+            response = mJsonParser.parse(attendanceResponse).getAsJsonObject();
+        } catch (Exception e) {
+            throw new JsonSyntaxException("json parse error");
+        }
+        JsonArray responseSubjects = response.get("griddata").getAsJsonArray();
+        JsonObject attendance = new JsonObject();
+
+        for (int i = 0; i < responseSubjects.size(); i++) {
+            JsonObject responseSubject = responseSubjects.get(i).getAsJsonObject();
+            JsonObject subject = new JsonObject();
+
+            if (!responseSubject.has("subject")) throw new JsonSyntaxException("name missing");
+            subject.add("name", responseSubject.get("subject"));
+
+            if (!responseSubject.has("subjectcode")) throw new JsonSyntaxException("code missing");
+            subject.add("code", responseSubject.get("subjectcode"));
+
+            if (!responseSubject.has("Latt")) throw new JsonSyntaxException("theory attendance missing");
+            subject.add("theory", responseSubject.get("Latt"));
+
+            if (!responseSubject.has("Patt")) throw new JsonSyntaxException("practical attendance missing");
+            subject.add("practical", responseSubject.get("Patt"));
+
+            attendance.add(subject.get("code").getAsString(), subject);
+        }
+
+        return attendance;
     }
 }

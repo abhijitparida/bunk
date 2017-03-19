@@ -24,6 +24,7 @@
 
 package app.abhijit.iter.helpers;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import org.junit.Rule;
@@ -44,8 +45,35 @@ public class ResponseParserTest {
     }
 
     @Test
+    public void parseLoginResponse_validResponse_parsesCorrectly() {
+        String loginResponse = "{\"name\":\"NAME\",\"status\":\"success\"}";
+        JsonObject login = ResponseParser.parseLoginResponse(loginResponse);
+
+        assertEquals(login.get("name").getAsString(), "Name");
+        assertEquals(login.get("status").getAsString(), "success");
+    }
+
+    @Test
     public void parseAttendanceResponse_emptyResponse_throwsException() {
         thrown.expect(JsonSyntaxException.class);
         ResponseParser.parseAttendanceResponse("");
+    }
+
+    @Test
+    public void parseAttendanceResponse_validResponse_parsesCorrectly() {
+        String attendanceResponse = "{\"griddata\":[{\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}";
+        JsonObject attendance = ResponseParser.parseAttendanceResponse(attendanceResponse);
+
+        JsonObject sub1 = attendance.get("SUB001").getAsJsonObject();
+        assertEquals(sub1.get("name").getAsString(), "Subject I");
+        assertEquals(sub1.get("code").getAsString(), "SUB001");
+        assertEquals(sub1.get("theory").getAsString(), "10 / 10");
+        assertEquals(sub1.get("practical").getAsString(), "Not Applicable");
+
+        JsonObject sub2 = attendance.get("SUB002").getAsJsonObject();
+        assertEquals(sub2.get("name").getAsString(), "Subject II");
+        assertEquals(sub2.get("code").getAsString(), "SUB002");
+        assertEquals(sub2.get("theory").getAsString(), "Not Applicable");
+        assertEquals(sub2.get("practical").getAsString(), "20 / 20");
     }
 }
