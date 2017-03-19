@@ -32,6 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
+
+    lintOptions {
+        lintConfig file("lint.xml")
+    }
 }
 
 task copySampleGoogleServicesJson << {
