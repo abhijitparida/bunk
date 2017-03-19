@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 
 import app.abhijit.iter.data.StudentDataSource;
 
+@Deprecated
 public class MainApplication extends Application {
 
     private boolean mLoggedIn = false;
@@ -43,7 +44,6 @@ public class MainApplication extends Application {
         mLoggedIn = loggedIn;
     }
 
-    @Deprecated
     public StudentDataSource getStudentDataSource() {
         if (mStudentDataSource == null) {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(StudentDataSource.LOCAL_STORE_NAME, MODE_PRIVATE);
