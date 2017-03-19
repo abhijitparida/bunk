@@ -31,7 +31,6 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import app.abhijit.iter.helpers.ResponseParser;
@@ -117,33 +116,16 @@ public class RemoteDataSource {
 
     private class CookieJar implements okhttp3.CookieJar {
 
-        private HashMap<HttpUrl, List<Cookie>> mCookieStore;
-        private HashMap<HttpUrl, String> mXsrfStore;
-
-        public CookieJar() {
-            mCookieStore = new HashMap<>();
-            mXsrfStore = new HashMap<>();
-        }
+        List<Cookie> mCookieStore = new ArrayList<>();
 
         @Override
         public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-            mCookieStore.put(url, cookies);
-
-            for (Cookie cookie : cookies) {
-                if (cookie.name().equals("XSRF-TOKEN")) {
-                    mXsrfStore.put(url, cookie.value());
-                }
-            }
+            mCookieStore.addAll(cookies);
         }
 
         @Override
         public List<Cookie> loadForRequest(HttpUrl url) {
-            List<Cookie> cookies = mCookieStore.get(url);
-            return cookies != null ? cookies : new ArrayList<Cookie>();
-        }
-
-        public String getXsrfToken(HttpUrl url) {
-            return mXsrfStore.get(url);
+            return mCookieStore;
         }
     }
 
@@ -151,18 +133,15 @@ public class RemoteDataSource {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            Request originalRequest = chain.request();
-            String xsrfToken = ((CookieJar) mOkHttpClient.cookieJar()).getXsrfToken(HttpUrl.parse(BASE_URL));
-
-            if (xsrfToken == null) {
-                return chain.proceed(originalRequest);
+            Request.Builder request = chain.request().newBuilder();
+            List<Cookie> cookies = mOkHttpClient.cookieJar().loadForRequest(chain.request().url());
+            for (Cookie cookie : cookies) {
+                if (cookie.name().equals("XSRF-TOKEN")) {
+                    request.header("X-XSRF-TOKEN", cookie.value());
+                }
             }
 
-            Request xsrfTokenRequest = originalRequest.newBuilder()
-                    .header("X-XSRF-TOKEN", xsrfToken)
-                    .build();
-
-            return chain.proceed(xsrfTokenRequest);
+            return chain.proceed(request.build());
         }
     }
 
