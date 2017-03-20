@@ -19,6 +19,18 @@ android {
         if (variant.buildType.name == "debug") {
             variant.resValue "string", "app_version", "dev build " + new Date().format('yyyyMMddHHmmss')
         }
+
+        variant.mergeAssets.doFirst {
+            File fonts = file("${projectDir}/build/intermediates/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.5.0/assets/fonts")
+            if (fonts.exists()) {
+                for (File file : fonts.listFiles()) {
+                    if (!file.getName().contains("Roboto-Medium.ttf")) {
+                        println("delete " + file.getName() + " font")
+                        file.delete()
+                    };
+                }
+            }
+        }
     }
 
     buildTypes {
