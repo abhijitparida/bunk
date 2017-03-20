@@ -28,9 +28,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_extra_large"
-            android:layout_marginRight="@dimen/margin_extra_large"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_large"
             android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true">
@@ -39,24 +37,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_username"
-                    android:textSize="@dimen/text_medium"
                     android:inputType="number" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small">
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_password"
-                    android:textSize="@dimen/text_medium"
                     android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
@@ -65,11 +62,8 @@
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/indigo"
-                android:textColor="@color/white"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_large"
-                android:textSize="@dimen/text_medium"
                 android:text="@string/label_login" />
 
         </LinearLayout>
