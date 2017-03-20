@@ -30,13 +30,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+import app.abhijit.iter.helpers.CookieJar;
 import app.abhijit.iter.helpers.ResponseParser;
-import okhttp3.Cookie;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
+import app.abhijit.iter.helpers.XsrfTokenInterceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -52,9 +49,11 @@ public class RemoteDataSource {
     private GetStudentTask mGetStudentTask;
 
     public RemoteDataSource() {
+        CookieJar cookieJar = new CookieJar();
+        XsrfTokenInterceptor xsrfTokenInterceptor = new XsrfTokenInterceptor(cookieJar);
         mOkHttpClient = new OkHttpClient.Builder()
-                .cookieJar(new CookieJar())
-                .addInterceptor(new XsrfTokenInterceptor())
+                .cookieJar(cookieJar)
+                .addInterceptor(xsrfTokenInterceptor)
                 .build();
     }
 
@@ -112,37 +111,6 @@ public class RemoteDataSource {
         public void onData(JsonObject data);
 
         public void onError(String error);
-    }
-
-    private class CookieJar implements okhttp3.CookieJar {
-
-        List<Cookie> mCookieStore = new ArrayList<>();
-
-        @Override
-        public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-            mCookieStore.addAll(cookies);
-        }
-
-        @Override
-        public List<Cookie> loadForRequest(HttpUrl url) {
-            return mCookieStore;
-        }
-    }
-
-    private class XsrfTokenInterceptor implements Interceptor {
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request.Builder request = chain.request().newBuilder();
-            List<Cookie> cookies = mOkHttpClient.cookieJar().loadForRequest(chain.request().url());
-            for (Cookie cookie : cookies) {
-                if (cookie.name().equals("XSRF-TOKEN")) {
-                    request.header("X-XSRF-TOKEN", cookie.value());
-                }
-            }
-
-            return chain.proceed(request.build());
-        }
     }
 
     private class GetStudentTask extends AsyncTask<String, Void, JsonObject> {
