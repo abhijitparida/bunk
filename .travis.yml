@@ -2,9 +2,10 @@ language: android
 android:
   components:
     - tools
+    - tools
     - platform-tools
-    - build-tools-23.0.3
-    - android-23
+    - build-tools-26.0.0
+    - android-26
     - extra-android-m2repository
     - extra-google-m2repository
 script: ./gradlew test
