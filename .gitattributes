@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Linguist overrides
+# https://github.com/github/linguist
+gradlew.bat linguist-vendored
+gradlew linguist-vendored
+app/proguard-*.pro linguist-vendored
