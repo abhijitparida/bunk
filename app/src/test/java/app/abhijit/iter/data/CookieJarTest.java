@@ -22,15 +22,8 @@
  * THE SOFTWARE.
  */
 
+
 package app.abhijit.iter.data;
 
-import android.content.SharedPreferences;
-
-public class LocalDataSource {
-
-    SharedPreferences mSharedPreferences;
-
-    public LocalDataSource(SharedPreferences sharedPreferences) {
-        mSharedPreferences = sharedPreferences;
-    }
+public class CookieJarTest {
 }

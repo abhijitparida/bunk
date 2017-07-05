@@ -31,16 +31,13 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 
-import app.abhijit.iter.helpers.CookieJar;
-import app.abhijit.iter.helpers.ResponseParser;
-import app.abhijit.iter.helpers.XsrfTokenInterceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RemoteDataSource {
+public class IterApi {
 
     private static final String BASE_URL = "http://111.93.164.203/CampusPortalSOA";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
@@ -48,9 +45,9 @@ public class RemoteDataSource {
     private OkHttpClient mOkHttpClient;
     private GetStudentTask mGetStudentTask;
 
-    public RemoteDataSource() {
+    public IterApi() {
         CookieJar cookieJar = new CookieJar();
-        XsrfTokenInterceptor xsrfTokenInterceptor = new XsrfTokenInterceptor(cookieJar);
+        XsrfToken xsrfTokenInterceptor = new XsrfToken(cookieJar);
         mOkHttpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(xsrfTokenInterceptor)

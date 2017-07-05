@@ -22,39 +22,15 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter;
+package app.abhijit.iter.data;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.content.SharedPreferences;
 
-public class AboutActivity extends AppCompatActivity {
+public class Cache {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+    SharedPreferences mSharedPreferences;
 
-        setupToolbar();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
-        }
-
-        return true;
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    public Cache(SharedPreferences sharedPreferences) {
+        mSharedPreferences = sharedPreferences;
     }
 }

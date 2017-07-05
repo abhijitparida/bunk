@@ -22,35 +22,29 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.helpers;
+package app.abhijit.iter.data;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Cookie;
-import okhttp3.CookieJar;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.HttpUrl;
 
-public class XsrfTokenInterceptor implements Interceptor {
+public class CookieJar implements okhttp3.CookieJar {
 
-    private CookieJar mCookieJar;
+    private List<Cookie> mCookieStore;
 
-    public XsrfTokenInterceptor(CookieJar cookieJar) {
-        mCookieJar = cookieJar;
+    public CookieJar() {
+        mCookieStore = new ArrayList<>();
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request.Builder request = chain.request().newBuilder();
-        List<Cookie> cookies = mCookieJar.loadForRequest(chain.request().url());
-        for (Cookie cookie : cookies) {
-            if (cookie.name().equals("XSRF-TOKEN")) {
-                request.header("X-XSRF-TOKEN", cookie.value());
-            }
-        }
+    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+        mCookieStore.addAll(cookies);
+    }
 
-        return chain.proceed(request.build());
+    @Override
+    public List<Cookie> loadForRequest(HttpUrl url) {
+        return mCookieStore;
     }
 }

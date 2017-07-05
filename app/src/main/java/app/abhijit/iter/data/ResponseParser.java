@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.helpers;
+package app.abhijit.iter.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

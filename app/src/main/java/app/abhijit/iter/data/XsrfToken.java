@@ -22,39 +22,35 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter;
+package app.abhijit.iter.data;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import java.io.IOException;
+import java.util.List;
 
-public class AboutActivity extends AppCompatActivity {
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+public class XsrfToken implements Interceptor {
 
-        setupToolbar();
+    private CookieJar mCookieJar;
+
+    public XsrfToken(CookieJar cookieJar) {
+        mCookieJar = cookieJar;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
+    public Response intercept(Chain chain) throws IOException {
+        Request.Builder request = chain.request().newBuilder();
+        List<Cookie> cookies = mCookieJar.loadForRequest(chain.request().url());
+        for (Cookie cookie : cookies) {
+            if (cookie.name().equals("XSRF-TOKEN")) {
+                request.header("X-XSRF-TOKEN", cookie.value());
+            }
         }
 
-        return true;
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        return chain.proceed(request.build());
     }
 }

@@ -22,29 +22,8 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.helpers;
 
-import java.util.ArrayList;
-import java.util.List;
+package app.abhijit.iter.data;
 
-import okhttp3.Cookie;
-import okhttp3.HttpUrl;
-
-public class CookieJar implements okhttp3.CookieJar {
-
-    private List<Cookie> mCookieStore;
-
-    public CookieJar() {
-        mCookieStore = new ArrayList<>();
-    }
-
-    @Override
-    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-        mCookieStore.addAll(cookies);
-    }
-
-    @Override
-    public List<Cookie> loadForRequest(HttpUrl url) {
-        return mCookieStore;
-    }
+public class CacheTest {
 }
