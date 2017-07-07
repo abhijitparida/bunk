@@ -25,7 +25,7 @@
 package app.abhijit.iter.exceptions;
 
 /**
- * This exception is raised when the user provides invalid credentials.
+ * This exception is raised when the user's credentials are invalid.
  */
-public final class InvalidCredentialsException extends RuntimeException {
+public class InvalidCredentialsException extends RuntimeException {
 }

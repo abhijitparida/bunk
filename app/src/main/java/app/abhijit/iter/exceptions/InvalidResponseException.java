@@ -27,5 +27,5 @@ package app.abhijit.iter.exceptions;
 /**
  * This exception is raised when the server returns an invalid response.
  */
-public final class InvalidResponseException extends RuntimeException {
+public class InvalidResponseException extends RuntimeException {
 }

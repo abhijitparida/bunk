@@ -25,8 +25,7 @@
 package app.abhijit.iter.exceptions;
 
 /**
- * This exception is raised when connection to the server fails - either due
- * to no internet connection or a non 200 response code.
+ * This exception is raised when the api server is unreachable.
  */
-public final class ConnectionFailedException extends RuntimeException {
+public class ConnectionFailedException extends RuntimeException {
 }
