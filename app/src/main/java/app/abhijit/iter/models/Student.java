@@ -24,39 +24,13 @@
 
 package app.abhijit.iter.models;
 
-import com.google.common.collect.ImmutableList;
-
+/**
+ * This class represents a student.
+ */
 public class Student {
 
-    private final String mName;
-
-    private final String mRegistrationNumber;
-
-    private final boolean mSelected;
-
-    private final ImmutableList<Subject> mSubjects;
-
-    public Student(String name, String registrationNumber, boolean selected,
-                   ImmutableList<Subject> subjects) {
-        mName = name;
-        mRegistrationNumber = registrationNumber;
-        mSelected = selected;
-        mSubjects = subjects;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public String getRegistrationNumber() {
-        return mRegistrationNumber;
-    }
-
-    public boolean isSelected() {
-        return mSelected;
-    }
-
-    public ImmutableList<Subject> getSubjects() {
-        return mSubjects;
-    }
+    public String username;
+    public String password;
+    public String name;
+    public Subject[] subjects;
 }
