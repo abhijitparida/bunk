@@ -70,10 +70,10 @@ public class AttendanceActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        if (!((MainApplication) getApplication()).isLoggedIn()) {
+        /*if (!((MainApplication) getApplication()).isLoggedIn()) {
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             return;
-        }
+        }*/
     }
 
     @Override
@@ -163,7 +163,7 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private void performLogout() {
-        ((MainApplication) getApplication()).setLoggedIn(false);
+        /*((MainApplication) getApplication()).setLoggedIn(false);*/
         Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
     }
 }
