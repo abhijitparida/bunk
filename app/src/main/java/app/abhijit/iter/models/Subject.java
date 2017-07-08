@@ -24,87 +24,55 @@
 
 package app.abhijit.iter.models;
 
+import java.util.Formatter;
+
+/**
+ * This class represents a subject.
+ */
 public class Subject {
 
-    private final int mAvatar;
+    public String name;
+    public String code;
+    public long lastUpdated;
+    public double attendance;
+    public int theoryClassesPresent;
+    public int theoryClasses;
+    public int labClassesPresent;
+    public int labClasses;
 
-    private final String mName;
+    public String generateBunkStats(int minimumAttendance, boolean extendedStats) {
+        StringBuilder bunkStats = new StringBuilder();
+        int attendance = (int) this.attendance;
+        int classes = this.theoryClasses + this.labClasses;
+        int classesPresent = this.theoryClassesPresent + this.labClassesPresent;
+        int classesAbsent = classes - classesPresent;
 
-    private final String mOldAttendance;
+        if (attendance <= 75) {
+            bunkStats.append("DO NOT BUNK ANY MORE CLASSES\n");
+        } else {
+            for (int a = 75; a < attendance; a += 5) {
+                int daysBunk = (int) ((100 * classesPresent / (double) a) - (double) classes);
+                if (daysBunk > 0) {
+                    bunkStats.append(new Formatter().format("Bunk %d%s %s for %d%% attendance\n",
+                            daysBunk,  classesAbsent == 0 ? "" : " more",
+                            daysBunk == 1 ? "class" : "classes", a));
+                }
+            }
+        }
 
-    private final String mAttendance;
+        int nextAttendance = (attendance + 4) / 5 * 5;
+        if (nextAttendance == attendance) nextAttendance = attendance + 5;
+        if (nextAttendance < 75) nextAttendance = 75;
+        for (int a = nextAttendance; a <= 95; a += 5) {
+            int daysNeed = (int) ((a * classes - 100 * classesPresent) / (double) (100 - a));
+            if (daysNeed > 0 && (daysNeed + classes <= 50)) {
+                bunkStats.append(new Formatter().format("Need %d more %s for %d%% attendance\n",
+                        daysNeed, daysNeed == 1 ? "class" : "classes", a));
+            }
+        }
 
-    private final int mStatus;
+        if (bunkStats.length() != 0) bunkStats.setLength(bunkStats.length() - 1);
 
-    private final String mLastUpdated;
-
-    private final String mOldPresent;
-
-    private final String mPresent;
-
-    private final String mOldAbsent;
-
-    private final String mAbsent;
-
-    private final String mBunkStats;
-
-    public Subject(int avatar, String name, String oldAttendance, String attendance,
-                   int status, String lastUpdated, String oldPresent, String present,
-                   String oldAbsent, String absent, String bunkStats) {
-        mAvatar = avatar;
-        mName = name;
-        mOldAttendance = oldAttendance;
-        mAttendance = attendance;
-        mStatus = status;
-        mLastUpdated = lastUpdated;
-        mOldPresent = oldPresent;
-        mPresent = present;
-        mOldAbsent = oldAbsent;
-        mAbsent = absent;
-        mBunkStats = bunkStats;
-    }
-
-    public int getAvatar() {
-        return mAvatar;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public String getOldAttendance() {
-        return mOldAttendance;
-    }
-
-    public String getAttendance() {
-        return mAttendance;
-    }
-
-    public int getStatus() {
-        return mStatus;
-    }
-
-    public String getLastUpdated() {
-        return mLastUpdated;
-    }
-
-    public String getOldPresent() {
-        return mOldPresent;
-    }
-
-    public String getPresent() {
-        return mPresent;
-    }
-
-    public String getOldAbsent() {
-        return mOldAbsent;
-    }
-
-    public String getAbsent() {
-        return mAbsent;
-    }
-
-    public String getBunkStats() {
-        return mBunkStats;
+        return bunkStats.toString();
     }
 }

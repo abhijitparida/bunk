@@ -24,5 +24,26 @@
 
 package app.abhijit.iter.models;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class SubjectTest {
+
+    @Test
+    public void generateBunkStats_baseCase() {
+        Subject subject = new Subject();
+        subject.attendance = 85;
+        subject.theoryClassesPresent = 17;
+        subject.theoryClasses = 20;
+        subject.labClassesPresent = 0;
+        subject.labClasses = 0;
+
+        String bunkStats = "";
+        bunkStats += "Bunk 2 more classes for 75% attendance\n";
+        bunkStats += "Bunk 1 more class for 80% attendance\n";
+        bunkStats += "Need 10 more classes for 90% attendance";
+
+        assertEquals(bunkStats, subject.generateBunkStats(75, true));
+    }
 }
