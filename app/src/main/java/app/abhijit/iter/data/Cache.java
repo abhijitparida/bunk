@@ -24,13 +24,37 @@
 
 package app.abhijit.iter.data;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import app.abhijit.iter.models.Student;
+
+/**
+ * This class handles local storage and retrieval of Student objects.
+ */
 public class Cache {
 
-    SharedPreferences mSharedPreferences;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
 
-    public Cache(SharedPreferences sharedPreferences) {
-        mSharedPreferences = sharedPreferences;
+    public Cache(Context context) {
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.gson = new Gson();
+    }
+
+    public Student getStudent() {
+        try {
+            return gson.fromJson(sharedPreferences.getString("student", null), Student.class);
+        } catch (JsonSyntaxException e) {
+            return null;
+        }
+    }
+
+    public void setStudent(Student student) {
+        sharedPreferences.edit().putString("student", gson.toJson(student)).apply();
     }
 }
