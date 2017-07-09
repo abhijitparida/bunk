@@ -24,6 +24,7 @@
 
 package app.abhijit.iter.models;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 
 /**
@@ -42,6 +43,8 @@ public class Subject {
 
     public String generateBunkStats(int minimumAttendance, boolean extendedStats) {
         StringBuilder bunkStats = new StringBuilder("");
+        ArrayList<String> bunk = new ArrayList<>();
+        ArrayList<String> need = new ArrayList<>();
         int attendance = (int) this.attendance;
         int classes = this.theoryClasses + this.labClasses;
         int classesPresent = this.theoryClassesPresent + this.labClassesPresent;
@@ -49,16 +52,16 @@ public class Subject {
         int lastDays;
 
         if (classes != 0 && attendance <= minimumAttendance) {
-            bunkStats.append("DO NOT BUNK ANY MORE CLASSES\n");
+            bunk.add("DO NOT BUNK ANY MORE CLASSES\n");
         } else {
             lastDays = -1;
             for (int a = minimumAttendance; a < attendance; a += 5) {
                 int daysBunk = (int) ((100 * classesPresent / (double) a) - (double) classes);
                 if (daysBunk == lastDays) continue; else lastDays = daysBunk;
                 if (daysBunk > 0) {
-                    bunkStats.append(new Formatter().format("Bunk %d%s %s for %d%% attendance\n",
+                    bunk.add(new Formatter().format("Bunk %d%s %s for %d%% attendance\n",
                             daysBunk,  classesAbsent == 0 ? "" : " more",
-                            daysBunk == 1 ? "class" : "classes", a));
+                            daysBunk == 1 ? "class" : "classes", a).toString());
                 }
             }
         }
@@ -73,12 +76,23 @@ public class Subject {
                 if (daysNeed == lastDays) continue;
                 else lastDays = daysNeed;
                 if (daysNeed > 0 && (daysNeed + classes <= 50)) {
-                    bunkStats.append(new Formatter().format("Need %d more %s for %d%% attendance\n",
-                            daysNeed, daysNeed == 1 ? "class" : "classes", a));
+                    need.add(new Formatter().format("Need %d more %s for %d%% attendance\n",
+                            daysNeed, daysNeed == 1 ? "class" : "classes", a).toString());
                 }
             }
         }
 
+        if (extendedStats) {
+            for (int i = 0; i < bunk.size(); i++) {
+                bunkStats.append(bunk.get(i));
+            }
+            for (int i = 0; i < need.size(); i++) {
+                bunkStats.append(need.get(i));
+            }
+        } else {
+            if (!bunk.isEmpty()) bunkStats.append(bunk.get(bunk.size() - 1));
+            if (!need.isEmpty()) bunkStats.append(need.get(0));
+        }
         if (bunkStats.length() != 0) bunkStats.setLength(bunkStats.length() - 1);
 
         return bunkStats.toString();

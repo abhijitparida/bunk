@@ -97,4 +97,18 @@ public class SubjectTest {
 
         assertEquals(bunkStats, subject.generateBunkStats(75, true));
     }
+
+    @Test
+    public void generateBunkStats_ExtendedStatsFalse_GeneratesMaxTwoLines() {
+        Subject subject = new Subject();
+        subject.attendance = 85;
+        subject.theoryClassesPresent = 17;
+        subject.theoryClasses = 20;
+
+        String bunkStats = "";
+        bunkStats += "Bunk 1 more class for 80% attendance\n";
+        bunkStats += "Need 10 more classes for 90% attendance";
+
+        assertEquals(bunkStats, subject.generateBunkStats(75, false));
+    }
 }
