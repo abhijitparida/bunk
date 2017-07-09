@@ -48,11 +48,11 @@ public class Subject {
         int classesAbsent = classes - classesPresent;
         int lastDays;
 
-        if (classes != 0 && attendance <= 75) {
+        if (classes != 0 && attendance <= minimumAttendance) {
             bunkStats.append("DO NOT BUNK ANY MORE CLASSES\n");
         } else {
             lastDays = -1;
-            for (int a = 75; a < attendance; a += 5) {
+            for (int a = minimumAttendance; a < attendance; a += 5) {
                 int daysBunk = (int) ((100 * classesPresent / (double) a) - (double) classes);
                 if (daysBunk == lastDays) continue; else lastDays = daysBunk;
                 if (daysBunk > 0) {
@@ -66,7 +66,7 @@ public class Subject {
         if (classes != 0) {
             int nextAttendance = (attendance + 4) / 5 * 5;
             if (nextAttendance == attendance) nextAttendance = attendance + 5;
-            if (nextAttendance < 75) nextAttendance = 75;
+            if (nextAttendance < minimumAttendance) nextAttendance = minimumAttendance;
             lastDays = -1;
             for (int a = nextAttendance; a <= 95; a += 5) {
                 int daysNeed = (int) ((a * classes - 100 * classesPresent) / (double) (100 - a));

@@ -76,10 +76,13 @@ public class SubjectTest {
 
         String bunkStats = "";
         bunkStats += "DO NOT BUNK ANY MORE CLASSES\n";
+        bunkStats += "Need 12 more classes for 60% attendance\n";
+        bunkStats += "Need 15 more classes for 65% attendance\n";
+        bunkStats += "Need 20 more classes for 70% attendance\n";
         bunkStats += "Need 26 more classes for 75% attendance\n";
         bunkStats += "Need 35 more classes for 80% attendance";
 
-        assertEquals(bunkStats, subject.generateBunkStats(75, true));
+        assertEquals(bunkStats, subject.generateBunkStats(60, true));
     }
 
     @Test
