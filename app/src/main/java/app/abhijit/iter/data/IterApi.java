@@ -39,6 +39,7 @@ import okhttp3.Response;
 
 public class IterApi {
 
+    /*
     private static final String BASE_URL = "http://111.93.164.203/CampusPortalSOA";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
 
@@ -182,4 +183,5 @@ public class IterApi {
             }
         }
     }
+    */
 }
