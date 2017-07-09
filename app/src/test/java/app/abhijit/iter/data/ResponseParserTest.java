@@ -24,14 +24,18 @@
 
 package app.abhijit.iter.data;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
+import java.util.HashMap;
+
+import app.abhijit.iter.exceptions.InvalidCredentialsException;
+import app.abhijit.iter.exceptions.InvalidResponseException;
+import app.abhijit.iter.models.Student;
+import app.abhijit.iter.models.Subject;
+
+import static org.junit.Assert.assertEquals;
 
 public class ResponseParserTest {
 
@@ -39,41 +43,76 @@ public class ResponseParserTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void parseLoginResponse_emptyResponse_throwsException() {
-        thrown.expect(JsonSyntaxException.class);
-        ResponseParser.parseLoginResponse("");
+    public void parse_EmptyLoginJson_ThrowsInvalidResponseException() {
+        thrown.expect(InvalidResponseException.class);
+
+        ResponseParser responseParser = new ResponseParser();
+        responseParser.parse("", "");
     }
 
     @Test
-    public void parseLoginResponse_validResponse_parsesCorrectly() {
-        String loginResponse = "{\"name\":\"NAME\",\"status\":\"success\"}";
-        JsonObject login = ResponseParser.parseLoginResponse(loginResponse);
+    public void parse_InvalidLoginJson_ThrowsInvalidResponseException() {
+        thrown.expect(InvalidResponseException.class);
 
-        assertEquals(login.get("name").getAsString(), "Name");
-        assertEquals(login.get("status").getAsString(), "success");
+        ResponseParser responseParser = new ResponseParser();
+        responseParser.parse("bad json", "");
     }
 
     @Test
-    public void parseAttendanceResponse_emptyResponse_throwsException() {
-        thrown.expect(JsonSyntaxException.class);
-        ResponseParser.parseAttendanceResponse("");
+    public void parse_StatusError_ThrowsInvalidCredentialsException() {
+        thrown.expect(InvalidCredentialsException.class);
+
+        ResponseParser responseParser = new ResponseParser();
+        responseParser.parse("{\"name\":\"NAME\",\"status\":\"error\"}", "");
     }
 
     @Test
-    public void parseAttendanceResponse_validResponse_parsesCorrectly() {
-        String attendanceResponse = "{\"griddata\":[{\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}";
-        JsonObject attendance = ResponseParser.parseAttendanceResponse(attendanceResponse);
+    public void parse_StatusSuccess_ProperlyCapitalizesStudentName() {
+        ResponseParser responseParser = new ResponseParser();
+        Student student = responseParser.parse("{\"name\":\"fIrStNaMe LASTNAME\",\"status\":\"success\"}", "");
 
-        JsonObject sub1 = attendance.get("SUB001").getAsJsonObject();
-        assertEquals(sub1.get("name").getAsString(), "Subject I");
-        assertEquals(sub1.get("code").getAsString(), "SUB001");
-        assertEquals(sub1.get("theory").getAsString(), "10 / 10");
-        assertEquals(sub1.get("practical").getAsString(), "Not Applicable");
+        assertEquals("Firstname Lastname", student.name);
+    }
 
-        JsonObject sub2 = attendance.get("SUB002").getAsJsonObject();
-        assertEquals(sub2.get("name").getAsString(), "Subject II");
-        assertEquals(sub2.get("code").getAsString(), "SUB002");
-        assertEquals(sub2.get("theory").getAsString(), "Not Applicable");
-        assertEquals(sub2.get("practical").getAsString(), "20 / 20");
+    @Test
+    public void parse_EmptyAttendanceJson_ReturnsStudentWithEmptySubjectList() {
+        ResponseParser responseParser = new ResponseParser();
+        Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}", "");
+
+        assertEquals(0, student.subjects.size());
+    }
+
+    @Test
+    public void parse_InvalidAttendanceJson_ReturnsStudentWithEmptySubjectList() {
+        ResponseParser responseParser = new ResponseParser();
+        Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}", "bad json");
+
+        assertEquals(0, student.subjects.size());
+    }
+
+    @Test
+    public void parse_ValidAttendanceJson_ParsesCorrectly() {
+        ResponseParser responseParser = new ResponseParser();
+        Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}",
+                "{\"griddata\":[{\"TotalAttandence\":100.0,\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"TotalAttandence\":100.0,\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}");
+        HashMap<String, Subject> subjects = student.subjects;
+
+        assertEquals(2, subjects.size());
+
+        assertEquals("Subject I", subjects.get("SUB001").name);
+        assertEquals("SUB001", subjects.get("SUB001").code);
+        assertEquals(100.0, subjects.get("SUB001").attendance, 0.1);
+        assertEquals(0, subjects.get("SUB001").theoryClassesPresent);
+        assertEquals(0, subjects.get("SUB001").theoryClasses);
+        assertEquals(10, subjects.get("SUB001").labClassesPresent);
+        assertEquals(10, subjects.get("SUB001").labClasses);
+
+        assertEquals("Subject II", subjects.get("SUB002").name);
+        assertEquals("SUB002", subjects.get("SUB002").code);
+        assertEquals(100.0, subjects.get("SUB002").attendance, 0.1);
+        assertEquals(20, subjects.get("SUB002").theoryClassesPresent);
+        assertEquals(20, subjects.get("SUB002").theoryClasses);
+        assertEquals(0, subjects.get("SUB002").labClassesPresent);
+        assertEquals(0, subjects.get("SUB002").labClasses);
     }
 }

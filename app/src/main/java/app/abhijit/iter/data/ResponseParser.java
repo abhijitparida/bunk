@@ -27,61 +27,100 @@ package app.abhijit.iter.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-public class ResponseParser {
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    private static JsonParser mJsonParser = new JsonParser();
+import app.abhijit.iter.exceptions.InvalidCredentialsException;
+import app.abhijit.iter.exceptions.InvalidResponseException;
+import app.abhijit.iter.models.Student;
+import app.abhijit.iter.models.Subject;
 
-    public static JsonObject parseLoginResponse(String loginResponse) throws JsonSyntaxException {
-        JsonObject response;
-        try {
-            response = mJsonParser.parse(loginResponse).getAsJsonObject();
-        } catch (Exception e) {
-            throw new JsonSyntaxException("json parse error");
-        }
-        JsonObject login = new JsonObject();
+/**
+ * This class validates and parses the api response into a Student object.
+ */
+class ResponseParser {
 
-        if (!response.has("name")) throw new JsonSyntaxException("name missing");
-        login.addProperty("name", WordUtils.capitalizeFully(response.get("name").getAsString()));
+    private JsonParser jsonParser;
 
-        if (!response.has("status")) throw new JsonSyntaxException("status missing");
-        login.add("status", response.get("status"));
-
-        return login;
+    ResponseParser() {
+        this.jsonParser = new JsonParser();
     }
 
-    public static JsonObject parseAttendanceResponse(String attendanceResponse) throws JsonSyntaxException {
-        JsonObject response;
+    Student parse(String loginJson, String attendanceJson)
+            throws InvalidCredentialsException, InvalidResponseException {
+        Student student = processLogin(loginJson);
         try {
-            response = mJsonParser.parse(attendanceResponse).getAsJsonObject();
+            student.subjects.putAll(processAttendance(attendanceJson));
+        } catch (InvalidResponseException ignored) { }
+
+        return student;
+    }
+
+    private Student processLogin(String loginJson) {
+        JsonObject login;
+        try {
+            login = this.jsonParser.parse(loginJson).getAsJsonObject();
         } catch (Exception e) {
-            throw new JsonSyntaxException("json parse error");
-        }
-        JsonArray responseSubjects = response.get("griddata").getAsJsonArray();
-        JsonObject attendance = new JsonObject();
-
-        for (int i = 0; i < responseSubjects.size(); i++) {
-            JsonObject responseSubject = responseSubjects.get(i).getAsJsonObject();
-            JsonObject subject = new JsonObject();
-
-            if (!responseSubject.has("subject")) throw new JsonSyntaxException("name missing");
-            subject.add("name", responseSubject.get("subject"));
-
-            if (!responseSubject.has("subjectcode")) throw new JsonSyntaxException("code missing");
-            subject.add("code", responseSubject.get("subjectcode"));
-
-            if (!responseSubject.has("Latt")) throw new JsonSyntaxException("theory attendance missing");
-            subject.add("theory", responseSubject.get("Latt"));
-
-            if (!responseSubject.has("Patt")) throw new JsonSyntaxException("practical attendance missing");
-            subject.add("practical", responseSubject.get("Patt"));
-
-            attendance.add(subject.get("code").getAsString(), subject);
+            throw new InvalidResponseException();
         }
 
-        return attendance;
+        if (!login.has("status") || !login.has("name")) {
+            throw new InvalidResponseException();
+        }
+
+        if (!login.get("status").getAsString().equals("success")) {
+            throw new InvalidCredentialsException();
+        }
+
+        Student student = new Student();
+        student.name = WordUtils.capitalizeFully(login.get("name").getAsString());
+
+        return student;
+    }
+
+    private HashMap<String, Subject> processAttendance(String attendanceJson) {
+        JsonArray attendance;
+        try {
+            attendance = this.jsonParser.parse(attendanceJson)
+                    .getAsJsonObject().get("griddata").getAsJsonArray();
+        } catch (Exception e) {
+            throw new InvalidResponseException();
+        }
+
+        HashMap<String, Subject> subjects = new HashMap<>();
+        Pattern classesPattern = Pattern.compile("^(\\d+) / (\\d+)$");
+
+        for (int i = 0; i < attendance.size(); i++) {
+            JsonObject s = attendance.get(i).getAsJsonObject();
+            if (!s.has("TotalAttandence") || !s.has("Latt") || !s.has("Patt")
+                    || !s.has("subject") || !s.has("subjectcode")) {
+                throw new InvalidResponseException();
+            }
+
+            Subject subject = new Subject();
+            subject.name = s.get("subject").getAsString();
+            subject.code = s.get("subjectcode").getAsString();
+            subject.attendance = s.get("TotalAttandence").getAsDouble();
+
+            Matcher theoryClassesMatcher = classesPattern.matcher(s.get("Patt").getAsString());
+            if (theoryClassesMatcher.find()) {
+                subject.theoryClassesPresent = Integer.parseInt(theoryClassesMatcher.group(1));
+                subject.theoryClasses = Integer.parseInt(theoryClassesMatcher.group(2));
+            }
+
+            Matcher labClassesMatcher = classesPattern.matcher(s.get("Latt").getAsString());
+            if (labClassesMatcher.find()) {
+                subject.labClassesPresent = Integer.parseInt(labClassesMatcher.group(1));
+                subject.labClasses = Integer.parseInt(labClassesMatcher.group(2));
+            }
+
+            subjects.put(subject.code, subject);
+        }
+
+        return subjects;
     }
 }
