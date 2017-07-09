@@ -59,4 +59,11 @@ public class SubjectTest {
 
         assertEquals(bunkStats, subject.generateBunkStats(75, true));
     }
+
+    @Test
+    public void generateBunkStats_ZeroClasses_GeneratesEmptyStats() {
+        Subject subject = new Subject();
+
+        assertEquals("", subject.generateBunkStats(75, true));
+    }
 }

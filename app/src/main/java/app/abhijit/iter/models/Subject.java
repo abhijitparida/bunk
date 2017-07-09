@@ -41,14 +41,14 @@ public class Subject {
     public int labClasses;
 
     public String generateBunkStats(int minimumAttendance, boolean extendedStats) {
-        StringBuilder bunkStats = new StringBuilder();
+        StringBuilder bunkStats = new StringBuilder("");
         int attendance = (int) this.attendance;
         int classes = this.theoryClasses + this.labClasses;
         int classesPresent = this.theoryClassesPresent + this.labClassesPresent;
         int classesAbsent = classes - classesPresent;
         int lastDays;
 
-        if (attendance <= 75) {
+        if (classes != 0 && attendance <= 75) {
             bunkStats.append("DO NOT BUNK ANY MORE CLASSES\n");
         } else {
             lastDays = -1;
@@ -63,16 +63,19 @@ public class Subject {
             }
         }
 
-        int nextAttendance = (attendance + 4) / 5 * 5;
-        if (nextAttendance == attendance) nextAttendance = attendance + 5;
-        if (nextAttendance < 75) nextAttendance = 75;
-        lastDays = -1;
-        for (int a = nextAttendance; a <= 95; a += 5) {
-            int daysNeed = (int) ((a * classes - 100 * classesPresent) / (double) (100 - a));
-            if (daysNeed == lastDays) continue; else lastDays = daysNeed;
-            if (daysNeed > 0 && (daysNeed + classes <= 50)) {
-                bunkStats.append(new Formatter().format("Need %d more %s for %d%% attendance\n",
-                        daysNeed, daysNeed == 1 ? "class" : "classes", a));
+        if (classes != 0) {
+            int nextAttendance = (attendance + 4) / 5 * 5;
+            if (nextAttendance == attendance) nextAttendance = attendance + 5;
+            if (nextAttendance < 75) nextAttendance = 75;
+            lastDays = -1;
+            for (int a = nextAttendance; a <= 95; a += 5) {
+                int daysNeed = (int) ((a * classes - 100 * classesPresent) / (double) (100 - a));
+                if (daysNeed == lastDays) continue;
+                else lastDays = daysNeed;
+                if (daysNeed > 0 && (daysNeed + classes <= 50)) {
+                    bunkStats.append(new Formatter().format("Need %d more %s for %d%% attendance\n",
+                            daysNeed, daysNeed == 1 ? "class" : "classes", a));
+                }
             }
         }
 
