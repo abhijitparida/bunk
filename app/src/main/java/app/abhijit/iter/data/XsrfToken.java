@@ -33,18 +33,18 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class XsrfToken implements Interceptor {
+class XsrfToken implements Interceptor {
 
-    private CookieJar mCookieJar;
+    private CookieJar cookieJar;
 
-    public XsrfToken(CookieJar cookieJar) {
-        mCookieJar = cookieJar;
+    XsrfToken(CookieJar cookieJar) {
+        this.cookieJar = cookieJar;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request.Builder request = chain.request().newBuilder();
-        List<Cookie> cookies = mCookieJar.loadForRequest(chain.request().url());
+        List<Cookie> cookies = this.cookieJar.loadForRequest(chain.request().url());
         for (Cookie cookie : cookies) {
             if (cookie.name().equals("XSRF-TOKEN")) {
                 request.header("X-XSRF-TOKEN", cookie.value());
