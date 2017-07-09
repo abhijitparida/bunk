@@ -46,12 +46,15 @@ public class Subject {
         int classes = this.theoryClasses + this.labClasses;
         int classesPresent = this.theoryClassesPresent + this.labClassesPresent;
         int classesAbsent = classes - classesPresent;
+        int lastDays;
 
         if (attendance <= 75) {
             bunkStats.append("DO NOT BUNK ANY MORE CLASSES\n");
         } else {
+            lastDays = -1;
             for (int a = 75; a < attendance; a += 5) {
                 int daysBunk = (int) ((100 * classesPresent / (double) a) - (double) classes);
+                if (daysBunk == lastDays) continue; else lastDays = daysBunk;
                 if (daysBunk > 0) {
                     bunkStats.append(new Formatter().format("Bunk %d%s %s for %d%% attendance\n",
                             daysBunk,  classesAbsent == 0 ? "" : " more",
@@ -63,8 +66,10 @@ public class Subject {
         int nextAttendance = (attendance + 4) / 5 * 5;
         if (nextAttendance == attendance) nextAttendance = attendance + 5;
         if (nextAttendance < 75) nextAttendance = 75;
+        lastDays = -1;
         for (int a = nextAttendance; a <= 95; a += 5) {
             int daysNeed = (int) ((a * classes - 100 * classesPresent) / (double) (100 - a));
+            if (daysNeed == lastDays) continue; else lastDays = daysNeed;
             if (daysNeed > 0 && (daysNeed + classes <= 50)) {
                 bunkStats.append(new Formatter().format("Need %d more %s for %d%% attendance\n",
                         daysNeed, daysNeed == 1 ? "class" : "classes", a));
