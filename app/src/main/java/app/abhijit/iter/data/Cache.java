@@ -29,7 +29,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import app.abhijit.iter.models.Student;
 
@@ -49,7 +48,7 @@ public class Cache {
     public Student getStudent() {
         try {
             return gson.fromJson(sharedPreferences.getString("student", null), Student.class);
-        } catch (JsonSyntaxException e) {
+        } catch (Exception e) {
             return null;
         }
     }
