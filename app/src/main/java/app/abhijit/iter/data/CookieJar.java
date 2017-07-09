@@ -30,21 +30,21 @@ import java.util.List;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
-public class CookieJar implements okhttp3.CookieJar {
+class CookieJar implements okhttp3.CookieJar {
 
-    private List<Cookie> mCookieStore;
+    private List<Cookie> cookieStore;
 
-    public CookieJar() {
-        mCookieStore = new ArrayList<>();
+    CookieJar() {
+        this.cookieStore = new ArrayList<>();
     }
 
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-        mCookieStore.addAll(cookies);
+        this.cookieStore.addAll(cookies);
     }
 
     @Override
     public List<Cookie> loadForRequest(HttpUrl url) {
-        return mCookieStore;
+        return this.cookieStore;
     }
 }
