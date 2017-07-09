@@ -61,9 +61,37 @@ public class SubjectTest {
     }
 
     @Test
-    public void generateBunkStats_ZeroClasses_GeneratesEmptyStats() {
+    public void generateBunkStats_ZeroTotalClasses_GeneratesEmptyStats() {
         Subject subject = new Subject();
 
         assertEquals("", subject.generateBunkStats(75, true));
+    }
+
+    @Test
+    public void generateBunkStats_LessThanMinimumAttendance_GeneratesDontBunkWarning() {
+        Subject subject = new Subject();
+        subject.attendance = 10;
+        subject.theoryClassesPresent = 1;
+        subject.theoryClasses = 10;
+
+        String bunkStats = "";
+        bunkStats += "DO NOT BUNK ANY MORE CLASSES\n";
+        bunkStats += "Need 26 more classes for 75% attendance\n";
+        bunkStats += "Need 35 more classes for 80% attendance";
+
+        assertEquals(bunkStats, subject.generateBunkStats(75, true));
+    }
+
+    @Test
+    public void generateBunkStats_ZeroAttendance_GeneratesDontBunkWarning() {
+        Subject subject = new Subject();
+        subject.attendance = 0;
+        subject.theoryClassesPresent = 0;
+        subject.theoryClasses = 35;
+
+        String bunkStats = "";
+        bunkStats += "DO NOT BUNK ANY MORE CLASSES";
+
+        assertEquals(bunkStats, subject.generateBunkStats(75, true));
     }
 }
