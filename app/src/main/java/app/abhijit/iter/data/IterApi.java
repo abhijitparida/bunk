@@ -87,9 +87,9 @@ public class IterApi {
 
                 try {
                     String loginJson = okHttpClient.newCall(loginRequest)
-                            .execute().body().toString();
+                            .execute().body().string();
                     String attendanceJson = okHttpClient.newCall(attendanceRequest)
-                            .execute().body().toString();
+                            .execute().body().string();
                     Student student = new ResponseParser().parse(loginJson, attendanceJson);
                     student.username = username;
                     student.password = password;
