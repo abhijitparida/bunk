@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="api_base_url">http://111.93.164.203/CampusPortalSOA</string>
+    <string name="registration_id">ITERRETD1612A0000002</string>
+</resources>

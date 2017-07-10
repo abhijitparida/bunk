@@ -24,164 +24,104 @@
 
 package app.abhijit.iter.data;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import java.util.Formatter;
 
-import java.io.IOException;
-
+import app.abhijit.iter.R;
+import app.abhijit.iter.exceptions.ConnectionFailedException;
+import app.abhijit.iter.exceptions.InvalidCredentialsException;
+import app.abhijit.iter.exceptions.InvalidResponseException;
+import app.abhijit.iter.models.Student;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
+/**
+ * This class fetches data from the API.
+ */
 public class IterApi {
 
-    /*
-    private static final String BASE_URL = "http://111.93.164.203/CampusPortalSOA";
-    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
+    private String baseUrl;
+    private String registrationId;
 
-    private OkHttpClient mOkHttpClient;
-    private GetStudentTask mGetStudentTask;
-
-    public IterApi() {
-        CookieJar cookieJar = new CookieJar();
-        XsrfToken xsrfTokenInterceptor = new XsrfToken(cookieJar);
-        mOkHttpClient = new OkHttpClient.Builder()
-                .cookieJar(cookieJar)
-                .addInterceptor(xsrfTokenInterceptor)
-                .build();
+    public IterApi(Context context) {
+        this.baseUrl = context.getResources().getString(R.string.api_base_url);
+        this.registrationId = context.getResources().getString(R.string.registration_id);
     }
 
     public void getStudent(String username, String password, Callback callback) {
-        if (mGetStudentTask != null) {
-            mGetStudentTask.cancel(true);
-        }
+        new AsyncTask<Object, Void, Object[]>() {
 
-        mGetStudentTask = new GetStudentTask(callback);
-        mGetStudentTask.execute(username, password);
-    }
+            @Override
+            protected Object[] doInBackground(Object... params) {
+                String username = (String) params[0];
+                String password = (String) params[1];
+                Callback callback = (Callback) params[2];
+                CookieJar cookieJar = new CookieJar();
+                XsrfToken xsrfToken = new XsrfToken(cookieJar);
+                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .cookieJar(cookieJar)
+                        .addInterceptor(xsrfToken)
+                        .build();
+                String baseUrl = (String) params[3];
+                String registrationId = (String) params[4];
+                MediaType json = MediaType.parse("application/json");
 
-    private void getSessionCookies() throws IOException {
-        Request request = new Request.Builder()
-                .url(BASE_URL)
-                .head()
-                .build();
+                String loginRequestBody = new Formatter()
+                        .format("{\"username\":\"%s\",\"password\":\"%s\"}",
+                                username, password).toString();
+                Request loginRequest = new Request.Builder()
+                        .url(baseUrl + "/login")
+                        .post(RequestBody.create(json, loginRequestBody))
+                        .build();
 
-        mOkHttpClient.newCall(request).execute();
-    }
+                String attendanceRequestBody = new Formatter()
+                        .format("{\"registerationid\":\"%s\"}", registrationId).toString();
+                Request attendanceRequest = new Request.Builder()
+                        .url(baseUrl + "/attendanceinfo")
+                        .post(RequestBody.create(json, attendanceRequestBody))
+                        .build();
 
-    private JsonObject login(String username, String password) throws IOException, JsonSyntaxException {
-        JsonObject postBody = new JsonObject();
-        postBody.addProperty("username", username);
-        postBody.addProperty("password", password);
+                try {
+                    String loginJson = okHttpClient.newCall(loginRequest)
+                            .execute().body().toString();
+                    String attendanceJson = okHttpClient.newCall(attendanceRequest)
+                            .execute().body().toString();
+                    Student student = new ResponseParser().parse(loginJson, attendanceJson);
+                    student.username = username;
+                    student.password = password;
+                    return new Object[]{student, null, callback};
+                } catch (InvalidCredentialsException | InvalidResponseException e) {
+                    return new Object[]{null, e, callback};
+                } catch (Exception e) {
+                    return new Object[]{null, new ConnectionFailedException(), callback};
+                }
+            }
 
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/login")
-                .post(RequestBody.create(MEDIA_TYPE_JSON, postBody.toString()))
-                .build();
+            @Override
+            protected void onPostExecute(Object[] result) {
+                Student student = (Student) result[0];
+                RuntimeException error = (RuntimeException) result[1];
+                Callback callback = (Callback) result[2];
 
-        Response response = mOkHttpClient.newCall(request).execute();
-
-        return ResponseParser.parseLoginResponse(response.body().string());
-    }
-
-    private JsonObject getAttendance() throws IOException, JsonSyntaxException {
-        String registrationId = "ITERRETD1612A0000002";
-
-        JsonObject postBody = new JsonObject();
-        postBody.addProperty("registerationid", registrationId);
-
-        Request request = new Request.Builder()
-                .url(BASE_URL + "/attendanceinfo")
-                .post(RequestBody.create(MEDIA_TYPE_JSON, postBody.toString()))
-                .build();
-
-        Response response = mOkHttpClient.newCall(request).execute();
-
-        return ResponseParser.parseAttendanceResponse(response.body().string());
+                if (callback != null) {
+                    if (error != null) {
+                        callback.onError(error);
+                    } else {
+                        callback.onData(student);
+                    }
+                }
+            }
+        }.execute(username, password, callback, this.baseUrl, this.registrationId);
     }
 
     public interface Callback {
 
-        public void onData(JsonObject data);
+        public void onData(Student student);
 
-        public void onError(String error);
+        public void onError(RuntimeException error);
     }
-
-    private class GetStudentTask extends AsyncTask<String, Void, JsonObject> {
-
-        private Callback mCallback;
-        private String mError;
-
-        public GetStudentTask(Callback callback) {
-            mCallback = callback;
-            mError = null;
-        }
-
-        @Override
-        protected JsonObject doInBackground(String... params) {
-            String username = params[0];
-            String password = params[1];
-
-            JsonObject result = new JsonObject();
-
-            try {
-                getSessionCookies();
-            } catch (IOException e) {
-                mError = "network error";
-                return null;
-            }
-
-            JsonObject loginResponse;
-            try {
-                loginResponse = login(username, password);
-            } catch (IOException e) {
-                mError = "network error";
-                return null;
-            } catch (JsonSyntaxException e) {
-                mError = "network response error";
-                return null;
-            }
-
-            if (loginResponse.get("status").getAsString().equals("error")) {
-                mError = "invalid credentials";
-                return null;
-            }
-
-            result.add("name", loginResponse.get("name"));
-            result.addProperty("registration_number", username);
-
-            JsonObject attendanceResponse;
-            try {
-                attendanceResponse = getAttendance();
-            } catch (IOException e) {
-                mError = "network error";
-                return null;
-            } catch (JsonSyntaxException e) {
-                mError = "network response error";
-                return null;
-            }
-
-            result.add("attendance", attendanceResponse);
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(JsonObject result) {
-            if (mCallback == null) {
-                return;
-            }
-
-            if (mError != null) {
-                mCallback.onError(mError);
-            } else {
-                mCallback.onData(result);
-            }
-        }
-    }
-    */
 }
