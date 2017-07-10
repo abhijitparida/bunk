@@ -30,6 +30,7 @@ import com.google.gson.JsonParser;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -104,6 +105,7 @@ class ResponseParser {
             Subject subject = new Subject();
             subject.name = s.get("subject").getAsString();
             subject.code = s.get("subjectcode").getAsString();
+            subject.lastUpdated = new Date().getTime();
             subject.attendance = s.get("TotalAttandence").getAsDouble();
 
             Matcher theoryClassesMatcher = classesPattern.matcher(s.get("Patt").getAsString());
