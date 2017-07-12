@@ -26,9 +26,11 @@ package app.abhijit.iter.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 import app.abhijit.iter.models.Student;
 
@@ -41,19 +43,31 @@ public class Cache {
     private Gson gson;
 
     public Cache(Context context) {
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.sharedPreferences = context.getSharedPreferences("students", Context.MODE_PRIVATE);
         this.gson = new Gson();
     }
 
-    public Student getStudent() {
+    public Student getStudent(String username) {
         try {
-            return gson.fromJson(sharedPreferences.getString("student", null), Student.class);
+            return gson.fromJson(sharedPreferences.getString(username, null), Student.class);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public void setStudent(Student student) {
-        sharedPreferences.edit().putString("student", gson.toJson(student)).apply();
+    public ArrayList<Student> getStudents() {
+        ArrayList<Student> students = new ArrayList<>();
+        for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+            Student student = getStudent(entry.getKey());
+            if (student != null) {
+                students.add(student);
+            }
+        }
+
+        return students;
+    }
+
+    public void setStudent(String username, Student student) {
+        sharedPreferences.edit().putString(username, gson.toJson(student)).apply();
     }
 }
