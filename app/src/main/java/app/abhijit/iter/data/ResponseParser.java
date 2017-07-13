@@ -24,6 +24,9 @@
 
 package app.abhijit.iter.data;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -51,7 +54,8 @@ class ResponseParser {
         this.jsonParser = new JsonParser();
     }
 
-    Student parse(String loginJson, String attendanceJson)
+    @NonNull
+    Student parse(@NonNull String loginJson, @NonNull String attendanceJson)
             throws InvalidCredentialsException, InvalidResponseException {
         Student student = processLogin(loginJson);
         try {

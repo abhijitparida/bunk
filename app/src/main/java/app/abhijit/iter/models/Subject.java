@@ -24,6 +24,8 @@
 
 package app.abhijit.iter.models;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Formatter;
 
@@ -51,6 +53,7 @@ public class Subject {
         }
     }
 
+    @NonNull
     public String bunkStats(int minimumAttendance, boolean extendedStats) {
         StringBuilder bunkStats = new StringBuilder("");
         ArrayList<String> bunk = new ArrayList<>();

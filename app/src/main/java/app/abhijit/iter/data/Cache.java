@@ -26,6 +26,8 @@ package app.abhijit.iter.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
@@ -47,7 +49,8 @@ public class Cache {
         this.gson = new Gson();
     }
 
-    public Student getStudent(String username) {
+    @Nullable
+    public Student getStudent(@Nullable String username) {
         try {
             return gson.fromJson(this.sharedPreferences.getString(username, null), Student.class);
         } catch (Exception e) {
@@ -55,6 +58,7 @@ public class Cache {
         }
     }
 
+    @NonNull
     public ArrayList<Student> getStudents() {
         ArrayList<Student> students = new ArrayList<>();
         for (Map.Entry<String, ?> entry : this.sharedPreferences.getAll().entrySet()) {
@@ -67,7 +71,7 @@ public class Cache {
         return students;
     }
 
-    public void setStudent(String username, Student student) {
+    public void setStudent(@Nullable String username, @Nullable Student student) {
         this.sharedPreferences.edit().putString(username, gson.toJson(student)).apply();
     }
 }

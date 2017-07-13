@@ -26,6 +26,7 @@ package app.abhijit.iter.data;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import java.util.Formatter;
 
@@ -52,7 +53,7 @@ public class IterApi {
         this.registrationId = context.getResources().getString(R.string.registration_id);
     }
 
-    public void getStudent(String username, String password, Callback callback) {
+    public void getStudent(@NonNull String username, @NonNull String password, @NonNull Callback callback) {
         new AsyncTask<Object, Void, Object[]>() {
 
             @Override
@@ -120,8 +121,8 @@ public class IterApi {
 
     public interface Callback {
 
-        public void onData(Student student);
+        public void onData(@NonNull Student student);
 
-        public void onError(RuntimeException error);
+        public void onError(@NonNull RuntimeException error);
     }
 }
