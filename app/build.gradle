@@ -25,10 +25,8 @@ android {
         release {
             shrinkResources true
             minifyEnabled true
-            proguardFiles 'proguard-eventbus-3.pro'
-            proguardFiles 'proguard-guava.pro'
-            proguardFiles 'proguard-gson.pro'
             proguardFiles 'proguard-square-okhttp3.pro'
+            proguardFiles 'proguard-gson.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
@@ -58,13 +56,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:26.0.0-beta2'
     compile 'com.android.support:design:26.0.0-beta2'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.google.guava:guava:20.0'
+    compile 'com.google.android.gms:play-services-ads-lite:11.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'com.google.android.gms:play-services-ads-lite:11.0.2'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 }
 
 repositories {

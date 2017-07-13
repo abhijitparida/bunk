@@ -12,7 +12,7 @@
     android:paddingTop="@dimen/margin_large"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <!--<de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="@dimen/nav_avatar"
         android:layout_height="@dimen/nav_avatar"
         android:paddingTop="@dimen/margin_large"
@@ -29,6 +29,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1541001337" />
+        android:text="1541001337" />-->
 
 </LinearLayout>
