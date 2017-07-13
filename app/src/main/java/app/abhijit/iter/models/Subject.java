@@ -41,8 +41,8 @@ public class Subject {
     public int theoryTotal;
 
     public double attendance() {
-        double present = labPresent + theoryPresent;
-        double total = theoryTotal + labTotal;
+        double present = this.labPresent + this.theoryPresent;
+        double total = this.theoryTotal + this.labTotal;
 
         if (Double.compare(total, 0.0) > 0) {
             return (present / total) * 100;

@@ -49,7 +49,7 @@ public class Cache {
 
     public Student getStudent(String username) {
         try {
-            return gson.fromJson(sharedPreferences.getString(username, null), Student.class);
+            return gson.fromJson(this.sharedPreferences.getString(username, null), Student.class);
         } catch (Exception e) {
             return null;
         }
@@ -57,7 +57,7 @@ public class Cache {
 
     public ArrayList<Student> getStudents() {
         ArrayList<Student> students = new ArrayList<>();
-        for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+        for (Map.Entry<String, ?> entry : this.sharedPreferences.getAll().entrySet()) {
             Student student = getStudent(entry.getKey());
             if (student != null) {
                 students.add(student);
@@ -68,6 +68,6 @@ public class Cache {
     }
 
     public void setStudent(String username, Student student) {
-        sharedPreferences.edit().putString(username, gson.toJson(student)).apply();
+        this.sharedPreferences.edit().putString(username, gson.toJson(student)).apply();
     }
 }
