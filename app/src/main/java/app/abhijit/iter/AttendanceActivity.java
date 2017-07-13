@@ -149,7 +149,7 @@ public class AttendanceActivity extends AppCompatActivity
 
     private void setupInterstitialAd() {
         mInterstitialAd = new InterstitialAd(mContext);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+        //mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
