@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Bunk</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -37,8 +35,5 @@
 
     <string name="message_student_deleted">Registration number %1$s removed</string>
     <string name="message_update_available">A new version of this app is available!</string>
-
-    <string name="banner_ad_unit_id">ca-app-pub-3302975669737541/4253342310</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3302975669737541/9078838714</string>
 
 </resources>
