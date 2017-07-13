@@ -1,9 +1,11 @@
-Bunk [![Build Status](https://travis-ci.org/abhijitparida/bunk.svg?branch=develop)](https://travis-ci.org/abhijitparida/bunk)
+Bunk [![Build Status](https://travis-ci.org/abhijitparida/bunk.svg)](https://travis-ci.org/abhijitparida/bunk)
 ====
 
-Bunk is an unofficial attendance calculator app for ITER.
+Bunk is the unofficial attendance calculator app for ITER.
 
 [<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="65px" />](https://play.google.com/store/apps/details?id=app.abhijit.iter&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+
+![Screenshot](bunk.png)
 
 ## License
 
