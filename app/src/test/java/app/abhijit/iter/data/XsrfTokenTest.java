@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 
-
 package app.abhijit.iter.data;
 
 public class XsrfTokenTest {
