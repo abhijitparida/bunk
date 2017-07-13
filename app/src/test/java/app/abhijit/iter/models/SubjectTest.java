@@ -31,48 +31,61 @@ import static org.junit.Assert.assertEquals;
 public class SubjectTest {
 
     @Test
-    public void generateBunkStats_NumberOfTotalClassesIsSmall_DoesNotContainRepeatedStats() {
+    public void attendance_SimpleValue_CalculatesCorrectly() {
         Subject subject = new Subject();
-        subject.attendance = 100;
-        subject.theoryClassesPresent = 9;
-        subject.theoryClasses = 9;
+        subject.theoryPresent = 18;
+        subject.theoryTotal = 22;
+
+        assertEquals(81.81, subject.attendance(), 0.1);
+    }
+
+    @Test
+    public void attendance_ZeroValues_HandlesGracefullyWithoutThrowingExceptions() {
+        Subject subject = new Subject();
+
+        assertEquals(0.0, subject.attendance(), 0.1);
+    }
+
+    @Test
+    public void bunkStats_NumberOfTotalClassesIsSmall_DoesNotContainRepeatedStats() {
+        Subject subject = new Subject();
+        subject.theoryPresent = 9;
+        subject.theoryTotal = 9;
 
         String bunkStats = "";
         bunkStats += "Bunk 3 classes for 75% attendance\n";
         bunkStats += "Bunk 2 classes for 80% attendance\n";
         bunkStats += "Bunk 1 class for 85% attendance";
 
-        assertEquals(bunkStats, subject.generateBunkStats(75, true));
+        assertEquals(bunkStats, subject.bunkStats(75, true));
     }
 
     @Test
-    public void generateBunkStats_NumberOfTotalClassesIsLarge_DoesNotContainRepeatedStats() {
+    public void bunkStats_NumberOfTotalClassesIsLarge_DoesNotContainRepeatedStats() {
         Subject subject = new Subject();
-        subject.attendance = 85;
-        subject.theoryClassesPresent = 17;
-        subject.theoryClasses = 20;
+        subject.theoryPresent = 17;
+        subject.theoryTotal = 20;
 
         String bunkStats = "";
         bunkStats += "Bunk 2 more classes for 75% attendance\n";
         bunkStats += "Bunk 1 more class for 80% attendance\n";
         bunkStats += "Need 10 more classes for 90% attendance";
 
-        assertEquals(bunkStats, subject.generateBunkStats(75, true));
+        assertEquals(bunkStats, subject.bunkStats(75, true));
     }
 
     @Test
-    public void generateBunkStats_ZeroTotalClasses_GeneratesEmptyStats() {
+    public void bunkStats_ZeroTotalClasses_GeneratesEmptyStats() {
         Subject subject = new Subject();
 
-        assertEquals("", subject.generateBunkStats(75, true));
+        assertEquals("", subject.bunkStats(75, true));
     }
 
     @Test
-    public void generateBunkStats_LessThanMinimumAttendance_GeneratesDontBunkWarning() {
+    public void bunkStats_LessThanMinimumAttendance_GeneratesDontBunkWarning() {
         Subject subject = new Subject();
-        subject.attendance = 10;
-        subject.theoryClassesPresent = 1;
-        subject.theoryClasses = 10;
+        subject.theoryPresent = 1;
+        subject.theoryTotal = 10;
 
         String bunkStats = "";
         bunkStats += "DO NOT BUNK ANY MORE CLASSES\n";
@@ -82,33 +95,31 @@ public class SubjectTest {
         bunkStats += "Need 26 more classes for 75% attendance\n";
         bunkStats += "Need 35 more classes for 80% attendance";
 
-        assertEquals(bunkStats, subject.generateBunkStats(60, true));
+        assertEquals(bunkStats, subject.bunkStats(60, true));
     }
 
     @Test
-    public void generateBunkStats_ZeroAttendance_GeneratesDontBunkWarning() {
+    public void bunkStats_ZeroAttendance_GeneratesDontBunkWarning() {
         Subject subject = new Subject();
-        subject.attendance = 0;
-        subject.theoryClassesPresent = 0;
-        subject.theoryClasses = 35;
+        subject.theoryPresent = 0;
+        subject.theoryTotal = 35;
 
         String bunkStats = "";
         bunkStats += "DO NOT BUNK ANY MORE CLASSES";
 
-        assertEquals(bunkStats, subject.generateBunkStats(75, true));
+        assertEquals(bunkStats, subject.bunkStats(75, true));
     }
 
     @Test
-    public void generateBunkStats_ExtendedStatsFalse_GeneratesMaxTwoLines() {
+    public void bunkStats_ExtendedStatsFalse_GeneratesMaxTwoLines() {
         Subject subject = new Subject();
-        subject.attendance = 85;
-        subject.theoryClassesPresent = 17;
-        subject.theoryClasses = 20;
+        subject.theoryPresent = 17;
+        subject.theoryTotal = 20;
 
         String bunkStats = "";
         bunkStats += "Bunk 1 more class for 80% attendance\n";
         bunkStats += "Need 10 more classes for 90% attendance";
 
-        assertEquals(bunkStats, subject.generateBunkStats(75, false));
+        assertEquals(bunkStats, subject.bunkStats(75, false));
     }
 }

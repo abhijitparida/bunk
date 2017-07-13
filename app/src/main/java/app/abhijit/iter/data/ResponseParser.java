@@ -97,7 +97,7 @@ class ResponseParser {
 
         for (int i = 0; i < attendance.size(); i++) {
             JsonObject s = attendance.get(i).getAsJsonObject();
-            if (!s.has("TotalAttandence") || !s.has("Latt") || !s.has("Patt")
+            if (!s.has("Latt") || !s.has("Patt")
                     || !s.has("subject") || !s.has("subjectcode")) {
                 throw new InvalidResponseException();
             }
@@ -106,18 +106,17 @@ class ResponseParser {
             subject.name = s.get("subject").getAsString();
             subject.code = s.get("subjectcode").getAsString();
             subject.lastUpdated = new Date().getTime();
-            subject.attendance = s.get("TotalAttandence").getAsDouble();
 
             Matcher theoryClassesMatcher = classesPattern.matcher(s.get("Patt").getAsString());
             if (theoryClassesMatcher.find()) {
-                subject.theoryClassesPresent = Integer.parseInt(theoryClassesMatcher.group(1));
-                subject.theoryClasses = Integer.parseInt(theoryClassesMatcher.group(2));
+                subject.theoryPresent = Integer.parseInt(theoryClassesMatcher.group(1));
+                subject.theoryTotal = Integer.parseInt(theoryClassesMatcher.group(2));
             }
 
             Matcher labClassesMatcher = classesPattern.matcher(s.get("Latt").getAsString());
             if (labClassesMatcher.find()) {
-                subject.labClassesPresent = Integer.parseInt(labClassesMatcher.group(1));
-                subject.labClasses = Integer.parseInt(labClassesMatcher.group(2));
+                subject.labPresent = Integer.parseInt(labClassesMatcher.group(1));
+                subject.labTotal = Integer.parseInt(labClassesMatcher.group(2));
             }
 
             subjects.put(subject.code, subject);

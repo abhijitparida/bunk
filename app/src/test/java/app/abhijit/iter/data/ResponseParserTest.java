@@ -94,25 +94,23 @@ public class ResponseParserTest {
     public void parse_ValidAttendanceJson_ParsesCorrectly() {
         ResponseParser responseParser = new ResponseParser();
         Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}",
-                "{\"griddata\":[{\"TotalAttandence\":100.0,\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"TotalAttandence\":100.0,\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}");
+                "{\"griddata\":[{\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}");
         HashMap<String, Subject> subjects = student.subjects;
 
         assertEquals(2, subjects.size());
 
         assertEquals("Subject I", subjects.get("SUB001").name);
         assertEquals("SUB001", subjects.get("SUB001").code);
-        assertEquals(100.0, subjects.get("SUB001").attendance, 0.1);
-        assertEquals(0, subjects.get("SUB001").theoryClassesPresent);
-        assertEquals(0, subjects.get("SUB001").theoryClasses);
-        assertEquals(10, subjects.get("SUB001").labClassesPresent);
-        assertEquals(10, subjects.get("SUB001").labClasses);
+        assertEquals(0, subjects.get("SUB001").theoryPresent);
+        assertEquals(0, subjects.get("SUB001").theoryTotal);
+        assertEquals(10, subjects.get("SUB001").labPresent);
+        assertEquals(10, subjects.get("SUB001").labTotal);
 
         assertEquals("Subject II", subjects.get("SUB002").name);
         assertEquals("SUB002", subjects.get("SUB002").code);
-        assertEquals(100.0, subjects.get("SUB002").attendance, 0.1);
-        assertEquals(20, subjects.get("SUB002").theoryClassesPresent);
-        assertEquals(20, subjects.get("SUB002").theoryClasses);
-        assertEquals(0, subjects.get("SUB002").labClassesPresent);
-        assertEquals(0, subjects.get("SUB002").labClasses);
+        assertEquals(20, subjects.get("SUB002").theoryPresent);
+        assertEquals(20, subjects.get("SUB002").theoryTotal);
+        assertEquals(0, subjects.get("SUB002").labPresent);
+        assertEquals(0, subjects.get("SUB002").labTotal);
     }
 }

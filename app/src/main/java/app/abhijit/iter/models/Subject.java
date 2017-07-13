@@ -35,19 +35,29 @@ public class Subject {
     public String name;
     public String code;
     public long lastUpdated;
-    public double attendance;
-    public int theoryClassesPresent;
-    public int theoryClasses;
-    public int labClassesPresent;
-    public int labClasses;
+    public int labPresent;
+    public int labTotal;
+    public int theoryPresent;
+    public int theoryTotal;
 
-    public String generateBunkStats(int minimumAttendance, boolean extendedStats) {
+    public double attendance() {
+        double present = labPresent + theoryPresent;
+        double total = theoryTotal + labTotal;
+
+        if (Double.compare(total, 0.0) > 0) {
+            return (present / total) * 100;
+        } else {
+            return 0.0;
+        }
+    }
+
+    public String bunkStats(int minimumAttendance, boolean extendedStats) {
         StringBuilder bunkStats = new StringBuilder("");
         ArrayList<String> bunk = new ArrayList<>();
         ArrayList<String> need = new ArrayList<>();
-        int attendance = (int) this.attendance;
-        int classes = this.theoryClasses + this.labClasses;
-        int classesPresent = this.theoryClassesPresent + this.labClassesPresent;
+        int attendance = (int) attendance();
+        int classes = this.theoryTotal + this.labTotal;
+        int classesPresent = this.theoryPresent + this.labPresent;
         int classesAbsent = classes - classesPresent;
         int lastDays;
 
