@@ -8,6 +8,12 @@
     <string name="about_unofficial">THIS IS NOT AN OFFICIAL APP.</string>
     <string name="about_icons">Icons from flaticon.com licensed under the Creative Commons BY 3.0 license</string>
 
+    <string name="nav_opensource"> open source?</string>
+    <string name="nav_hacking"> hacking?</string>
+    <string name="nav_coding"> coding?</string>
+    <string name="nav_programming"> programming?</string>
+    <string name="nav_github">github.com/abhijitparida/bunk</string>
+
     <string name="label_registration_number">Registration Number</string>
     <string name="label_add">ADD</string>
     <string name="label_update_available">Update Available</string>
@@ -32,6 +38,7 @@
 
     <string name="url_feedback">https://goo.gl/forms/MsrY3JciZD</string>
     <string name="url_store">https://play.google.com/store/apps/details?id=app.abhijit.iter</string>
+    <string name="url_github">https://github.com/abhijitparida/bunk</string>
 
     <string name="message_student_deleted">Registration number %1$s removed</string>
     <string name="message_update_available">A new version of this app is available!</string>
