@@ -19,9 +19,9 @@
     <string name="label_present">Present:</string>
     <string name="label_absent">Absent:</string>
     <string name="label_about">About</string>
-    <string name="label_username">Username</string>
-    <string name="label_password">Password</string>
-    <string name="label_login">Login</string>
+    <string name="label_username">USERNAME</string>
+    <string name="label_password">PASSWORD</string>
+    <string name="label_login">BUNK!</string>
     <string name="label_feedback">Feedback</string>
     <string name="label_refresh">Refresh</string>
     <string name="label_settings">Settings</string>

@@ -1,83 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
+    android:background="@color/black_opacity_87"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/AppTheme.AppBarTitle" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="@dimen/margin_ultra_large"
-            android:layout_marginLeft="@dimen/margin_extra_large"
-            android:layout_marginRight="@dimen/margin_extra_large"
-            android:layout_marginTop="@dimen/margin_ultra_large"
+            android:layout_gravity="center"
+            android:padding="@dimen/margin_extra_large"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-            <android.support.design.widget.TextInputLayout
+            <AutoCompleteTextView
+                android:id="@+id/username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/label_username"
+                android:background="@drawable/edittext_background"
+                android:textColorHint="@color/black_opacity_87"
+                android:textColor="@color/indigo_dark"
+                android:textSize="@dimen/text_medium"
+                android:padding="@dimen/margin_large"
+                android:inputType="number" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/label_username"
-                    android:inputType="number" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/label_password"
-                    android:inputType="textPassword" />
-
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="match_parent"
+                android:hint="@string/label_password"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@drawable/edittext_background"
+                android:textColorHint="@color/black_opacity_87"
+                android:textColor="@color/indigo_dark"
+                android:textSize="@dimen/text_medium"
+                android:padding="@dimen/margin_large"
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/login"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_large"
+                android:background="@drawable/button_background"
+                android:textStyle="normal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium"
                 android:text="@string/label_login" />
 
         </LinearLayout>
-
-    </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/shadow"
-        android:background="@drawable/shadow"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>
