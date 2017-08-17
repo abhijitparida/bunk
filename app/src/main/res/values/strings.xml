@@ -6,7 +6,7 @@
 
     <string name="about_disclaimer">USE THE APP RESPONSIBLY. THIS APP DOES NOT PROMOTE BUNKING. THE CALCULATED DATA MIGHT BE INACCURATE. THE DEVELOPER IS NOT RESPONSIBLE FOR THE USER\'S ATTENDANCE.</string>
     <string name="about_unofficial">THIS IS NOT AN OFFICIAL APP.</string>
-    <string name="about_icons">Icons from flaticon.com</string>
+    <string name="about_icons">Icons from flaticon.com licensed under the Creative Commons BY 3.0 license</string>
 
     <string name="label_registration_number">Registration Number</string>
     <string name="label_add">ADD</string>
