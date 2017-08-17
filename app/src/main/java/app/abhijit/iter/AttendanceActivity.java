@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -67,6 +68,7 @@ public class AttendanceActivity extends AppCompatActivity
 
         setupToolbar();
         setupDrawer();
+        setupFab();
 
         if (!BuildConfig.DEBUG) {
             displayBannerAd();
@@ -162,6 +164,17 @@ public class AttendanceActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.url_github))));
+            }
+        });
+    }
+
+    private void setupFab() {
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }

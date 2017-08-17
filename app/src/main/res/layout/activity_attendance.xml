@@ -45,6 +45,15 @@
 
         </LinearLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/margin_large"
+            android:src="@drawable/ic_plus"
+            app:backgroundTint="@color/red_dark" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/shadow"
