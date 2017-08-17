@@ -28,8 +28,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
             android:orientation="vertical"
+            android:layout_marginBottom="@dimen/margin_ultra_large"
+            android:layout_marginLeft="@dimen/margin_extra_large"
+            android:layout_marginRight="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_ultra_large"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
@@ -38,6 +41,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
+                    android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_username"
@@ -47,10 +51,10 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small">
+                android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_password"
