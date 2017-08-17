@@ -153,12 +153,7 @@ public class AttendanceActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        int prompts[] = {
-                R.string.nav_opensource,
-                R.string.nav_hacking,
-                R.string.nav_coding,
-                R.string.nav_programming
-        };
+        String prompts[] = {"open source?", "coding?", "programming?", "code+coffee?"};
         TextView opensource = drawer.findViewById(R.id.opensource);
         opensource.setText(prompts[new Random().nextInt(prompts.length)]);
         TextView github = drawer.findViewById(R.id.github);
