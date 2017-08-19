@@ -82,6 +82,11 @@ public class AttendanceActivity extends AppCompatActivity
         } catch (Exception ignored) { }
         if (newStudent != null) {
             mCache.setStudent(newStudent.username, newStudent);
+
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            View navigationViewHeader = navigationView.getHeaderView(0);
+            ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(newStudent.name);
+            ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(newStudent.username);
         }
 
         setupToolbar();
