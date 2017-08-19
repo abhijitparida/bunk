@@ -26,8 +26,10 @@ package app.abhijit.iter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -51,13 +53,19 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.gson.Gson;
 
 import java.util.Random;
+
+import app.abhijit.iter.data.Cache;
+import app.abhijit.iter.models.Student;
 
 public class AttendanceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private Context mContext;
+    private SharedPreferences mSharedPreferences;
+    private Cache mCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,16 @@ public class AttendanceActivity extends AppCompatActivity
         setContentView(R.layout.activity_attendance);
 
         mContext = this;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mCache = new Cache(mContext);
+
+        Student newStudent = null;
+        try {
+            newStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
+        } catch (Exception ignored) { }
+        if (newStudent != null) {
+            mCache.setStudent(newStudent.username, newStudent);
+        }
 
         setupToolbar();
         setupDrawer();
@@ -108,6 +126,7 @@ public class AttendanceActivity extends AppCompatActivity
             });
 
         } else if (id == R.id.action_logout) {
+            mCache.setStudent(mSharedPreferences.getString("pref_student", null), null);
             Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             finish();
@@ -173,6 +192,7 @@ public class AttendanceActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mSharedPreferences.edit().putString("pref_student", null).apply();
                 startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
                 finish();
             }
