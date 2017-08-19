@@ -140,7 +140,8 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(mContext, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
                         }
 
-                        String[] emojis = {":^)", ":)", ":3", new String(Character.toChars(0x1F60F))};
+                        String[] emojis = {":^)", ":)", ":3", emoji(0x1F60F),
+                                emoji(0x1F60F) + emoji(0x1F60F) + emoji(0x1F60F)};
                         mLoginButton.setText(emojis[new Random().nextInt(emojis.length)]);
 
                         new Handler().postDelayed(new Runnable() {
@@ -197,5 +198,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private String emoji(int unicode) {
+        return new String(Character.toChars(unicode));
     }
 }
