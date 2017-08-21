@@ -6,8 +6,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
+    <!-- Use tools:openDrawer to display drawer -->
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -28,22 +28,40 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <!-- ListView here -->
+            <TextView
+                android:id="@+id/no_attendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/hint_subjects_empty"
+                android:textColor="@color/black_opacity_87"
+                android:textSize="@dimen/text_medium"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:visibility="gone" />
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/ad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 ads:adSize="SMART_BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id" />
 
-        </LinearLayout>
+            <ListView
+                android:id="@+id/subjects"
+                tools:listitem="@layout/item_subject"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/ad" />
+
+        </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
