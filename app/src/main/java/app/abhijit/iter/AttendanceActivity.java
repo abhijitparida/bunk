@@ -256,6 +256,8 @@ public class AttendanceActivity extends AppCompatActivity
         }
         findViewById(R.id.no_attendance).setVisibility(student.subjects.isEmpty() ? View.VISIBLE : View.GONE);
         ListView subjectsList = findViewById(R.id.subjects);
+        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        subjectsList.addFooterView(layoutInflater.inflate(R.layout.listview_footer, null, false));
         SubjectsAdapter subjectsAdapter = new SubjectsAdapter(new ArrayList<>(student.subjects.values()));
         subjectsList.setAdapter(subjectsAdapter);
     }
