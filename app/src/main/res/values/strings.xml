@@ -29,7 +29,7 @@
 
     <string name="hint_getting_started_1">"Tap the "</string> <!-- hamburger menu -->
     <string name="hint_getting_started_2">" button or swipe from the left edge to get started"</string>
-    <string name="hint_subjects_empty">Subjects will appear here when they are available</string>
+    <string name="hint_subjects_empty">Attendance is currently unavailable</string>
     <string name="hint_students_empty">Registration numbers will appear here after you add them</string>
 
     <string name="url_feedback">https://goo.gl/forms/MsrY3JciZD</string>
