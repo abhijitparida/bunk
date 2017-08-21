@@ -48,7 +48,7 @@
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/ad"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 ads:adSize="SMART_BANNER"
