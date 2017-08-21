@@ -29,6 +29,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -44,9 +46,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,10 +60,12 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import app.abhijit.iter.data.Cache;
 import app.abhijit.iter.models.Student;
+import app.abhijit.iter.models.Subject;
 
 public class AttendanceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -66,6 +73,9 @@ public class AttendanceActivity extends AppCompatActivity
     private Context mContext;
     private SharedPreferences mSharedPreferences;
     private Cache mCache;
+
+    private Student mNewStudent;
+    private Student mOldStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,26 +86,34 @@ public class AttendanceActivity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mCache = new Cache(mContext);
 
-        Student newStudent = null;
         try {
-            newStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
+            mNewStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
         } catch (Exception ignored) { }
-        if (newStudent != null) {
-            mCache.setStudent(newStudent.username, newStudent);
-
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            View navigationViewHeader = navigationView.getHeaderView(0);
-            ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(newStudent.name);
-            ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(newStudent.username);
-        }
 
         setupToolbar();
         setupDrawer();
         setupFab();
 
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
+            findViewById(R.id.ad).setVisibility(View.GONE);
+        } else {
             displayBannerAd();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mOldStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
+        if (mNewStudent == null && mOldStudent == null) {
+            startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            finish();
+        }
+        if (mNewStudent == null) mNewStudent = mOldStudent;
+        if (mOldStudent == null) mOldStudent = mNewStudent;
+
+        processAndDisplayAttendance();
     }
 
     @Override
@@ -129,7 +147,7 @@ public class AttendanceActivity extends AppCompatActivity
                 @Override
                 public void onAnimationRepeat(Animation animation) { }
             });
-
+            // ¯\_(ツ)_/¯
         } else if (id == R.id.action_logout) {
             mCache.setStudent(mSharedPreferences.getString("pref_student", null), null);
             Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
@@ -179,6 +197,9 @@ public class AttendanceActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View navigationViewHeader = navigationView.getHeaderView(0);
+        ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(mNewStudent.name);
+        ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(mNewStudent.username);
         String prompts[] = {"open source?", "coding?", "programming?", "code+coffee?"};
         TextView opensource = drawer.findViewById(R.id.opensource);
         opensource.setText(prompts[new Random().nextInt(prompts.length)]);
@@ -208,5 +229,66 @@ public class AttendanceActivity extends AppCompatActivity
         MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
         AdView adView = findViewById(R.id.ad);
         adView.loadAd(new AdRequest.Builder().build());
+    }
+
+    private void processAndDisplayAttendance() {
+        Gson gson = new Gson();
+        Student student = gson.fromJson(gson.toJson(mNewStudent), Student.class);
+        Boolean updated = false;
+        for (Subject subject : student.subjects.values()) {
+            String subjectCode = subject.code;
+            if (!mOldStudent.subjects.containsKey(subjectCode)) continue;
+            Subject oldSubject = mOldStudent.subjects.get(subjectCode);
+            if (subject.theoryPresent != oldSubject.theoryPresent
+                    || subject.theoryTotal != oldSubject.theoryTotal
+                    || subject.labPresent != oldSubject.labPresent
+                    || subject.labTotal != oldSubject.labTotal) {
+                updated = true;
+            } else {
+                subject.lastUpdated = oldSubject.lastUpdated;
+            }
+        }
+        mCache.setStudent(student.username, student);
+
+        if (updated) {
+            Toast.makeText(mContext, "Attendance updated", Toast.LENGTH_SHORT).show();
+            Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
+        }
+        findViewById(R.id.no_attendance).setVisibility(student.subjects.isEmpty() ? View.VISIBLE : View.GONE);
+        ListView subjectsList = findViewById(R.id.subjects);
+        SubjectsAdapter subjectsAdapter = new SubjectsAdapter(new ArrayList<>(student.subjects.values()));
+        subjectsList.setAdapter(subjectsAdapter);
+    }
+
+    private class SubjectsAdapter extends ArrayAdapter<Subject> {
+
+        private final LayoutInflater mLayoutInflater;
+
+        SubjectsAdapter(ArrayList<Subject> subjects) {
+            super(mContext, R.layout.item_subject, subjects);
+
+            mLayoutInflater = LayoutInflater.from(mContext);
+        }
+
+        private class ViewHolder {
+
+        }
+
+        @Override
+        public @NonNull View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            final ViewHolder viewHolder;
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                convertView = mLayoutInflater.inflate(R.layout.item_subject, parent, false);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            final Subject subject = getItem(position);
+
+            return convertView;
+        }
     }
 }
