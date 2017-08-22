@@ -77,6 +77,9 @@ public class AttendanceActivity extends AppCompatActivity
     private Student mNewStudent;
     private Student mOldStudent;
 
+    private boolean mPrefExtendedStats;
+    private int mPrefMinimumAttendance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +89,21 @@ public class AttendanceActivity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mCache = new Cache(mContext);
 
+        mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
+        mPrefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
+
         try {
             mNewStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
         } catch (Exception ignored) { }
+        mOldStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
+        if (mNewStudent == null && mOldStudent == null) {
+            startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
+            finish();
+        }
+        if (mNewStudent == null) mNewStudent = mOldStudent;
+        if (mOldStudent == null) mOldStudent = mNewStudent;
+
+        processAndDisplayAttendance();
 
         setupToolbar();
         setupDrawer();
@@ -103,15 +118,16 @@ public class AttendanceActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        mOldStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
-        if (mNewStudent == null && mOldStudent == null) {
-            startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
-            finish();
-        }
-        if (mNewStudent == null) mNewStudent = mOldStudent;
-        if (mOldStudent == null) mOldStudent = mNewStudent;
+        boolean prefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
+        int prefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
 
-        processAndDisplayAttendance();
+        if (mPrefExtendedStats != prefExtendedStats
+                || mPrefMinimumAttendance != prefMinimumAttendance) {
+            mPrefExtendedStats = prefExtendedStats;
+            mPrefMinimumAttendance = prefMinimumAttendance;
+
+            processAndDisplayAttendance();
+        }
     }
 
     @Override
