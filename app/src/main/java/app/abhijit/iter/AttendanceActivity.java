@@ -29,14 +29,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -80,8 +78,8 @@ public class AttendanceActivity extends AppCompatActivity
     private boolean mPrefExtendedStats;
     private int mPrefMinimumAttendance;
 
-    private ArrayList<SubjectsAdapter.SubjectView> mSubjectViews;
-    private SubjectsAdapter mSubjectsAdapter;
+    private ArrayList<SubjectView> mSubjectViews;
+    private SubjectAdapter mSubjectAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,8 +246,8 @@ public class AttendanceActivity extends AppCompatActivity
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         subjectsList.addFooterView(layoutInflater.inflate(R.layout.listview_footer, null, false));
         mSubjectViews = new ArrayList<>();
-        mSubjectsAdapter = new SubjectsAdapter(mSubjectViews);
-        subjectsList.setAdapter(mSubjectsAdapter);
+        mSubjectAdapter = new SubjectAdapter(mSubjectViews);
+        subjectsList.setAdapter(mSubjectAdapter);
     }
 
     private void displayBannerAd() {
@@ -260,7 +258,7 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private void processAndDisplayAttendance() {
-        ArrayList<SubjectsAdapter.SubjectView> subjectViews = new ArrayList<>();
+        ArrayList<SubjectView> subjectViews = new ArrayList<>();
         Boolean updated = false;
         for (Subject subject : mNewStudent.subjects.values()) {
             String subjectCode = subject.code;
@@ -287,38 +285,38 @@ public class AttendanceActivity extends AppCompatActivity
 
         mSubjectViews.clear();
         mSubjectViews.addAll(subjectViews);
-        mSubjectsAdapter.notifyDataSetChanged();
+        mSubjectAdapter.notifyDataSetChanged();
     }
 
-    private class SubjectsAdapter extends ArrayAdapter<SubjectsAdapter.SubjectView> {
+    private class SubjectView {
+
+        private boolean updated;
+        private String name;
+        private int avatar;
+        private String oldAttendance;
+        private String newAttendance;
+        private int status;
+        private String lastUpdated;
+        private String oldTheoryPresent;
+        private String newTheoryPresent;
+        private String oldLabPresent;
+        private String newLabPresent;
+        private String oldAbsent;
+        private String newAbsent;
+        private String bunkStats;
+    }
+
+    private class SubjectAdapter extends ArrayAdapter<SubjectView> {
 
         private final LayoutInflater mLayoutInflater;
 
-        SubjectsAdapter(ArrayList<SubjectsAdapter.SubjectView> subjectViews) {
+        SubjectAdapter(ArrayList<SubjectView> subjectViews) {
             super(mContext, R.layout.item_subject, subjectViews);
 
             mLayoutInflater = LayoutInflater.from(mContext);
         }
 
-        class SubjectView {
-
-            boolean updated;
-            String name;
-            int avatar;
-            String oldAttendance;
-            String newAttendance;
-            int status;
-            String lastUpdated;
-            String oldTheoryPresent;
-            String newTheoryPresent;
-            String oldLabPresent;
-            String newLabPresent;
-            String oldAbsent;
-            String newAbsent;
-            String bunkStats;
-        }
-
-        class ViewHolder {
+        private class ViewHolder {
 
         }
 
@@ -333,7 +331,7 @@ public class AttendanceActivity extends AppCompatActivity
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            final SubjectsAdapter.SubjectView subjectView = getItem(position);
+            final SubjectView subjectView = getItem(position);
 
             return convertView;
         }
