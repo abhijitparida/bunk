@@ -80,7 +80,7 @@ public class AttendanceActivity extends AppCompatActivity
     private boolean mPrefExtendedStats;
     private int mPrefMinimumAttendance;
 
-    private ArrayList<Subject> mSubjects;
+    private ArrayList<SubjectsAdapter.SubjectView> mSubjectViews;
     private SubjectsAdapter mSubjectsAdapter;
 
     @Override
@@ -103,8 +103,8 @@ public class AttendanceActivity extends AppCompatActivity
         if (mNewStudent == null) mNewStudent = mOldStudent;
         if (mOldStudent == null) mOldStudent = mNewStudent;
 
-        mSubjects = new ArrayList<>();
-        mSubjectsAdapter = new SubjectsAdapter(mSubjects);
+        mSubjectViews = new ArrayList<>();
+        mSubjectsAdapter = new SubjectsAdapter(mSubjectViews);
 
         mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
         mPrefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
@@ -261,10 +261,9 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private void processAndDisplayAttendance() {
-        Gson gson = new Gson();
-        Student student = gson.fromJson(gson.toJson(mNewStudent), Student.class);
+        ArrayList<SubjectsAdapter.SubjectView> subjectViews = new ArrayList<>();
         Boolean updated = false;
-        for (Subject subject : student.subjects.values()) {
+        for (Subject subject : mNewStudent.subjects.values()) {
             String subjectCode = subject.code;
             if (!mOldStudent.subjects.containsKey(subjectCode)) continue;
             Subject oldSubject = mOldStudent.subjects.get(subjectCode);
@@ -277,7 +276,7 @@ public class AttendanceActivity extends AppCompatActivity
                 subject.lastUpdated = oldSubject.lastUpdated;
             }
         }
-        mCache.setStudent(student.username, student);
+        mCache.setStudent(mNewStudent.username, mNewStudent);
 
         if (updated) {
             Toast.makeText(mContext, "Attendance updated", Toast.LENGTH_SHORT).show();
@@ -285,24 +284,28 @@ public class AttendanceActivity extends AppCompatActivity
             vibrator.vibrate(500);
         }
 
-        findViewById(R.id.no_attendance).setVisibility(student.subjects.isEmpty() ? View.VISIBLE : View.GONE);
+        findViewById(R.id.no_attendance).setVisibility(subjectViews.isEmpty() ? View.VISIBLE : View.GONE);
 
-        mSubjects.clear();
-        mSubjects.addAll(student.subjects.values());
+        mSubjectViews.clear();
+        mSubjectViews.addAll(subjectViews);
         mSubjectsAdapter.notifyDataSetChanged();
     }
 
-    private class SubjectsAdapter extends ArrayAdapter<Subject> {
+    private class SubjectsAdapter extends ArrayAdapter<SubjectsAdapter.SubjectView> {
 
         private final LayoutInflater mLayoutInflater;
 
-        SubjectsAdapter(ArrayList<Subject> subjects) {
-            super(mContext, R.layout.item_subject, subjects);
+        SubjectsAdapter(ArrayList<SubjectsAdapter.SubjectView> subjectViews) {
+            super(mContext, R.layout.item_subject, subjectViews);
 
             mLayoutInflater = LayoutInflater.from(mContext);
         }
 
-        private class ViewHolder {
+        class SubjectView {
+
+        }
+
+        class ViewHolder {
 
         }
 
@@ -317,7 +320,7 @@ public class AttendanceActivity extends AppCompatActivity
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            final Subject subject = getItem(position);
+            final SubjectsAdapter.SubjectView subjectView = getItem(position);
 
             return convertView;
         }
