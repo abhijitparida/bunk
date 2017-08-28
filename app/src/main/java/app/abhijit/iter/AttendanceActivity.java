@@ -318,6 +318,19 @@ public class AttendanceActivity extends AppCompatActivity
 
         private class ViewHolder {
 
+            private ImageView avatar;
+            private TextView name;
+            private TextView oldAttendance;
+            private TextView attendance;
+            private ImageView status;
+            private TextView lastUpdated;
+            private TextView oldTheory;
+            private TextView theory;
+            private TextView oldLab;
+            private TextView lab;
+            private TextView oldAbsent;
+            private TextView absent;
+            private TextView bunkStats;
         }
 
         @Override
@@ -326,6 +339,19 @@ public class AttendanceActivity extends AppCompatActivity
             if (convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = mLayoutInflater.inflate(R.layout.item_subject, parent, false);
+                viewHolder.avatar = convertView.findViewById(R.id.subject_avatar);
+                viewHolder.name = convertView.findViewById(R.id.subject_name);
+                viewHolder.oldAttendance = convertView.findViewById(R.id.subject_old_attendance);
+                viewHolder.attendance = convertView.findViewById(R.id.subject_attendance);
+                viewHolder.status = convertView.findViewById(R.id.subject_status);
+                viewHolder.lastUpdated = convertView.findViewById(R.id.subject_last_updated);
+                viewHolder.oldTheory = convertView.findViewById(R.id.subject_old_theory);
+                viewHolder.theory = convertView.findViewById(R.id.subject_theory);
+                viewHolder.oldLab = convertView.findViewById(R.id.subject_old_lab);
+                viewHolder.lab = convertView.findViewById(R.id.subject_lab);
+                viewHolder.oldAbsent = convertView.findViewById(R.id.subject_old_absent);
+                viewHolder.absent = convertView.findViewById(R.id.subject_absent);
+                viewHolder.bunkStats = convertView.findViewById(R.id.subject_bunk_stats);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
