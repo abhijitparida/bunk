@@ -103,13 +103,8 @@ public class AttendanceActivity extends AppCompatActivity
         if (mNewStudent == null) mNewStudent = mOldStudent;
         if (mOldStudent == null) mOldStudent = mNewStudent;
 
-        mSubjectViews = new ArrayList<>();
-        mSubjectsAdapter = new SubjectsAdapter(mSubjectViews);
-
         mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
         mPrefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
-
-        processAndDisplayAttendance();
 
         setupToolbar();
         setupDrawer();
@@ -119,6 +114,8 @@ public class AttendanceActivity extends AppCompatActivity
         if (!BuildConfig.DEBUG) {
             displayBannerAd();
         }
+
+        processAndDisplayAttendance();
     }
 
     @Override
@@ -250,6 +247,8 @@ public class AttendanceActivity extends AppCompatActivity
         ListView subjectsList = findViewById(R.id.subjects);
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         subjectsList.addFooterView(layoutInflater.inflate(R.layout.listview_footer, null, false));
+        mSubjectViews = new ArrayList<>();
+        mSubjectsAdapter = new SubjectsAdapter(mSubjectViews);
         subjectsList.setAdapter(mSubjectsAdapter);
     }
 
