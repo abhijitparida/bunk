@@ -16,7 +16,8 @@
     <string name="label_update">Update</string>
     <string name="label_attendance">Attendance:</string>
     <string name="label_last_updated">Last Updated:</string>
-    <string name="label_present">Present:</string>
+    <string name="label_theory">Theory:</string>
+    <string name="label_lab">Lab:</string>
     <string name="label_absent">Absent:</string>
     <string name="label_about">About</string>
     <string name="label_username">USERNAME</string>
