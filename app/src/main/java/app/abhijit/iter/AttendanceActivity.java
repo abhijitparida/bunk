@@ -89,9 +89,6 @@ public class AttendanceActivity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mCache = new Cache(mContext);
 
-        mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
-        mPrefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
-
         try {
             mNewStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
         } catch (Exception ignored) { }
@@ -102,6 +99,9 @@ public class AttendanceActivity extends AppCompatActivity
         }
         if (mNewStudent == null) mNewStudent = mOldStudent;
         if (mOldStudent == null) mOldStudent = mNewStudent;
+
+        mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
+        mPrefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
 
         processAndDisplayAttendance();
 
