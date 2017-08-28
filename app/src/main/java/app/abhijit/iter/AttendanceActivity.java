@@ -80,6 +80,9 @@ public class AttendanceActivity extends AppCompatActivity
     private boolean mPrefExtendedStats;
     private int mPrefMinimumAttendance;
 
+    private ArrayList<Subject> mSubjects;
+    private SubjectsAdapter mSubjectsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,9 @@ public class AttendanceActivity extends AppCompatActivity
         }
         if (mNewStudent == null) mNewStudent = mOldStudent;
         if (mOldStudent == null) mOldStudent = mNewStudent;
+
+        mSubjects = new ArrayList<>();
+        mSubjectsAdapter = new SubjectsAdapter(mSubjects);
 
         mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
         mPrefMinimumAttendance = mSharedPreferences.getInt("pref_minimum_attendance", 75);
@@ -244,6 +250,7 @@ public class AttendanceActivity extends AppCompatActivity
         ListView subjectsList = findViewById(R.id.subjects);
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         subjectsList.addFooterView(layoutInflater.inflate(R.layout.listview_footer, null, false));
+        subjectsList.setAdapter(mSubjectsAdapter);
     }
 
     private void displayBannerAd() {
@@ -277,10 +284,12 @@ public class AttendanceActivity extends AppCompatActivity
             Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(500);
         }
+
         findViewById(R.id.no_attendance).setVisibility(student.subjects.isEmpty() ? View.VISIBLE : View.GONE);
-        ListView subjectsList = findViewById(R.id.subjects);
-        SubjectsAdapter subjectsAdapter = new SubjectsAdapter(new ArrayList<>(student.subjects.values()));
-        subjectsList.setAdapter(subjectsAdapter);
+
+        mSubjects.clear();
+        mSubjects.addAll(student.subjects.values());
+        mSubjectsAdapter.notifyDataSetChanged();
     }
 
     private class SubjectsAdapter extends ArrayAdapter<Subject> {
