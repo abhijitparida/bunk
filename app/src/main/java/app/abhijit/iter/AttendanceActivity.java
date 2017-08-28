@@ -302,6 +302,20 @@ public class AttendanceActivity extends AppCompatActivity
 
         class SubjectView {
 
+            boolean updated;
+            String name;
+            int avatar;
+            String oldAttendance;
+            String newAttendance;
+            int status;
+            String lastUpdated;
+            String oldTheoryPresent;
+            String newTheoryPresent;
+            String oldLabPresent;
+            String newLabPresent;
+            String oldAbsent;
+            String newAbsent;
+            String bunkStats;
         }
 
         class ViewHolder {
