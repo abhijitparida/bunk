@@ -40,6 +40,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +60,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import app.abhijit.iter.data.Cache;
@@ -261,17 +264,43 @@ public class AttendanceActivity extends AppCompatActivity
         ArrayList<SubjectView> subjectViews = new ArrayList<>();
         Boolean updated = false;
         for (Subject subject : mNewStudent.subjects.values()) {
-            String subjectCode = subject.code;
-            if (!mOldStudent.subjects.containsKey(subjectCode)) continue;
-            Subject oldSubject = mOldStudent.subjects.get(subjectCode);
-            if (subject.theoryPresent != oldSubject.theoryPresent
-                    || subject.theoryTotal != oldSubject.theoryTotal
-                    || subject.labPresent != oldSubject.labPresent
-                    || subject.labTotal != oldSubject.labTotal) {
-                updated = true;
-            } else {
-                subject.lastUpdated = oldSubject.lastUpdated;
+            SubjectView subjectView = new SubjectView();
+            subjectView.avatar = R.drawable.ic_subject_computer;
+            subjectView.name = subject.name;
+            subjectView.attendance = String.format(Locale.US, "%.2f%%", subject.attendance());
+            subjectView.theory = String.format(Locale.US, "%d/%d classes", subject.theoryPresent, subject.theoryTotal);
+            subjectView.lab = String.format(Locale.US, "%d/%d classes", subject.labPresent, subject.labTotal);
+            subjectView.absent = String.format(Locale.US, "%d classes", subject.absent());
+            if (mOldStudent.subjects.containsKey(subject.code)) {
+                Subject oldSubject = mOldStudent.subjects.get(subject.code);
+                if (subject.theoryPresent != oldSubject.theoryPresent
+                        || subject.theoryTotal != oldSubject.theoryTotal
+                        || subject.labPresent != oldSubject.labPresent
+                        || subject.labTotal != oldSubject.labTotal) {
+                    updated = true;
+                    subjectView.oldAttendance = String.format(Locale.US, "%.2f%%", oldSubject.attendance());
+                    subjectView.oldTheory = String.format(Locale.US, "%d/%d classes", oldSubject.theoryPresent, oldSubject.theoryTotal);
+                    subjectView.oldLab = String.format(Locale.US, "%d/%d classes", oldSubject.labPresent, oldSubject.labTotal);
+                    subjectView.oldAbsent = String.format(Locale.US, "%d classes", oldSubject.absent());
+                    if (subject.attendance() >= oldSubject.attendance()) {
+                        subjectView.status = R.drawable.ic_status_up;
+                    } else {
+                        subjectView.status = R.drawable.ic_status_down;
+                    }
+                } else {
+                    subject.lastUpdated = oldSubject.lastUpdated;
+                    if (subject.attendance() > 85.0) {
+                        subjectView.status = R.drawable.ic_status_ok;
+                    } else if (subject.attendance() > 75.0) {
+                        subjectView.status = R.drawable.ic_status_warning;
+                    } else {
+                        subjectView.status = R.drawable.ic_status_critical;
+                    }
+                }
             }
+            subjectView.bunkStats = subject.bunkStats(mPrefMinimumAttendance, mPrefExtendedStats);
+            subjectView.lastUpdated = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0).toString();
+            subjectViews.add(subjectView);
         }
         mCache.setStudent(mNewStudent.username, mNewStudent);
 
