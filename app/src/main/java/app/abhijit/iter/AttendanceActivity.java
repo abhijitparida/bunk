@@ -111,10 +111,7 @@ public class AttendanceActivity extends AppCompatActivity
         setupDrawer();
         setupFab();
         setupListView();
-
-        if (!BuildConfig.DEBUG) {
-            displayBannerAd();
-        }
+        displayBannerAd();
 
         processAndDisplayAttendance();
     }
@@ -256,7 +253,6 @@ public class AttendanceActivity extends AppCompatActivity
     private void displayBannerAd() {
         MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
         AdView adView = findViewById(R.id.ad);
-        adView.setVisibility(View.VISIBLE);
         adView.loadAd(new AdRequest.Builder().build());
     }
 
