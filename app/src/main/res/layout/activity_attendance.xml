@@ -62,16 +62,17 @@
                 android:layout_height="match_parent"
                 android:layout_above="@id/ad" />
 
-        </RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_large"
+                android:layout_alignParentRight="true"
+                android:layout_above="@+id/ad"
+                android:src="@drawable/ic_plus"
+                app:backgroundTint="@color/red_dark" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/margin_large"
-            android:src="@drawable/ic_plus"
-            app:backgroundTint="@color/red_dark" />
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
