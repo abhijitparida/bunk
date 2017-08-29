@@ -290,19 +290,18 @@ public class AttendanceActivity extends AppCompatActivity
 
     private class SubjectView {
 
-        private boolean updated;
-        private String name;
         private int avatar;
+        private String name;
         private String oldAttendance;
-        private String newAttendance;
+        private String attendance;
         private int status;
         private String lastUpdated;
-        private String oldTheoryPresent;
-        private String newTheoryPresent;
-        private String oldLabPresent;
-        private String newLabPresent;
+        private String oldTheory;
+        private String theory;
+        private String oldLab;
+        private String lab;
         private String oldAbsent;
-        private String newAbsent;
+        private String absent;
         private String bunkStats;
     }
 
@@ -358,6 +357,35 @@ public class AttendanceActivity extends AppCompatActivity
             }
 
             final SubjectView subjectView = getItem(position);
+            viewHolder.avatar.setImageResource(subjectView.avatar);
+            viewHolder.name.setText(subjectView.name);
+            if (subjectView.oldAttendance != null) {
+                viewHolder.oldAttendance.setText(subjectView.oldAttendance);
+                viewHolder.oldAttendance.setVisibility(View.VISIBLE);
+                viewHolder.oldAttendance.setPaintFlags(viewHolder.oldAttendance.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            viewHolder.attendance.setText(subjectView.attendance);
+            viewHolder.status.setImageResource(subjectView.status);
+            viewHolder.lastUpdated.setText(subjectView.lastUpdated);
+            if (subjectView.oldTheory != null) {
+                viewHolder.oldTheory.setText(subjectView.oldTheory);
+                viewHolder.oldTheory.setVisibility(View.VISIBLE);
+                viewHolder.oldTheory.setPaintFlags(viewHolder.oldTheory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            viewHolder.theory.setText(subjectView.theory);
+            if (subjectView.oldLab != null) {
+                viewHolder.oldLab.setText(subjectView.oldLab);
+                viewHolder.oldLab.setVisibility(View.VISIBLE);
+                viewHolder.oldLab.setPaintFlags(viewHolder.oldLab.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            viewHolder.lab.setText(subjectView.lab);
+            if (subjectView.oldAbsent != null) {
+                viewHolder.oldAbsent.setText(subjectView.oldAbsent);
+                viewHolder.oldAbsent.setVisibility(View.VISIBLE);
+                viewHolder.oldAbsent.setPaintFlags(viewHolder.oldAbsent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            viewHolder.absent.setText(subjectView.absent);
+            viewHolder.bunkStats.setText(subjectView.bunkStats);
 
             return convertView;
         }
