@@ -111,13 +111,13 @@ class ResponseParser {
             subject.code = s.get("subjectcode").getAsString();
             subject.lastUpdated = new Date().getTime();
 
-            Matcher theoryClassesMatcher = classesPattern.matcher(s.get("Patt").getAsString());
+            Matcher theoryClassesMatcher = classesPattern.matcher(s.get("Latt").getAsString());
             if (theoryClassesMatcher.find()) {
                 subject.theoryPresent = Integer.parseInt(theoryClassesMatcher.group(1));
                 subject.theoryTotal = Integer.parseInt(theoryClassesMatcher.group(2));
             }
 
-            Matcher labClassesMatcher = classesPattern.matcher(s.get("Latt").getAsString());
+            Matcher labClassesMatcher = classesPattern.matcher(s.get("Patt").getAsString());
             if (labClassesMatcher.find()) {
                 subject.labPresent = Integer.parseInt(labClassesMatcher.group(1));
                 subject.labTotal = Integer.parseInt(labClassesMatcher.group(2));
