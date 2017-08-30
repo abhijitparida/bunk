@@ -307,6 +307,7 @@ public class AttendanceActivity extends AppCompatActivity
         }
 
         findViewById(R.id.no_attendance).setVisibility(subjectViews.isEmpty() ? View.VISIBLE : View.GONE);
+        findViewById(R.id.subjects).setVisibility(subjectViews.isEmpty() ? View.GONE : View.VISIBLE);
 
         mSubjectViews.clear();
         mSubjectViews.addAll(subjectViews);
