@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             }
-                        }, 1500);
+                        }, 750);
                     }
 
                     @Override
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     }
-                                }, 1500);
+                                }, 750);
                         } else {
                             mSharedPreferences.edit().putString("pref_student", null).apply();
 
@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                                     mLoginButton.setText("BUNK!");
                                     mLoginButton.setBackgroundResource(R.drawable.bg_login_button);
                                 }
-                            }, 3000);
+                            }, 2000);
                         }
                     }
                 });
