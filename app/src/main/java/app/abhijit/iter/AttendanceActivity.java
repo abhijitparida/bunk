@@ -104,7 +104,7 @@ public class AttendanceActivity extends AppCompatActivity
         if (mNewStudent == null) mNewStudent = mOldStudent;
         if (mOldStudent == null) mOldStudent = mNewStudent;
 
-        mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
+        mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", true);
         mPrefMinimumAttendance = Integer.parseInt(mSharedPreferences.getString("pref_minimum_attendance", "75"));
 
         setupToolbar();
@@ -120,7 +120,7 @@ public class AttendanceActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        boolean prefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", false);
+        boolean prefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", true);
         int prefMinimumAttendance = Integer.parseInt(mSharedPreferences.getString("pref_minimum_attendance", "75"));
 
         if (mPrefExtendedStats != prefExtendedStats
