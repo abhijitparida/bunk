@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -75,15 +76,13 @@ public class AttendanceActivity extends AppCompatActivity
     private Context mContext;
     private SharedPreferences mSharedPreferences;
     private Cache mCache;
-
     private Student mNewStudent;
     private Student mOldStudent;
-
     private boolean mPrefExtendedStats;
     private int mPrefMinimumAttendance;
-
     private ArrayList<SubjectView> mSubjectViews;
     private SubjectAdapter mSubjectAdapter;
+    private int mRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +155,19 @@ public class AttendanceActivity extends AppCompatActivity
             animation.setAnimationListener(new Animation.AnimationListener() {
 
                 @Override
-                public void onAnimationStart(Animation animation) { }
+                public void onAnimationStart(Animation animation) {
+                    if (++mRefresh == 5) {
+                        Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrator.vibrate(2000);
+                        findViewById(R.id.chicken).setVisibility(View.VISIBLE); // ¯\_(ツ)_/¯
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.chicken).setVisibility(View.GONE);
+                            }
+                        }, 2000);
+                    }
+                }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -167,7 +178,6 @@ public class AttendanceActivity extends AppCompatActivity
                 @Override
                 public void onAnimationRepeat(Animation animation) { }
             });
-            // ¯\_(ツ)_/¯
         } else if (id == R.id.action_logout) {
             mCache.setStudent(mSharedPreferences.getString("pref_student", null), null);
             Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
