@@ -281,7 +281,7 @@ public class AttendanceActivity extends AppCompatActivity
         Boolean updated = false;
         for (Subject subject : mNewStudent.subjects.values()) {
             SubjectView subjectView = new SubjectView();
-            subjectView.avatar = R.drawable.ic_subject_computer;
+            subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
             subjectView.attendance = String.format(Locale.US, "%.2f%%", subject.attendance());
             subjectView.theory = String.format(Locale.US, "%d/%d classes", subject.theoryPresent, subject.theoryTotal);
@@ -332,6 +332,25 @@ public class AttendanceActivity extends AppCompatActivity
         mSubjectViews.clear();
         mSubjectViews.addAll(subjectViews);
         mSubjectAdapter.notifyDataSetChanged();
+    }
+
+    private int subjectAvatar(String subjectCode) {
+        int avatar;
+        String code = subjectCode.substring(0, Math.min(subjectCode.length(), 3));
+        switch (code) {
+            case "CHM": avatar = R.drawable.ic_subject_chemistry; break;
+            case "CSE": avatar = R.drawable.ic_subject_computer; break;
+            case "CVL": avatar = R.drawable.ic_subject_civil; break;
+            case "EET": avatar = R.drawable.ic_subject_electrical; break;
+            case "HSS": avatar = R.drawable.ic_subject_humanities; break;
+            case "MEL": avatar = R.drawable.ic_subject_mechanical; break;
+            case "MTH": avatar = R.drawable.ic_subject_maths; break;
+            case "PHY": avatar = R.drawable.ic_subject_physics; break;
+            default: avatar = R.drawable.ic_subject_generic;
+        }
+
+        return avatar;
+
     }
 
     private class SubjectView {
