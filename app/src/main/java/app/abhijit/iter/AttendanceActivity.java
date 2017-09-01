@@ -51,6 +51,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,9 +112,12 @@ public class AttendanceActivity extends AppCompatActivity
         setupDrawer();
         setupFab();
         setupListView();
-        displayBannerAd();
 
         processAndDisplayAttendance();
+
+        if (!BuildConfig.DEBUG) {
+            displayBannerAd();
+        }
     }
 
     @Override
@@ -251,8 +255,14 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private void displayBannerAd() {
-        MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
         AdView adView = findViewById(R.id.ad);
+        adView.setVisibility(View.VISIBLE);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fab.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+        fab.setLayoutParams(layoutParams);
+
+        MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
         adView.loadAd(new AdRequest.Builder().build());
     }
 

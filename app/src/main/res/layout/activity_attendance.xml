@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 ads:adSize="SMART_BANNER"
+                android:visibility="gone"
                 ads:adUnitId="@string/banner_ad_unit_id" />
 
             <ListView
@@ -66,8 +67,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_large"
+                android:layout_above="@id/ad"
                 android:layout_alignParentRight="true"
-                android:layout_above="@+id/ad"
+                android:layout_alignParentBottom="true"
                 android:src="@drawable/ic_plus"
                 app:backgroundTint="@color/red_dark" />
 
