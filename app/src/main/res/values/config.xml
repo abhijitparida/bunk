@@ -3,6 +3,6 @@
 
     <string name="app_name">Bunk</string>
     <string name="api_base_url">http://111.93.164.203/CampusPortalSOA</string>
-    <string name="registration_id">ITERRETD1612A0000002</string>
+    <string name="registration_id">ITERRETD1706A0000002</string>
     <string name="banner_ad_unit_id">ca-app-pub-3302975669737541/4253342310</string>
 </resources>

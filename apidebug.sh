@@ -14,7 +14,7 @@ function login {
 function attendanceinfo {
     curl $1/attendanceinfo -s -b $cookies -X POST \
         -H "Content-Type:application/json;charset=UTF-8" \
-        -d "{\"registerationid\": \"ITERRETD1612A0000002\"}"
+        -d "{\"registerationid\": \"ITERRETD1706A0000002\"}"
 }
 
 read -p "username: " username
