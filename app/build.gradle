@@ -8,8 +8,8 @@ android {
         applicationId "app.abhijit.iter"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 16
-        versionName "v2.2-beta3"
+        versionCode 17
+        versionName "v2.2"
         resConfig "en"
     }
 
