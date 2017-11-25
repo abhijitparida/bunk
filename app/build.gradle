@@ -1,38 +1,71 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "app.abhijit.iter"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 12
         versionName "v2.1"
+        resConfig "en"
     }
 
     applicationVariants.all { variant ->
         variant.resValue "string", "app_version", variant.versionName
+
+        if (variant.buildType.name == "debug") {
+            variant.resValue "string", "app_version", "dev build " + new Date().format('yyyyMMddHHmmss')
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles 'proguard-square-okhttp3.pro'
+            proguardFiles 'proguard-gson.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+
+    lintOptions {
+        lintConfig file("lint.xml")
+    }
+}
+
+task copySampleGoogleServicesJson << {
+    if (!file("${projectDir}/google-services.json").exists()) {
+        println("google-services.json doesn't exist");
+        println("copying google-services.sample.json to google-services.json");
+        copy {
+            from("${projectDir}/")
+            into("${projectDir}/")
+            include("google-services.sample.json")
+            rename("google-services.sample.json", "google-services.json")
         }
     }
 }
 
+preBuild.dependsOn(copySampleGoogleServicesJson)
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.google.guava:guava:19.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.google.android.gms:play-services-ads-lite:11.0.4'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'com.google.firebase:firebase-ads:9.2.1'
+}
+
+repositories {
+    maven {
+        url 'https://maven.google.com'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

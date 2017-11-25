@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="pref_extended_stats"
+        android:title="Extended bunk stats"
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:key="pref_minimum_attendance"
+        android:title="Minimum attendance"
+        android:summary="Set minimum required attendance"
+        android:defaultValue="75"
+        android:entries="@array/minimumAttendanceArray"
+        android:entryValues="@array/minimumAttendanceValues" />
+
+</PreferenceScreen>

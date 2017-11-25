@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="minimumAttendanceArray">
+        <item>80%</item>
+        <item>75%</item>
+        <item>70%</item>
+        <item>65%</item>
+        <item>60%</item>
+    </string-array>
+
+    <string-array name="minimumAttendanceValues">
+        <item>80</item>
+        <item>75</item>
+        <item>70</item>
+        <item>65</item>
+        <item>60</item>
+    </string-array>
+
+</resources>

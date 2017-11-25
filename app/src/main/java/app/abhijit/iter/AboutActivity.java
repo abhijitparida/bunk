@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Abhijit Parida <abhijitparida.me@gmail.com>
+ * Copyright (c) 2017 Abhijit Parida <abhijitparida.me@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -39,7 +37,6 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         setupToolbar();
-        setupIcon();
     }
 
     @Override
@@ -59,16 +56,5 @@ public class AboutActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    private void setupIcon() {
-        final ImageView aboutIcon = (ImageView) findViewById(R.id.about_icon);
-        aboutIcon.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                aboutIcon.setImageResource(R.mipmap.ic_doge);
-                return true;
-            }
-        });
     }
 }
