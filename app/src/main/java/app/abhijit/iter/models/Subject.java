@@ -42,9 +42,21 @@ public class Subject {
     public int theoryPresent;
     public int theoryTotal;
 
+    public int present() {
+        return this.labPresent + this.theoryPresent;
+    }
+
+    public int absent() {
+        return total() - present();
+    }
+
+    public int total() {
+        return this.theoryTotal + this.labTotal;
+    }
+
     public double attendance() {
-        double present = this.labPresent + this.theoryPresent;
-        double total = this.theoryTotal + this.labTotal;
+        double present = (double) present();
+        double total = (double) total();
 
         if (Double.compare(total, 0.0) > 0) {
             return (present / total) * 100;
@@ -59,9 +71,9 @@ public class Subject {
         ArrayList<String> bunk = new ArrayList<>();
         ArrayList<String> need = new ArrayList<>();
         int attendance = (int) attendance();
-        int classes = this.theoryTotal + this.labTotal;
-        int classesPresent = this.theoryPresent + this.labPresent;
-        int classesAbsent = classes - classesPresent;
+        int classes = total();
+        int classesPresent = present();
+        int classesAbsent = absent();
         int lastDays;
 
         if (classes != 0 && attendance <= minimumAttendance) {

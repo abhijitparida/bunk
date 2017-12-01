@@ -24,46 +24,183 @@
 
 package app.abhijit.iter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import app.abhijit.iter.data.Cache;
+import app.abhijit.iter.data.IterApi;
+import app.abhijit.iter.exceptions.ConnectionFailedException;
+import app.abhijit.iter.exceptions.InvalidCredentialsException;
+import app.abhijit.iter.exceptions.InvalidResponseException;
+import app.abhijit.iter.models.Student;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private Context mContext;
+    private SharedPreferences mSharedPreferences;
+    private Cache mCache;
+    private IterApi mIterApi;
+
+    private AutoCompleteTextView mUsernameInput;
+    private EditText mPasswordInput;
+    private Button mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mContext = this;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mCache = new Cache(mContext);
+        mIterApi = new IterApi(mContext);
+
+        mUsernameInput = findViewById(R.id.username);
+        mPasswordInput = findViewById(R.id.password);
+        mLoginButton = findViewById(R.id.login);
+
         setupToolbar();
         setupLoginButton();
-    }
 
-    @Override
-    public void onBackPressed() {
-        // Go to homescreen instead of previous activity
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        final ArrayList<Student> students = mCache.getStudents();
+        final ArrayList<String> usernames = new ArrayList<>();
+        for (Student student : students) {
+            usernames.add(student.username);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
+                android.R.layout.simple_dropdown_item_1line, usernames);
+        mUsernameInput.setAdapter(adapter);
+        mUsernameInput.setThreshold(1);
+
+        mUsernameInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int index = usernames.indexOf(mUsernameInput.getText().toString());
+                mPasswordInput.setText(students.get(index).password);
+            }
+        });
+
+        Student selectedStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
+        if (selectedStudent != null) {
+            mUsernameInput.setText(selectedStudent.username);
+            mPasswordInput.setText(selectedStudent.password);
+            mLoginButton.performClick();
+        }
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
     private void setupLoginButton() {
-        final Button loginButton = (Button) findViewById(R.id.login);
+        Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*((MainApplication) getApplication()).setLoggedIn(true);*/
-                finish();
+                String username = mUsernameInput.getText().toString();
+                String password = mPasswordInput.getText().toString();
+                mSharedPreferences.edit().putString("pref_student", username).apply();
+
+                mUsernameInput.setEnabled(false);
+                mPasswordInput.setEnabled(false);
+                mLoginButton.setEnabled(false);
+
+                mLoginButton.setText("LOADING...");
+                mLoginButton.setBackgroundResource(R.drawable.bg_login_button_loading);
+                ((AnimationDrawable) mLoginButton.getBackground()).start();
+
+                mIterApi.getStudent(username, password, new IterApi.Callback() {
+
+                    @Override
+                    public void onData(@NonNull final Student student) {
+                        if (mCache.getStudent(student.username) == null) {
+                            Toast.makeText(mContext, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
+                        }
+
+                        String[] emojis = {":^)", ":)", ":3", emoji(0x1F60F),
+                                emoji(0x1F60F) + emoji(0x1F60F) + emoji(0x1F60F)};
+                        mLoginButton.setText(emojis[new Random().nextInt(emojis.length)]);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(LoginActivity.this, AttendanceActivity.class);
+                                intent.putExtra("student", new Gson().toJson(student));
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 750);
+                    }
+
+                    @Override
+                    public void onError(@NonNull RuntimeException error) {
+                        if (error instanceof ConnectionFailedException) {
+                            Toast.makeText(mContext, "Could not connect to server", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof InvalidCredentialsException) {
+                            Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
+                        } else if (error instanceof InvalidResponseException) {
+                            Toast.makeText(mContext, "Invalid API response", Toast.LENGTH_LONG).show();
+                        }
+
+                        if ((error instanceof InvalidResponseException || error instanceof ConnectionFailedException) &&
+                                mCache.getStudent(mSharedPreferences.getString("pref_student", null)) != null) {
+                                mLoginButton.setText("¯\\_(ツ)_/¯");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(LoginActivity.this, AttendanceActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }, 750);
+                        } else {
+                            mSharedPreferences.edit().putString("pref_student", null).apply();
+
+                            ((AnimationDrawable) mLoginButton.getBackground()).stop();
+                            mUsernameInput.setEnabled(true);
+                            mPasswordInput.setEnabled(true);
+                            mLoginButton.setBackgroundResource(R.drawable.bg_login_button_error);
+                            mLoginButton.setText("ERROR");
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mLoginButton.setEnabled(true);
+                                    mLoginButton.setText("BUNK!");
+                                    mLoginButton.setBackgroundResource(R.drawable.bg_login_button);
+                                }
+                            }, 2000);
+                        }
+                    }
+                });
             }
         });
+    }
+
+    private String emoji(int unicode) {
+        return new String(Character.toChars(unicode));
     }
 }

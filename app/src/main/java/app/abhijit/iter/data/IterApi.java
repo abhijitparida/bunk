@@ -61,11 +61,8 @@ public class IterApi {
                 String username = (String) params[0];
                 String password = (String) params[1];
                 Callback callback = (Callback) params[2];
-                CookieJar cookieJar = new CookieJar();
-                XsrfToken xsrfToken = new XsrfToken(cookieJar);
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .cookieJar(cookieJar)
-                        .addInterceptor(xsrfToken)
+                        .cookieJar(new CookieJar())
                         .build();
                 String baseUrl = (String) params[3];
                 String registrationId = (String) params[4];

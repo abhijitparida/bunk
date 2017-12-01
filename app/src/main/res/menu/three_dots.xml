@@ -3,14 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_about"
+        android:id="@+id/action_refresh"
         android:orderInCategory="100"
-        android:title="@string/label_about"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/label_refresh"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="200"
+        android:title="@string/label_logout"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_feedback"
-        android:orderInCategory="200"
-        android:title="@string/label_feedback"
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
+        android:title="@string/label_settings"
         app:showAsAction="never" />
 </menu>

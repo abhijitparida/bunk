@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.abhijit.iter.fragments;
+package app.abhijit.iter;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

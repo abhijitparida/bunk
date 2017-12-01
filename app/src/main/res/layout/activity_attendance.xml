@@ -6,8 +6,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
+    <!-- Use tools:openDrawer to display drawer -->
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -28,22 +28,66 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <!-- ListView here -->
+            <TextView
+                android:id="@+id/no_attendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/hint_subjects_empty"
+                android:textColor="@color/black_opacity_87"
+                android:textSize="@dimen/text_medium"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:visibility="gone" />
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/ad"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 ads:adSize="SMART_BANNER"
+                android:visibility="gone"
                 ads:adUnitId="@string/banner_ad_unit_id" />
 
-        </LinearLayout>
+            <ListView
+                android:id="@+id/subjects"
+                tools:listitem="@layout/item_subject"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/ad" />
+
+            <TextView
+                android:id="@+id/chicken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="WINNER WINNER CHICKEN DINNER"
+                android:textColor="@color/white"
+                android:background="@color/red"
+                android:textSize="@dimen/text_extra_large"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/margin_medium"
+                android:visibility="gone" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_large"
+                android:layout_above="@id/ad"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_plus"
+                app:backgroundTint="@color/red_dark" />
+
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
@@ -60,6 +104,34 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_drawer" />
+        app:menu="@menu/nav_drawer">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:layout_gravity="center|bottom">
+
+            <TextView
+                android:id="@+id/opensource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:drawableLeft="@drawable/ic_heart"
+                android:drawablePadding="@dimen/margin_small"
+                android:textColor="@color/black_opacity_87" />
+
+            <TextView
+                android:id="@+id/github"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_opacity_87"
+                android:text="@string/nav_github"/>
+
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
