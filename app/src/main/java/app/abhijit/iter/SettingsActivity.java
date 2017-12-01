@@ -29,8 +29,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import app.abhijit.iter.fragments.SettingsFragment;
-
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -45,7 +43,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == android.R.id.home) {
             finish();
         }
@@ -54,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -80,33 +80,64 @@
         android:textSize="@dimen/text_small" />
 
     <TextView
-        android:id="@+id/subject_present_label"
+        android:id="@+id/subject_theory_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
         android:layout_toRightOf="@id/subject_avatar"
-        android:text="@string/label_present"
+        android:text="@string/label_theory"
         android:textColor="@color/grey_dark"
         android:textSize="@dimen/text_small" />
 
     <TextView
-        android:id="@+id/subject_old_present"
+        android:id="@+id/subject_old_theory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
         android:layout_marginLeft="@dimen/margin_small"
-        android:layout_toRightOf="@id/subject_present_label"
+        android:layout_toRightOf="@id/subject_theory_label"
         android:textColor="@color/grey_dark"
         android:textSize="@dimen/text_small"
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/subject_present"
+        android:id="@+id/subject_theory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
         android:layout_marginLeft="@dimen/margin_small"
-        android:layout_toRightOf="@id/subject_old_present"
+        android:layout_toRightOf="@id/subject_old_theory"
+        android:textColor="@color/grey_dark"
+        android:textSize="@dimen/text_small" />
+
+    <TextView
+        android:id="@+id/subject_lab_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject_theory_label"
+        android:layout_toRightOf="@id/subject_avatar"
+        android:text="@string/label_lab"
+        android:textColor="@color/grey_dark"
+        android:textSize="@dimen/text_small" />
+
+    <TextView
+        android:id="@+id/subject_old_lab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject_theory_label"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_toRightOf="@id/subject_lab_label"
+        android:textColor="@color/grey_dark"
+        android:textSize="@dimen/text_small"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/subject_lab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject_theory_label"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_toRightOf="@id/subject_old_lab"
         android:textColor="@color/grey_dark"
         android:textSize="@dimen/text_small" />
 
@@ -114,7 +145,7 @@
         android:id="@+id/subject_absent_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject_present_label"
+        android:layout_below="@id/subject_lab_label"
         android:layout_toRightOf="@id/subject_avatar"
         android:text="@string/label_absent"
         android:textColor="@color/grey_dark"
@@ -124,7 +155,7 @@
         android:id="@+id/subject_old_absent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject_present_label"
+        android:layout_below="@id/subject_lab_label"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_absent_label"
         android:textColor="@color/grey_dark"
@@ -135,7 +166,7 @@
         android:id="@+id/subject_absent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject_present_label"
+        android:layout_below="@id/subject_lab_label"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_old_absent"
         android:textColor="@color/grey_dark"

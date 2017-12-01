@@ -1,38 +1,40 @@
 #!/usr/bin/env bash
 
+api_url="http://111.93.164.203/CampusPortalSOA"
+test_url="https://bunk-testserver.herokuapp.com"
+
+cookies=/tmp/bunk-testserver-cookies.txt
+
+function login {
+    curl $1/login -s -c $cookies -X POST \
+        -H "Content-Type:application/json;charset=UTF-8" \
+        -d "{\"username\":\"$2\", \"password\":\"$3\"}"
+}
+
+function attendanceinfo {
+    curl $1/attendanceinfo -s -b $cookies -X POST \
+        -H "Content-Type:application/json;charset=UTF-8" \
+        -d "{\"registerationid\": \"ITERRETD1706A0000002\"}"
+}
+
 read -p "username: " username
 read -sp "password: " password
 
-# get session cookies and XSRF token
-echo -e "\n\n>>>>> session cookies\n"
-curl -s -c /tmp/cookies.txt -I \
-    http://111.93.164.203/CampusPortalSOA/index
-XSRF=$(grep XSRF-TOKEN /tmp/cookies.txt | awk '{print $7}')
+echo -e "\n\n[ITER API] login - invalid credentials\n"
+login $api_url invalid credentials
+echo -e "\n\n[ITER API] login - valid credentials\n"
+login $api_url $username $password
+echo -e "\n\n[ITER API] attendance\n"
+attendanceinfo $api_url
 
-# get login response for invalid credentials
-echo -e ">>>>> login with invalid credentials\n"
-curl -s -b /tmp/cookies.txt -X POST \
-    -H "X-XSRF-TOKEN: $XSRF" \
-    -H "Content-Type:application/json;charset=UTF-8" \
-    -d "{username: \"invalid\", password: \"invalid\"}" \
-    http://111.93.164.203/CampusPortalSOA/login
+password=password
 
-# get login response for valid credentials
-echo -e "\n\n>>>>> login with valid credentials\n"
-curl -s -b /tmp/cookies.txt -X POST \
-    -H "X-XSRF-TOKEN: $XSRF" \
-    -H "Content-Type:application/json;charset=UTF-8" \
-    -d "{username: \"$username\", password: \"$password\"}" \
-    http://111.93.164.203/CampusPortalSOA/login
+echo -e "\n\n[TEST SERVER] login - invalid credentials\n"
+login $test_url invalid credentials
+echo -e "\n\n[TEST SERVER] login - valid credentials\n"
+login $test_url $username $password
+echo -e "\n\n[TEST SERVER] attendance\n"
+attendanceinfo $test_url
 
-# get attendance
-echo -e "\n\n>>>>> attendance\n"
-curl -s -b /tmp/cookies.txt -X POST \
-    -H "X-XSRF-TOKEN: $XSRF" \
-    -H "Content-Type:application/json;charset=UTF-8" \
-    -d "{registerationid: \"ITERRETD1612A0000002\"}" \
-    http://111.93.164.203/CampusPortalSOA/attendanceinfo
 echo -e "\n"
-
-# cleanup
-rm -f /tmp/cookies.txt
+rm -f $cookies

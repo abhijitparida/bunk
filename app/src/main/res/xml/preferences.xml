@@ -4,7 +4,7 @@
     <SwitchPreference
         android:key="pref_extended_stats"
         android:title="Extended bunk stats"
-        android:defaultValue="false" />
+        android:defaultValue="true" />
 
     <ListPreference
         android:key="pref_minimum_attendance"
