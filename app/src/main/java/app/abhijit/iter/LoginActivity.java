@@ -34,11 +34,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -64,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameInput;
     private EditText mPasswordInput;
     private Button mLoginButton;
+    private CheckBox mCbShowPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,21 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameInput = findViewById(R.id.username);
         mPasswordInput = findViewById(R.id.password);
+        mCbShowPwd = (CheckBox) findViewById(R.id.showpassword);
+        
+        mCbShowPwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // checkbox status is changed from uncheck to checked.
+                if (!isChecked) {
+                    // show password
+                    mPasswordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    // hide password
+                    mPasswordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
         mLoginButton = findViewById(R.id.login);
 
         setupToolbar();
@@ -122,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = mUsernameInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
+
                 mSharedPreferences.edit().putString("pref_student", username).apply();
 
                 mUsernameInput.setEnabled(false);
