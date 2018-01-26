@@ -37,6 +37,15 @@
                 android:textSize="@dimen/text_medium"
                 android:padding="@dimen/margin_large"
                 android:inputType="textPassword" />
+             
+            <CheckBox
+                android:id="@+id/showpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show Password"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium"
+                android:padding="@dimen/margin_large"/>
 
             <Button
                 android:id="@+id/login"
