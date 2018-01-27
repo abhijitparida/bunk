@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mUsernameInput;
     private EditText mPasswordInput;
+    private TextInputLayout mPasswordVisilibity;
     private Button mLoginButton;
 
     @Override
@@ -82,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameInput = findViewById(R.id.username);
         mPasswordInput = findViewById(R.id.password);
+        mPasswordVisilibity = findViewById(R.id.password_visibility);
         mLoginButton = findViewById(R.id.login);
 
         setupToolbar();
@@ -132,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 mUsernameInput.setEnabled(false);
                 mPasswordInput.setEnabled(false);
+                mPasswordVisilibity.setEnabled(false);
                 mLoginButton.setEnabled(false);
 
                 mLoginButton.setText("LOADING...");
@@ -188,6 +192,7 @@ public class LoginActivity extends AppCompatActivity {
                             ((AnimationDrawable) mLoginButton.getBackground()).stop();
                             mUsernameInput.setEnabled(true);
                             mPasswordInput.setEnabled(true);
+                            mPasswordVisilibity.setEnabled(true);
                             mLoginButton.setBackgroundResource(R.drawable.bg_login_button_error);
                             mLoginButton.setText("ERROR");
 
