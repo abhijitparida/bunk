@@ -66,9 +66,9 @@ public class LoginActivity extends AppCompatActivity {
     private IterApi mIterApi;
 
     private AutoCompleteTextView mUsernameInput;
-    private EditText mPasswordInput;
+    private TextInputEditText mPasswordInput;
     private Button mLoginButton;
-    private CheckBox mCbShowPwd;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,21 +82,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameInput = findViewById(R.id.username);
         mPasswordInput = findViewById(R.id.password);
-        mCbShowPwd = (CheckBox) findViewById(R.id.showpassword);
-        
-        mCbShowPwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // checkbox status is changed from uncheck to checked.
-                if (!isChecked) {
-                    // show password
-                    mPasswordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                } else {
-                    // hide password
-                    mPasswordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
-            }
-        });
         mLoginButton = findViewById(R.id.login);
 
         setupToolbar();
