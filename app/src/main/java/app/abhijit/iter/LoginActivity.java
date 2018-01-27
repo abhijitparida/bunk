@@ -31,14 +31,19 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -122,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = mUsernameInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
+
                 mSharedPreferences.edit().putString("pref_student", username).apply();
 
                 mUsernameInput.setEnabled(false);
