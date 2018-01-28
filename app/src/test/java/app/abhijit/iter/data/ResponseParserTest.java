@@ -101,16 +101,16 @@ public class ResponseParserTest {
 
         assertEquals("Subject I", subjects.get("SUB001").name);
         assertEquals("SUB001", subjects.get("SUB001").code);
-        assertEquals(0, subjects.get("SUB001").theoryPresent);
-        assertEquals(0, subjects.get("SUB001").theoryTotal);
-        assertEquals(10, subjects.get("SUB001").labPresent);
-        assertEquals(10, subjects.get("SUB001").labTotal);
+        assertEquals(10, subjects.get("SUB001").theoryPresent);
+        assertEquals(10, subjects.get("SUB001").theoryTotal);
+        assertEquals(0, subjects.get("SUB001").labPresent);
+        assertEquals(0, subjects.get("SUB001").labTotal);
 
         assertEquals("Subject II", subjects.get("SUB002").name);
         assertEquals("SUB002", subjects.get("SUB002").code);
-        assertEquals(20, subjects.get("SUB002").theoryPresent);
-        assertEquals(20, subjects.get("SUB002").theoryTotal);
-        assertEquals(0, subjects.get("SUB002").labPresent);
-        assertEquals(0, subjects.get("SUB002").labTotal);
+        assertEquals(0, subjects.get("SUB002").theoryPresent);
+        assertEquals(0, subjects.get("SUB002").theoryTotal);
+        assertEquals(20, subjects.get("SUB002").labPresent);
+        assertEquals(20, subjects.get("SUB002").labTotal);
     }
 }
