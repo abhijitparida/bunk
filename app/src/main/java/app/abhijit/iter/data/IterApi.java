@@ -69,7 +69,7 @@ public class IterApi {
                 MediaType json = MediaType.parse("application/json");
 
                 String loginRequestBody = new Formatter()
-                        .format("{\"username\":\"%s\",\"password\":\"%s\"}",
+                        .format("{\"username\":\"%s\",\"password\":\"%s\",\"MemberType\":\"S\"}",
                                 username, password).toString();
                 Request loginRequest = new Request.Builder()
                         .url(baseUrl + "/login")
