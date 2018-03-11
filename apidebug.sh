@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-api_url="http://111.93.164.203/CampusPortalSOA"
+api_url="http://111.93.164.202:8282/CampusPortalSOA"
 test_url="https://bunk-testserver.herokuapp.com"
 
 cookies=/tmp/bunk-testserver-cookies.txt
