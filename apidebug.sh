@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-api_url="http://111.93.164.203/CampusPortalSOA"
+api_url="http://111.93.164.202:8282/CampusPortalSOA"
 test_url="https://bunk-testserver.herokuapp.com"
 
 cookies=/tmp/bunk-testserver-cookies.txt
@@ -8,7 +8,7 @@ cookies=/tmp/bunk-testserver-cookies.txt
 function login {
     curl $1/login -s -c $cookies -X POST \
         -H "Content-Type:application/json;charset=UTF-8" \
-        -d "{\"username\":\"$2\", \"password\":\"$3\"}"
+        -d "{\"username\":\"$2\", \"password\":\"$3\",\"MemberType\":\"S\"}"
 }
 
 function attendanceinfo {
