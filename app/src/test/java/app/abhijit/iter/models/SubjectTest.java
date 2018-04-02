@@ -69,7 +69,8 @@ public class SubjectTest {
         String bunkStats = "";
         bunkStats += "Bunk 2 more classes for 75% attendance\n";
         bunkStats += "Bunk 1 more class for 80% attendance\n";
-        bunkStats += "Need 10 more classes for 90% attendance";
+        bunkStats += "Need 10 more classes for 90% attendance\n";
+        bunkStats += "Need 40 more classes for 95% attendance";
 
         assertEquals(bunkStats, subject.bunkStats(75, true));
     }
@@ -93,7 +94,8 @@ public class SubjectTest {
         bunkStats += "Need 15 more classes for 65% attendance\n";
         bunkStats += "Need 20 more classes for 70% attendance\n";
         bunkStats += "Need 26 more classes for 75% attendance\n";
-        bunkStats += "Need 35 more classes for 80% attendance";
+        bunkStats += "Need 35 more classes for 80% attendance\n";
+        bunkStats += "Need 50 more classes for 85% attendance";
 
         assertEquals(bunkStats, subject.bunkStats(60, true));
     }

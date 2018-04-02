@@ -75,6 +75,7 @@ public class Subject {
         int classesPresent = present();
         int classesAbsent = absent();
         int lastDays;
+        int approxTotalClasses = 60;
 
         if (classes != 0 && attendance <= minimumAttendance) {
             bunk.add("DO NOT BUNK ANY MORE CLASSES\n");
@@ -100,7 +101,7 @@ public class Subject {
                 int daysNeed = (int) ((a * classes - 100 * classesPresent) / (double) (100 - a));
                 if (daysNeed == lastDays) continue;
                 else lastDays = daysNeed;
-                if (daysNeed > 0 && (daysNeed + classes <= 50)) {
+                if (daysNeed > 0 && (daysNeed + classes <= approxTotalClasses)) {
                     need.add(new Formatter().format("Need %d more %s for %d%% attendance\n",
                             daysNeed, daysNeed == 1 ? "class" : "classes", a).toString());
                 }
