@@ -35,6 +35,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -101,6 +103,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int index = usernames.indexOf(mUsernameInput.getText().toString());
                 mPasswordInput.setText(students.get(index).password);
+                mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
+            }
+        });
+
+        mPasswordInput.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0) mPasswordVisibility.setPasswordVisibilityToggleEnabled(true);
             }
         });
 
@@ -108,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         if (selectedStudent != null) {
             mUsernameInput.setText(selectedStudent.username);
             mPasswordInput.setText(selectedStudent.password);
+            mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
             mLoginButton.performClick();
         }
     }

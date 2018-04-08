@@ -17,6 +17,7 @@
     <dimen name="icon_subject_status">16sp</dimen>
     <dimen name="avatar_subject">48sp</dimen>
     <dimen name="about_logo">72dp</dimen>
+    <dimen name="login_input">52dp</dimen>
 
     <dimen name="nav_header">180dp</dimen>
     <dimen name="nav_avatar">78dp</dimen>
