@@ -37,7 +37,7 @@
                 android:layout_height="@dimen/about_logo"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/app_name"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/ic_logo" />
 
             <!-- @string/app_version is defined in build.gradle -->
             <TextView
