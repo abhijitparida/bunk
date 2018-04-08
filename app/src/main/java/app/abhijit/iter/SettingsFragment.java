@@ -27,8 +27,6 @@ package app.abhijit.iter;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import app.abhijit.iter.R;
-
 public class SettingsFragment extends PreferenceFragment {
 
     @Override
