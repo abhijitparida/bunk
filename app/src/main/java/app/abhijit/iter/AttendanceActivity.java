@@ -301,22 +301,57 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private int subjectAvatar(String subjectCode) {
-        int avatar;
-        String code = subjectCode.substring(0, Math.min(subjectCode.length(), 3));
-        switch (code) {
-            case "CHM": avatar = R.drawable.ic_subject_chemistry; break;
-            case "CSE": avatar = R.drawable.ic_subject_computer; break;
-            case "CVL": avatar = R.drawable.ic_subject_civil; break;
-            case "EET": avatar = R.drawable.ic_subject_electrical; break;
-            case "HSS": avatar = R.drawable.ic_subject_humanities; break;
-            case "MEL": avatar = R.drawable.ic_subject_mechanical; break;
-            case "MTH": avatar = R.drawable.ic_subject_maths; break;
-            case "PHY": avatar = R.drawable.ic_subject_physics; break;
-            default: avatar = R.drawable.ic_subject_generic;
+        switch (subjectCode) {
+            case "CHM1002": return R.drawable.ic_subject_environmental_studies;
+            case "CSE1002": return R.drawable.ic_subject_maths;
+            case "CSE1011": return R.drawable.ic_subject_electrical;
+            case "CSE2031": return R.drawable.ic_subject_maths;
+            case "CSE3151": return R.drawable.ic_subject_database;
+            case "CSE4042": return R.drawable.ic_subject_network;
+            case "CSE4043": return R.drawable.ic_subject_security;
+            case "CSE4044": return R.drawable.ic_subject_security;
+            case "CSE4051": return R.drawable.ic_subject_database;
+            case "CSE4052": return R.drawable.ic_subject_database;
+            case "CSE4053": return R.drawable.ic_subject_database;
+            case "CSE4054": return R.drawable.ic_subject_database;
+            case "CSE4102": return R.drawable.ic_subject_html;
+            case "CSE4141": return R.drawable.ic_subject_android;
+            case "CSE4151": return R.drawable.ic_subject_server;
+            case "CVL3071": return R.drawable.ic_subject_traffic;
+            case "CVL3241": return R.drawable.ic_subject_water;
+            case "CVL4031": return R.drawable.ic_subject_earth;
+            case "CVL4032": return R.drawable.ic_subject_soil;
+            case "CVL4041": return R.drawable.ic_subject_water;
+            case "CVL4042": return R.drawable.ic_subject_water;
+            case "EET1001": return R.drawable.ic_subject_matlab;
+            case "EET3041": return R.drawable.ic_subject_electromagnetic_waves;
+            case "EET3061": return R.drawable.ic_subject_communication;
+            case "EET3062": return R.drawable.ic_subject_communication;
+            case "EET4014": return R.drawable.ic_subject_renewable_energy;
+            case "EET4041": return R.drawable.ic_subject_electromagnetic_waves;
+            case "EET4061": return R.drawable.ic_subject_wifi;
+            case "EET4063": return R.drawable.ic_subject_communication;
+            case "EET4161": return R.drawable.ic_subject_communication;
+            case "HSS1001": return R.drawable.ic_subject_effective_speech;
+            case "HSS1021": return R.drawable.ic_subject_economics;
+            case "HSS2021": return R.drawable.ic_subject_economics;
+            case "MEL3211": return R.drawable.ic_subject_water;
+            case "MTH2002": return R.drawable.ic_subject_probability_statistics;
+            case "MTH4002": return R.drawable.ic_subject_matlab;
         }
 
-        return avatar;
+        switch (subjectCode.substring(0, Math.min(subjectCode.length(), 3))) {
+            case "CHM": return R.drawable.ic_subject_chemistry;
+            case "CSE": return R.drawable.ic_subject_computer;
+            case "CVL": return R.drawable.ic_subject_civil;
+            case "EET": return R.drawable.ic_subject_electrical;
+            case "HSS": return R.drawable.ic_subject_humanities;
+            case "MEL": return R.drawable.ic_subject_mechanical;
+            case "MTH": return R.drawable.ic_subject_maths;
+            case "PHY": return R.drawable.ic_subject_physics;
+        }
 
+        return R.drawable.ic_subject_generic;
     }
 
     private class SubjectView {
