@@ -125,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
                 String username = mUsernameInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
 
+                if (username.isEmpty()) return;
+
                 mSharedPreferences.edit().putString("pref_student", username).apply();
 
                 mUsernameInput.setEnabled(false);
