@@ -31,27 +31,21 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import app.abhijit.iter.data.Cache;
 import app.abhijit.iter.data.IterApi;
@@ -69,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mUsernameInput;
     private EditText mPasswordInput;
-    private TextInputLayout mPasswordVisilibity;
+    private TextInputLayout mPasswordVisibility;
     private Button mLoginButton;
 
     @Override
@@ -84,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameInput = findViewById(R.id.username);
         mPasswordInput = findViewById(R.id.password);
-        mPasswordVisilibity = findViewById(R.id.password_visibility);
+        mPasswordVisibility = findViewById(R.id.password_visibility);
         mLoginButton = findViewById(R.id.login);
 
         setupToolbar();
@@ -135,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 mUsernameInput.setEnabled(false);
                 mPasswordInput.setEnabled(false);
-                mPasswordVisilibity.setEnabled(false);
+                mPasswordVisibility.setEnabled(false);
                 mLoginButton.setEnabled(false);
 
                 mLoginButton.setText("LOADING...");
@@ -188,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                             ((AnimationDrawable) mLoginButton.getBackground()).stop();
                             mUsernameInput.setEnabled(true);
                             mPasswordInput.setEnabled(true);
-                            mPasswordVisilibity.setEnabled(true);
+                            mPasswordVisibility.setEnabled(true);
                             mLoginButton.setBackgroundResource(R.drawable.bg_login_button_error);
                             mLoginButton.setText("ERROR");
 
