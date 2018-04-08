@@ -56,7 +56,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support:design:26.0.1'
-    compile 'com.google.android.gms:play-services-ads-lite:11.0.4'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.apache.commons:commons-lang3:3.4'
@@ -67,5 +66,3 @@ repositories {
         url 'https://maven.google.com'
     }
 }
-
-apply plugin: 'com.google.gms.google-services'

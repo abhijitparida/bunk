@@ -52,13 +52,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -113,10 +109,6 @@ public class AttendanceActivity extends AppCompatActivity
         setupListView();
 
         processAndDisplayAttendance();
-
-        if (!BuildConfig.DEBUG) {
-            displayBannerAd();
-        }
     }
 
     @Override
@@ -262,18 +254,6 @@ public class AttendanceActivity extends AppCompatActivity
         mSubjectViews = new ArrayList<>();
         mSubjectAdapter = new SubjectAdapter(mSubjectViews);
         subjectsList.setAdapter(mSubjectAdapter);
-    }
-
-    private void displayBannerAd() {
-        AdView adView = findViewById(R.id.ad);
-        adView.setVisibility(View.VISIBLE);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fab.getLayoutParams();
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        fab.setLayoutParams(layoutParams);
-
-        MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
-        adView.loadAd(new AdRequest.Builder().build());
     }
 
     private void processAndDisplayAttendance() {
