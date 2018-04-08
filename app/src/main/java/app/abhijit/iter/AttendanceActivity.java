@@ -29,7 +29,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -78,7 +77,6 @@ public class AttendanceActivity extends AppCompatActivity
     private int mPrefMinimumAttendance;
     private ArrayList<SubjectView> mSubjectViews;
     private SubjectAdapter mSubjectAdapter;
-    private int mRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,19 +145,7 @@ public class AttendanceActivity extends AppCompatActivity
             animation.setAnimationListener(new Animation.AnimationListener() {
 
                 @Override
-                public void onAnimationStart(Animation animation) {
-                    if (++mRefresh == 5) {
-                        Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(2000);
-                        findViewById(R.id.chicken).setVisibility(View.VISIBLE); // ¯\_(ツ)_/¯
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                findViewById(R.id.chicken).setVisibility(View.GONE);
-                            }
-                        }, 2000);
-                    }
-                }
+                public void onAnimationStart(Animation animation) { }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
