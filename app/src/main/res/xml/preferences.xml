@@ -10,6 +10,7 @@
     <SwitchPreference
         android:key="pref_extended_stats"
         android:title="Extended bunk stats"
+        android:summary="Show extended bunk stats"
         android:defaultValue="true" />
 
     <ListPreference
