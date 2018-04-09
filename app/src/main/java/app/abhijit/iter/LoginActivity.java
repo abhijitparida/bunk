@@ -47,6 +47,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 
 import app.abhijit.iter.data.Cache;
@@ -84,8 +86,27 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton = findViewById(R.id.login);
 
         setupToolbar();
+        setupUsernameInput();
+        setupPasswordInput();
         setupLoginButton();
 
+        Student selectedStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
+        if (selectedStudent != null) {
+            mUsernameInput.setText(selectedStudent.username);
+            mPasswordInput.setText(selectedStudent.password);
+            mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
+            if (mSharedPreferences.getBoolean("pref_auto_login", true)) {
+                mLoginButton.performClick();
+            }
+        }
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void setupUsernameInput() {
         final ArrayList<Student> students = mCache.getStudents();
         final ArrayList<String> usernames = new ArrayList<>();
         for (Student student : students) {
@@ -106,7 +127,9 @@ public class LoginActivity extends AppCompatActivity {
                 mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
             }
         });
+    }
 
+    private void setupPasswordInput() {
         mPasswordInput.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -120,26 +143,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (charSequence.length() == 0) mPasswordVisibility.setPasswordVisibilityToggleEnabled(true);
             }
         });
-
-        Student selectedStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
-        if (selectedStudent != null) {
-            mUsernameInput.setText(selectedStudent.username);
-            mPasswordInput.setText(selectedStudent.password);
-            mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
-            if (mSharedPreferences.getBoolean("pref_auto_login", true)) {
-                mLoginButton.performClick();
-            }
-        }
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
     private void setupLoginButton() {
         Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String username = mUsernameInput.getText().toString();
@@ -165,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (mCache.getStudent(student.username) == null) {
                             Toast.makeText(mContext, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
                         }
-                        mLoginButton.setText(emoji(0x1F60F) + emoji(0x1F60F) + emoji(0x1F60F));
+                        mLoginButton.setText(StringUtils.repeat(new String(Character.toChars(0x1F60F)), 3));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -221,9 +230,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    private String emoji(int unicode) {
-        return new String(Character.toChars(unicode));
     }
 }
