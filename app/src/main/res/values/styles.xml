@@ -7,9 +7,9 @@
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
-        <item name="colorPrimary">@color/indigo</item>
-        <item name="colorPrimaryDark">@color/indigo_dark</item>
-        <item name="colorAccent">@color/indigo_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue_dark</item>
     </style>
 
     <style name="AppTheme.AppBarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
