@@ -2,6 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
+        android:key="pref_auto_login"
+        android:title="Auto Login"
+        android:summary="Automatically login last user"
+        android:defaultValue="true" />
+
+    <SwitchPreference
         android:key="pref_extended_stats"
         android:title="Extended bunk stats"
         android:defaultValue="true" />

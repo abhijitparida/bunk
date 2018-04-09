@@ -126,7 +126,9 @@ public class LoginActivity extends AppCompatActivity {
             mUsernameInput.setText(selectedStudent.username);
             mPasswordInput.setText(selectedStudent.password);
             mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
-            mLoginButton.performClick();
+            if (mSharedPreferences.getBoolean("pref_auto_login", true)) {
+                mLoginButton.performClick();
+            }
         }
     }
 
