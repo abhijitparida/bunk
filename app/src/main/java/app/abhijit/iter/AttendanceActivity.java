@@ -161,8 +161,6 @@ public class AttendanceActivity extends AppCompatActivity
             Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             finish();
-        } else if (id == R.id.action_settings) {
-            startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
         }
 
         return true;
@@ -173,8 +171,8 @@ public class AttendanceActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_about) {
             startActivity(new Intent(AttendanceActivity.this, AboutActivity.class));
-        } else if (id == R.id.nav_feedback) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.url_feedback))));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
         }
 
         return true;
