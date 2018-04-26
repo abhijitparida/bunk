@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_name">Bunk</string>
+
     <string name="label_attendance">Attendance:</string>
     <string name="label_last_updated">Last Updated:</string>
     <string name="label_theory">Theory:</string>
