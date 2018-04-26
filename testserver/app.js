@@ -29,6 +29,28 @@ app.post('/login', function(req, res) {
     }
 });
 
+app.post('/studentSemester/lov', function(req, res) {
+    res.send({
+        'studentdata': [
+            {
+                'REGISTRATIONID': 'ITERRETD1711A0000002',
+                'REGISTRATIONDATEFROM': 1511721000000,
+                'REGISTRATIONCODE': '2018 EVEN SEMESTER'
+            },
+            {
+                'REGISTRATIONID': 'ITERRETD1706A0000002',
+                'REGISTRATIONDATEFROM': 1498847400000,
+                'REGISTRATIONCODE': '2017 ODD SEMESTER'
+            },
+            {
+                'REGISTRATIONID': 'ITERRETD1612A0000002',
+                'REGISTRATIONDATEFROM': 1481308200000,
+                'REGISTRATIONCODE': '2017 EVEN SEMESTER'
+            },
+        ]
+    });
+});
+
 app.post('/attendanceinfo', function(req, res) {
     var minutes = new Date().getMinutes();
     if (minutes === 0) {

@@ -10,7 +10,7 @@
   "author": "Abhijit Parida <abhijitparida.me@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "express": "^4.15.4"
+    "body-parser": "1.x",
+    "express": "4.x"
   }
 }
