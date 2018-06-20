@@ -12,8 +12,8 @@
         android:layout_marginRight="@dimen/margin_large" />
 
     <TextView
-        android:text="90%"
         android:id="@+id/subject_attendance"
+        android:text="90%"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/subject_avatar" />
@@ -21,16 +21,19 @@
     <TextView
         android:id="@+id/subject_name"
         android:text="Subject Name"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/subject_attendance"
         android:layout_marginLeft="@dimen/margin_medium" />
 
     <TextView
-        android:text="Last updated 2 days ago"
         android:id="@+id/subject_last_updated"
+        android:text="Last updated 2 days ago"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_small"
         android:layout_toRightOf="@id/subject_avatar"
         android:layout_below="@id/subject_name" />
 
@@ -45,16 +48,17 @@
         android:layout_toRightOf="@id/subject_last_updated" />
 
     <TextView
-        android:text="Lab:"
         android:id="@+id/subject_lab_label"
+        android:text="Lab:"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated"
         android:layout_toRightOf="@id/subject_avatar" />
 
     <TextView
-        android:text="15/15"
         android:id="@+id/subject_old_lab"
+        android:text="15/15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated"
@@ -62,8 +66,8 @@
         android:layout_toRightOf="@id/subject_lab_label" />
 
     <TextView
-        android:text="15/17 classes"
         android:id="@+id/subject_lab"
+        android:text="15/17 classes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated"
@@ -71,16 +75,17 @@
         android:layout_toRightOf="@id/subject_old_lab" />
 
     <TextView
-        android:text="Theory:"
         android:id="@+id/subject_theory_label"
+        android:text="Theory:"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
         android:layout_toRightOf="@id/subject_avatar" />
 
     <TextView
-        android:text="15/15"
         android:id="@+id/subject_old_theory"
+        android:text="15/15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
@@ -88,8 +93,8 @@
         android:layout_toRightOf="@id/subject_theory_label" />
 
     <TextView
-        android:text="15/17 classes"
         android:id="@+id/subject_theory"
+        android:text="15/17 classes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
@@ -97,16 +102,17 @@
         android:layout_toRightOf="@id/subject_old_theory" />
 
     <TextView
-        android:text="Absent:"
         android:id="@+id/subject_absent_label"
+        android:text="Absent:"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
         android:layout_toRightOf="@id/subject_avatar" />
 
     <TextView
-        android:text="15"
         android:id="@+id/subject_old_absent"
+        android:text="15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
@@ -114,8 +120,8 @@
         android:layout_toRightOf="@id/subject_absent_label" />
 
     <TextView
-        android:text="15 classes"
         android:id="@+id/subject_absent"
+        android:text="15 classes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
