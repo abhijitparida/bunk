@@ -15,6 +15,10 @@
         android:id="@+id/subject_attendance"
         android:text="90%"
         android:textSize="@dimen/text_large"
+        android:background="@drawable/bg_badge_red"
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_small"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/subject_avatar" />
@@ -41,6 +45,10 @@
     <TextView
         android:id="@+id/subject_last_updated"
         android:text="just now"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_badge_blue"
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_x_small"
