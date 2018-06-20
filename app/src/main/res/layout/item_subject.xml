@@ -62,6 +62,7 @@
         android:id="@+id/subject_lab_label"
         android:text="Lab:"
         android:textStyle="bold"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
@@ -70,6 +71,7 @@
     <TextView
         android:id="@+id/subject_old_lab"
         android:text="15/15"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
@@ -79,6 +81,7 @@
     <TextView
         android:id="@+id/subject_lab"
         android:text="15/17 classes"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
@@ -89,6 +92,7 @@
         android:id="@+id/subject_theory_label"
         android:text="Theory:"
         android:textStyle="bold"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
@@ -97,6 +101,7 @@
     <TextView
         android:id="@+id/subject_old_theory"
         android:text="15/15"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
@@ -106,6 +111,7 @@
     <TextView
         android:id="@+id/subject_theory"
         android:text="15/17 classes"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
@@ -116,6 +122,7 @@
         android:id="@+id/subject_absent_label"
         android:text="Absent:"
         android:textStyle="bold"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
@@ -124,6 +131,7 @@
     <TextView
         android:id="@+id/subject_old_absent"
         android:text="15"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
@@ -133,6 +141,7 @@
     <TextView
         android:id="@+id/subject_absent"
         android:text="15 classes"
+        android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
@@ -141,6 +150,7 @@
 
     <TextView
         android:text="---------------- bunk stats ------------------------"
+        android:textSize="@dimen/text_small"
         android:id="@+id/subject_bunk_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
