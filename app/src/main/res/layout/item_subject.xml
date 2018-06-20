@@ -29,18 +29,28 @@
         android:layout_marginLeft="@dimen/margin_medium" />
 
     <TextView
-        android:id="@+id/subject_last_updated"
-        android:text="Last updated 2 days ago"
+        android:id="@+id/subject_last_updated_label"
+        android:text="Last updated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_small"
         android:layout_toRightOf="@id/subject_avatar"
         android:layout_below="@id/subject_name" />
 
+    <TextView
+        android:id="@+id/subject_last_updated"
+        android:text="just now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_toRightOf="@id/subject_last_updated_label"
+        android:layout_below="@id/subject_name" />
+
     <ImageView
         android:src="@drawable/ic_status_up"
         android:id="@+id/subject_status"
-        android:layout_alignBottom="@id/subject_last_updated"
+        android:layout_alignBottom="@id/subject_last_updated_label"
         android:layout_width="@dimen/icon_subject_status"
         android:layout_height="@dimen/icon_subject_status"
         android:layout_below="@id/subject_name"
@@ -53,7 +63,7 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject_last_updated"
+        android:layout_below="@id/subject_last_updated_label"
         android:layout_toRightOf="@id/subject_avatar" />
 
     <TextView
@@ -61,7 +71,7 @@
         android:text="15/15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject_last_updated"
+        android:layout_below="@id/subject_last_updated_label"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_lab_label" />
 
@@ -70,7 +80,7 @@
         android:text="15/17 classes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject_last_updated"
+        android:layout_below="@id/subject_last_updated_label"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_old_lab" />
 
