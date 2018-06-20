@@ -33,7 +33,7 @@
         android:text="Last updated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_small"
+        android:textSize="@dimen/text_x_small"
         android:layout_toRightOf="@id/subject_avatar"
         android:layout_below="@id/subject_name" />
 
@@ -42,7 +42,7 @@
         android:text="just now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_small"
+        android:textSize="@dimen/text_x_small"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_last_updated_label"
         android:layout_below="@id/subject_name" />
