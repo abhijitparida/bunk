@@ -25,7 +25,7 @@
 package app.abhijit.iter.data;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.util.SparseArrayCompat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -55,7 +55,38 @@ class ResponseParser {
     }
 
     @NonNull
-    Student parse(@NonNull String loginJson, @NonNull String attendanceJson)
+    String parseRegistrationId(@NonNull String registrationIdJson)
+            throws InvalidResponseException {
+        JsonObject registrationId;
+        try {
+            registrationId = this.jsonParser.parse(registrationIdJson).getAsJsonObject();
+        } catch (Exception e) {
+            throw new InvalidResponseException();
+        }
+
+        if (!registrationId.has("studentdata")) {
+            throw new InvalidResponseException();
+        }
+
+        JsonArray years = registrationId.getAsJsonArray("studentdata");
+        if (years.size() == 0) {
+            throw new InvalidResponseException();
+        }
+
+        SparseArrayCompat<String> registrationIds = new SparseArrayCompat<>();
+        for (int i = 0; i < years.size(); i++) {
+            JsonObject year = years.get(i).getAsJsonObject();
+            if (!year.has("REGISTRATIONID") || !year.has("REGISTRATIONDATEFROM")) {
+                throw new InvalidResponseException();
+            }
+            registrationIds.put(year.get("REGISTRATIONDATEFROM").getAsInt(), year.get("REGISTRATIONID").getAsString());
+        }
+
+        return registrationIds.valueAt(registrationIds.size() - 1);
+    }
+
+    @NonNull
+    Student parseStudent(@NonNull String loginJson, @NonNull String attendanceJson)
             throws InvalidCredentialsException, InvalidResponseException {
         Student student = processLogin(loginJson);
         try {
