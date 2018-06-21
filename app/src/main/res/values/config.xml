@@ -2,5 +2,4 @@
 <resources>
 
     <string name="api_base_url">http://111.93.164.202:8282/CampusPortalSOA</string>
-    <string name="registration_id">ITERRETD1711A0000002</string>
 </resources>

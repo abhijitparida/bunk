@@ -43,57 +43,57 @@ public class ResponseParserTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void parse_EmptyLoginJson_ThrowsInvalidResponseException() {
+    public void parseStudent_EmptyLoginJson_ThrowsInvalidResponseException() {
         thrown.expect(InvalidResponseException.class);
 
         ResponseParser responseParser = new ResponseParser();
-        responseParser.parse("", "");
+        responseParser.parseStudent("", "");
     }
 
     @Test
-    public void parse_InvalidLoginJson_ThrowsInvalidResponseException() {
+    public void parseStudent_InvalidLoginJson_ThrowsInvalidResponseException() {
         thrown.expect(InvalidResponseException.class);
 
         ResponseParser responseParser = new ResponseParser();
-        responseParser.parse("bad json", "");
+        responseParser.parseStudent("bad json", "");
     }
 
     @Test
-    public void parse_StatusError_ThrowsInvalidCredentialsException() {
+    public void parseStudent_StatusError_ThrowsInvalidCredentialsException() {
         thrown.expect(InvalidCredentialsException.class);
 
         ResponseParser responseParser = new ResponseParser();
-        responseParser.parse("{\"name\":\"NAME\",\"status\":\"error\"}", "");
+        responseParser.parseStudent("{\"name\":\"NAME\",\"status\":\"error\"}", "");
     }
 
     @Test
-    public void parse_StatusSuccess_ProperlyCapitalizesStudentName() {
+    public void parseStudent_StatusSuccess_ProperlyCapitalizesStudentName() {
         ResponseParser responseParser = new ResponseParser();
-        Student student = responseParser.parse("{\"name\":\"fIrStNaMe LASTNAME\",\"status\":\"success\"}", "");
+        Student student = responseParser.parseStudent("{\"name\":\"fIrStNaMe LASTNAME\",\"status\":\"success\"}", "");
 
         assertEquals("Firstname Lastname", student.name);
     }
 
     @Test
-    public void parse_EmptyAttendanceJson_ReturnsStudentWithEmptySubjectList() {
+    public void parseStudent_EmptyAttendanceJson_ReturnsStudentWithEmptySubjectList() {
         ResponseParser responseParser = new ResponseParser();
-        Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}", "");
+        Student student = responseParser.parseStudent("{\"name\":\"name\",\"status\":\"success\"}", "");
 
         assertEquals(0, student.subjects.size());
     }
 
     @Test
-    public void parse_InvalidAttendanceJson_ReturnsStudentWithEmptySubjectList() {
+    public void parseStudent_InvalidAttendanceJson_ReturnsStudentWithEmptySubjectList() {
         ResponseParser responseParser = new ResponseParser();
-        Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}", "bad json");
+        Student student = responseParser.parseStudent("{\"name\":\"name\",\"status\":\"success\"}", "bad json");
 
         assertEquals(0, student.subjects.size());
     }
 
     @Test
-    public void parse_ValidAttendanceJson_ParsesCorrectly() {
+    public void parseStudent_ValidAttendanceJson_ParsesCorrectly() {
         ResponseParser responseParser = new ResponseParser();
-        Student student = responseParser.parse("{\"name\":\"name\",\"status\":\"success\"}",
+        Student student = responseParser.parseStudent("{\"name\":\"name\",\"status\":\"success\"}",
                 "{\"griddata\":[{\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}");
         HashMap<String, Subject> subjects = student.subjects;
 
@@ -112,5 +112,13 @@ public class ResponseParserTest {
         assertEquals(0, subjects.get("SUB002").theoryTotal);
         assertEquals(20, subjects.get("SUB002").labPresent);
         assertEquals(20, subjects.get("SUB002").labTotal);
+    }
+
+    @Test
+    public void parseRegistrationId_ValidRegistrationIdJson_ParsesCorrectly() {
+        ResponseParser responseParser = new ResponseParser();
+        String registrationId = responseParser.parseRegistrationId("{\"studentdata\": [{\"REGISTRATIONID\": \"regid001\",\"REGISTRATIONDATEFROM\": 1},{\"REGISTRATIONID\": \"regid003\",\"REGISTRATIONDATEFROM\": 3},{\"REGISTRATIONID\": \"regid002\",\"REGISTRATIONDATEFROM\": 2}]}");
+
+        assertEquals("regid003", registrationId);
     }
 }
