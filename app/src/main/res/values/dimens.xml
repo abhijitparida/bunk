@@ -6,11 +6,14 @@
     <dimen name="margin_large">16dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_x_small">2dp</dimen>
 
-    <dimen name="text_extra_large">22sp</dimen>
-    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_xx_large">22sp</dimen>
+    <dimen name="text_x_large">20sp</dimen>
+    <dimen name="text_large">15.5sp</dimen>
     <dimen name="text_medium">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
+    <dimen name="text_x_small">11.5sp</dimen>
 
     <dimen name="shadow">3dp</dimen>
 
