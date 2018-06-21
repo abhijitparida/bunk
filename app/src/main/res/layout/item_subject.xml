@@ -27,6 +27,7 @@
         android:id="@+id/subject_name"
         android:text="Subject Name"
         android:textStyle="bold"
+        android:textColor="@color/indigo_dark"
         android:textSize="@dimen/text_large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
