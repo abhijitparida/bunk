@@ -56,6 +56,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -258,10 +260,11 @@ public class AttendanceActivity extends AppCompatActivity
                         || subject.labPresent != oldSubject.labPresent
                         || subject.labTotal != oldSubject.labTotal) {
                     updated = true;
-                    subjectView.oldAttendance = String.format(Locale.US, "%.2f%%", oldSubject.attendance());
                     subjectView.oldTheory = String.format(Locale.US, "%d/%d classes", oldSubject.theoryPresent, oldSubject.theoryTotal);
                     subjectView.oldLab = String.format(Locale.US, "%d/%d classes", oldSubject.labPresent, oldSubject.labTotal);
                     subjectView.oldAbsent = String.format(Locale.US, "%d classes", oldSubject.absent());
+                    subjectView.lastUpdatedBadge = R.drawable.bg_badge_blue;
+                    subjectView.updated = true;
                     if (subject.attendance() >= oldSubject.attendance()) {
                         subjectView.status = R.drawable.ic_status_up;
                     } else {
@@ -269,17 +272,21 @@ public class AttendanceActivity extends AppCompatActivity
                     }
                 } else {
                     subject.lastUpdated = oldSubject.lastUpdated;
-                    if (subject.attendance() > 85.0) {
-                        subjectView.status = R.drawable.ic_status_ok;
-                    } else if (subject.attendance() > 75.0) {
-                        subjectView.status = R.drawable.ic_status_warning;
-                    } else {
-                        subjectView.status = R.drawable.ic_status_critical;
-                    }
                 }
             }
+            if (subject.attendance() > mPrefMinimumAttendance + 10.0) {
+                subjectView.attendanceBadge = R.drawable.bg_badge_green;
+            } else if (subject.attendance() > mPrefMinimumAttendance) {
+                subjectView.attendanceBadge = R.drawable.bg_badge_yellow;
+            } else {
+                subjectView.attendanceBadge = R.drawable.bg_badge_red;
+            }
             subjectView.bunkStats = subject.bunkStats(mPrefMinimumAttendance, mPrefExtendedStats);
-            subjectView.lastUpdated = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0).toString();
+            if (subjectView.updated) {
+                subjectView.lastUpdated = "just now";
+            } else {
+                subjectView.lastUpdated = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0).toString();
+            }
             subjectViews.add(subjectView);
         }
         mCache.setStudent(mNewStudent.username, mNewStudent);
@@ -354,16 +361,18 @@ public class AttendanceActivity extends AppCompatActivity
 
     private class SubjectView {
 
+        private boolean updated;
         private int avatar;
-        private String name;
-        private String oldAttendance;
         private String attendance;
-        private int status;
+        private int attendanceBadge;
+        private String name;
         private String lastUpdated;
-        private String oldTheory;
-        private String theory;
+        private int lastUpdatedBadge;
+        private int status;
         private String oldLab;
         private String lab;
+        private String oldTheory;
+        private String theory;
         private String oldAbsent;
         private String absent;
         private String bunkStats;
@@ -382,15 +391,14 @@ public class AttendanceActivity extends AppCompatActivity
         private class ViewHolder {
 
             private ImageView avatar;
-            private TextView name;
-            private TextView oldAttendance;
             private TextView attendance;
-            private ImageView status;
+            private TextView name;
             private TextView lastUpdated;
-            private TextView oldTheory;
-            private TextView theory;
+            private ImageView status;
             private TextView oldLab;
             private TextView lab;
+            private TextView oldTheory;
+            private TextView theory;
             private TextView oldAbsent;
             private TextView absent;
             private TextView bunkStats;
@@ -403,15 +411,14 @@ public class AttendanceActivity extends AppCompatActivity
                 viewHolder = new ViewHolder();
                 convertView = mLayoutInflater.inflate(R.layout.item_subject, parent, false);
                 viewHolder.avatar = convertView.findViewById(R.id.subject_avatar);
-                viewHolder.name = convertView.findViewById(R.id.subject_name);
-                viewHolder.oldAttendance = convertView.findViewById(R.id.subject_old_attendance);
                 viewHolder.attendance = convertView.findViewById(R.id.subject_attendance);
-                viewHolder.status = convertView.findViewById(R.id.subject_status);
+                viewHolder.name = convertView.findViewById(R.id.subject_name);
                 viewHolder.lastUpdated = convertView.findViewById(R.id.subject_last_updated);
-                viewHolder.oldTheory = convertView.findViewById(R.id.subject_old_theory);
-                viewHolder.theory = convertView.findViewById(R.id.subject_theory);
+                viewHolder.status = convertView.findViewById(R.id.subject_status);
                 viewHolder.oldLab = convertView.findViewById(R.id.subject_old_lab);
                 viewHolder.lab = convertView.findViewById(R.id.subject_lab);
+                viewHolder.oldTheory = convertView.findViewById(R.id.subject_old_theory);
+                viewHolder.theory = convertView.findViewById(R.id.subject_theory);
                 viewHolder.oldAbsent = convertView.findViewById(R.id.subject_old_absent);
                 viewHolder.absent = convertView.findViewById(R.id.subject_absent);
                 viewHolder.bunkStats = convertView.findViewById(R.id.subject_bunk_stats);
@@ -421,35 +428,39 @@ public class AttendanceActivity extends AppCompatActivity
             }
 
             final SubjectView subjectView = getItem(position);
+
             viewHolder.avatar.setImageResource(subjectView.avatar);
-            viewHolder.name.setText(subjectView.name);
-            if (subjectView.oldAttendance != null) {
-                viewHolder.oldAttendance.setText(subjectView.oldAttendance);
-                viewHolder.oldAttendance.setVisibility(View.VISIBLE);
-                viewHolder.oldAttendance.setPaintFlags(viewHolder.oldAttendance.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
             viewHolder.attendance.setText(subjectView.attendance);
-            viewHolder.status.setImageResource(subjectView.status);
+            viewHolder.attendance.setBackgroundResource(subjectView.attendanceBadge);
+            viewHolder.name.setText(subjectView.name);
             viewHolder.lastUpdated.setText(subjectView.lastUpdated);
-            if (subjectView.oldTheory != null) {
-                viewHolder.oldTheory.setText(subjectView.oldTheory);
-                viewHolder.oldTheory.setVisibility(View.VISIBLE);
-                viewHolder.oldTheory.setPaintFlags(viewHolder.oldTheory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-            viewHolder.theory.setText(subjectView.theory);
-            if (subjectView.oldLab != null) {
-                viewHolder.oldLab.setText(subjectView.oldLab);
-                viewHolder.oldLab.setVisibility(View.VISIBLE);
-                viewHolder.oldLab.setPaintFlags(viewHolder.oldLab.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
+            viewHolder.lastUpdated.setBackgroundResource(subjectView.lastUpdatedBadge);
+            viewHolder.status.setImageResource(subjectView.status);
+            viewHolder.oldLab.setText(subjectView.oldLab);
             viewHolder.lab.setText(subjectView.lab);
-            if (subjectView.oldAbsent != null) {
-                viewHolder.oldAbsent.setText(subjectView.oldAbsent);
-                viewHolder.oldAbsent.setVisibility(View.VISIBLE);
-                viewHolder.oldAbsent.setPaintFlags(viewHolder.oldAbsent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
+            viewHolder.oldTheory.setText(subjectView.oldTheory);
+            viewHolder.theory.setText(subjectView.theory);
+            viewHolder.oldAbsent.setText(subjectView.oldAbsent);
             viewHolder.absent.setText(subjectView.absent);
             viewHolder.bunkStats.setText(subjectView.bunkStats);
+
+            viewHolder.oldLab.setVisibility(View.GONE);
+            viewHolder.oldTheory.setVisibility(View.GONE);
+            viewHolder.oldAbsent.setVisibility(View.GONE);
+            if (subjectView.updated) {
+                if (!StringUtils.equals(subjectView.lab, subjectView.oldLab)) {
+                    viewHolder.oldLab.setVisibility(View.VISIBLE);
+                    viewHolder.oldLab.setPaintFlags(viewHolder.oldLab.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                if (!StringUtils.equals(subjectView.theory, subjectView.oldTheory)) {
+                    viewHolder.oldTheory.setVisibility(View.VISIBLE);
+                    viewHolder.oldTheory.setPaintFlags(viewHolder.oldTheory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                if (!StringUtils.equals(subjectView.absent, subjectView.oldAbsent)) {
+                    viewHolder.oldAbsent.setVisibility(View.VISIBLE);
+                    viewHolder.oldAbsent.setPaintFlags(viewHolder.oldAbsent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+            }
 
             return convertView;
         }
