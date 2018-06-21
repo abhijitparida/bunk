@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:padding="@dimen/margin_large">
 
     <ImageView
@@ -13,11 +15,11 @@
 
     <TextView
         android:id="@+id/subject_attendance"
-        android:text="90%"
+        tools:text="99%"
         android:textSize="@dimen/text_large"
-        android:background="@drawable/bg_badge_red"
-        android:paddingLeft="@dimen/margin_small"
-        android:paddingRight="@dimen/margin_small"
+        android:background="@drawable/bg_badge_green"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,33 +27,33 @@
 
     <TextView
         android:id="@+id/subject_name"
-        android:text="Subject Name"
+        tools:text="Subject Name"
         android:textStyle="bold"
         android:textColor="@color/indigo_dark"
         android:textSize="@dimen/text_large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/subject_attendance"
-        android:layout_marginLeft="@dimen/margin_small" />
+        android:layout_marginLeft="@dimen/margin_medium" />
 
     <TextView
         android:id="@+id/subject_last_updated_label"
-        android:text="Last updated"
+        android:text="@string/label_last_updated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_x_small"
-        android:layout_marginTop="@dimen/margin_x_small"
+        android:layout_marginTop="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_avatar"
         android:layout_below="@id/subject_name" />
 
     <TextView
         android:id="@+id/subject_last_updated"
-        android:text="just now"
-        android:paddingLeft="@dimen/margin_small"
+        tools:text="just now"
+        android:paddingLeft="@dimen/margin_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_x_small"
-        android:layout_marginTop="@dimen/margin_x_small"
+        android:layout_marginTop="@dimen/margin_small"
         android:layout_toRightOf="@id/subject_last_updated_label"
         android:layout_below="@id/subject_name" />
 
@@ -61,13 +63,13 @@
         android:layout_alignBottom="@id/subject_last_updated_label"
         android:layout_width="@dimen/icon_subject_status"
         android:layout_height="@dimen/icon_subject_status"
-        android:layout_marginTop="@dimen/margin_x_small"
+        android:layout_marginTop="@dimen/margin_small"
         android:layout_below="@id/subject_name"
         android:layout_toRightOf="@id/subject_last_updated" />
 
     <TextView
         android:id="@+id/subject_lab_label"
-        android:text="Lab:"
+        android:text="@string/label_lab"
         android:textStyle="bold"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
@@ -77,27 +79,27 @@
 
     <TextView
         android:id="@+id/subject_old_lab"
-        android:text="15/15"
+        android:visibility="gone"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toRightOf="@id/subject_lab_label" />
 
     <TextView
         android:id="@+id/subject_lab"
-        android:text="15/17 classes"
+        tools:text="15/17 classes"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_last_updated_label"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toRightOf="@id/subject_old_lab" />
 
     <TextView
         android:id="@+id/subject_theory_label"
-        android:text="Theory:"
+        android:text="@string/label_theory"
         android:textStyle="bold"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
@@ -107,27 +109,27 @@
 
     <TextView
         android:id="@+id/subject_old_theory"
-        android:text="15/15"
+        android:visibility="gone"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toRightOf="@id/subject_theory_label" />
 
     <TextView
         android:id="@+id/subject_theory"
-        android:text="15/17 classes"
+        tools:text="15/17 classes"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_lab_label"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toRightOf="@id/subject_old_theory" />
 
     <TextView
         android:id="@+id/subject_absent_label"
-        android:text="Absent:"
+        android:text="@string/label_absent"
         android:textStyle="bold"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
@@ -137,26 +139,26 @@
 
     <TextView
         android:id="@+id/subject_old_absent"
-        android:text="15"
+        android:visibility="gone"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toRightOf="@id/subject_absent_label" />
 
     <TextView
         android:id="@+id/subject_absent"
-        android:text="15 classes"
+        tools:text="15 classes"
         android:textSize="@dimen/text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subject_theory_label"
-        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toRightOf="@id/subject_old_absent" />
 
     <TextView
-        android:text="---------------- bunk stats ------------------------"
+        tools:text="---------------- bunk stats ------------------------"
         android:textSize="@dimen/text_small"
         android:id="@+id/subject_bunk_stats"
         android:layout_width="wrap_content"

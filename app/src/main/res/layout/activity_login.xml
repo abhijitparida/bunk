@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black_opacity_87"
+    android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:padding="@dimen/margin_extra_large"
+            android:padding="@dimen/margin_x_large"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
@@ -20,7 +20,7 @@
                 android:layout_height="@dimen/login_input"
                 android:hint="@string/label_username"
                 android:background="@drawable/bg_login_edittext"
-                android:textColorHint="@color/black_opacity_87"
+                android:textColorHint="@color/black"
                 android:textColor="@color/indigo_dark"
                 android:textSize="@dimen/text_medium"
                 android:padding="@dimen/margin_large"
@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:hint="@string/label_password"
                     android:background="@drawable/bg_login_edittext"
-                    android:textColorHint="@color/black_opacity_87"
+                    android:textColorHint="@color/black"
                     android:textColor="@color/indigo_dark"
                     android:textSize="@dimen/text_medium"
                     android:padding="@dimen/margin_large"

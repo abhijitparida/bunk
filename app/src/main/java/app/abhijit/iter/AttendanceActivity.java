@@ -431,7 +431,7 @@ public class AttendanceActivity extends AppCompatActivity
 
             final SubjectView subjectView = getItem(position);
 
-            viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.black_opacity_87));
+            viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.black));
             viewHolder.labLabel.setVisibility(View.VISIBLE);
             viewHolder.oldLab.setVisibility(View.GONE);
             viewHolder.lab.setVisibility(View.VISIBLE);

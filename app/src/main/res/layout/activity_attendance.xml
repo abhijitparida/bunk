@@ -39,7 +39,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="@string/hint_subjects_empty"
-                android:textColor="@color/black_opacity_87"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_medium"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_large"
@@ -94,14 +94,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:drawableLeft="@drawable/ic_heart"
-                android:drawablePadding="@dimen/margin_small"
-                android:textColor="@color/black_opacity_87" />
+                android:drawablePadding="@dimen/margin_medium"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/github"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black_opacity_87"
+                android:textColor="@color/black"
                 android:text="@string/github"/>
 
         </LinearLayout>
