@@ -10,6 +10,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue_dark</item>
+        <item name="android:textColor">@color/black_opacity_87</item>
     </style>
 
     <style name="AppTheme.AppBarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">

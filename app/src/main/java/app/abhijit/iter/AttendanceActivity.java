@@ -249,7 +249,7 @@ public class AttendanceActivity extends AppCompatActivity
             SubjectView subjectView = new SubjectView();
             subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
-            subjectView.attendance = String.format(Locale.US, "%.2f%%", subject.attendance());
+            subjectView.attendance = String.format(Locale.US, "%.0f%%", subject.attendance());
             subjectView.theory = String.format(Locale.US, "%d/%d classes", subject.theoryPresent, subject.theoryTotal);
             subjectView.lab = String.format(Locale.US, "%d/%d classes", subject.labPresent, subject.labTotal);
             subjectView.absent = String.format(Locale.US, "%d classes", subject.absent());
@@ -263,7 +263,6 @@ public class AttendanceActivity extends AppCompatActivity
                     subjectView.oldTheory = String.format(Locale.US, "%d/%d classes", oldSubject.theoryPresent, oldSubject.theoryTotal);
                     subjectView.oldLab = String.format(Locale.US, "%d/%d classes", oldSubject.labPresent, oldSubject.labTotal);
                     subjectView.oldAbsent = String.format(Locale.US, "%d classes", oldSubject.absent());
-                    subjectView.lastUpdatedBadge = R.drawable.bg_badge_blue;
                     subjectView.updated = true;
                     if (subject.attendance() >= oldSubject.attendance()) {
                         subjectView.status = R.drawable.ic_status_up;
@@ -367,7 +366,6 @@ public class AttendanceActivity extends AppCompatActivity
         private int attendanceBadge;
         private String name;
         private String lastUpdated;
-        private int lastUpdatedBadge;
         private int status;
         private String oldLab;
         private String lab;
@@ -395,8 +393,10 @@ public class AttendanceActivity extends AppCompatActivity
             private TextView name;
             private TextView lastUpdated;
             private ImageView status;
+            private TextView labLabel;
             private TextView oldLab;
             private TextView lab;
+            private TextView theoryLabel;
             private TextView oldTheory;
             private TextView theory;
             private TextView oldAbsent;
@@ -415,8 +415,10 @@ public class AttendanceActivity extends AppCompatActivity
                 viewHolder.name = convertView.findViewById(R.id.subject_name);
                 viewHolder.lastUpdated = convertView.findViewById(R.id.subject_last_updated);
                 viewHolder.status = convertView.findViewById(R.id.subject_status);
+                viewHolder.labLabel = convertView.findViewById(R.id.subject_lab_label);
                 viewHolder.oldLab = convertView.findViewById(R.id.subject_old_lab);
                 viewHolder.lab = convertView.findViewById(R.id.subject_lab);
+                viewHolder.theoryLabel = convertView.findViewById(R.id.subject_theory_label);
                 viewHolder.oldTheory = convertView.findViewById(R.id.subject_old_theory);
                 viewHolder.theory = convertView.findViewById(R.id.subject_theory);
                 viewHolder.oldAbsent = convertView.findViewById(R.id.subject_old_absent);
@@ -429,12 +431,20 @@ public class AttendanceActivity extends AppCompatActivity
 
             final SubjectView subjectView = getItem(position);
 
+            viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.black_opacity_87));
+            viewHolder.labLabel.setVisibility(View.VISIBLE);
+            viewHolder.oldLab.setVisibility(View.GONE);
+            viewHolder.lab.setVisibility(View.VISIBLE);
+            viewHolder.theoryLabel.setVisibility(View.VISIBLE);
+            viewHolder.oldTheory.setVisibility(View.GONE);
+            viewHolder.theory.setVisibility(View.VISIBLE);
+            viewHolder.oldAbsent.setVisibility(View.GONE);
+
             viewHolder.avatar.setImageResource(subjectView.avatar);
             viewHolder.attendance.setText(subjectView.attendance);
             viewHolder.attendance.setBackgroundResource(subjectView.attendanceBadge);
             viewHolder.name.setText(subjectView.name);
             viewHolder.lastUpdated.setText(subjectView.lastUpdated);
-            viewHolder.lastUpdated.setBackgroundResource(subjectView.lastUpdatedBadge);
             viewHolder.status.setImageResource(subjectView.status);
             viewHolder.oldLab.setText(subjectView.oldLab);
             viewHolder.lab.setText(subjectView.lab);
@@ -444,10 +454,9 @@ public class AttendanceActivity extends AppCompatActivity
             viewHolder.absent.setText(subjectView.absent);
             viewHolder.bunkStats.setText(subjectView.bunkStats);
 
-            viewHolder.oldLab.setVisibility(View.GONE);
-            viewHolder.oldTheory.setVisibility(View.GONE);
-            viewHolder.oldAbsent.setVisibility(View.GONE);
             if (subjectView.updated) {
+                viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.blue));
+
                 if (!StringUtils.equals(subjectView.lab, subjectView.oldLab)) {
                     viewHolder.oldLab.setVisibility(View.VISIBLE);
                     viewHolder.oldLab.setPaintFlags(viewHolder.oldLab.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -460,6 +469,17 @@ public class AttendanceActivity extends AppCompatActivity
                     viewHolder.oldAbsent.setVisibility(View.VISIBLE);
                     viewHolder.oldAbsent.setPaintFlags(viewHolder.oldAbsent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
+            }
+
+            if (StringUtils.equals(subjectView.lab, "0/0 classes")) {
+                viewHolder.labLabel.setVisibility(View.GONE);
+                viewHolder.oldLab.setVisibility(View.GONE);
+                viewHolder.lab.setVisibility(View.GONE);
+            }
+            if (StringUtils.equals(subjectView.theory, "0/0 classes")) {
+                viewHolder.theoryLabel.setVisibility(View.GONE);
+                viewHolder.oldTheory.setVisibility(View.GONE);
+                viewHolder.theory.setVisibility(View.GONE);
             }
 
             return convertView;
