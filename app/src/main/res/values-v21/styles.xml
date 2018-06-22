@@ -5,7 +5,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/indigo_dark</item>
+        <item name="android:statusBarColor">@color/blue</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
