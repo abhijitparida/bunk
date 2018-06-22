@@ -25,7 +25,6 @@
 package app.abhijit.iter.data;
 
 import android.support.annotation.NonNull;
-import android.support.v4.util.SparseArrayCompat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -73,16 +72,13 @@ class ResponseParser {
             throw new InvalidResponseException();
         }
 
-        SparseArrayCompat<String> registrationIds = new SparseArrayCompat<>();
-        for (int i = 0; i < years.size(); i++) {
-            JsonObject year = years.get(i).getAsJsonObject();
-            if (!year.has("REGISTRATIONID") || !year.has("REGISTRATIONDATEFROM")) {
-                throw new InvalidResponseException();
-            }
-            registrationIds.put(year.get("REGISTRATIONDATEFROM").getAsInt(), year.get("REGISTRATIONID").getAsString());
+        JsonObject currentYear = years.get(0).getAsJsonObject();
+        if (!currentYear.has("REGISTRATIONID")) {
+            throw new InvalidResponseException();
         }
 
-        return registrationIds.valueAt(registrationIds.size() - 1);
+        // TODO: Ideally return REGISTRATIONID from year with largest REGISTRATIONDATEFROM
+        return currentYear.get("REGISTRATIONID").getAsString();
     }
 
     @NonNull

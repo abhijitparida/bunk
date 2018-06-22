@@ -117,8 +117,8 @@ public class ResponseParserTest {
     @Test
     public void parseRegistrationId_ValidRegistrationIdJson_ParsesCorrectly() {
         ResponseParser responseParser = new ResponseParser();
-        String registrationId = responseParser.parseRegistrationId("{\"studentdata\": [{\"REGISTRATIONID\": \"regid001\",\"REGISTRATIONDATEFROM\": 1},{\"REGISTRATIONID\": \"regid003\",\"REGISTRATIONDATEFROM\": 3},{\"REGISTRATIONID\": \"regid002\",\"REGISTRATIONDATEFROM\": 2}]}");
+        String registrationId = responseParser.parseRegistrationId("{\"studentdata\": [{\"REGISTRATIONID\": \"2018 ODD SEM - ITER\",\"REGISTRATIONDATEFROM\": 1528223400000},{\"REGISTRATIONID\": \"2018 EVEN SEMESTER\",\"REGISTRATIONDATEFROM\": 1511721000000},{\"REGISTRATIONID\": \"2017 ODD SEMESTER\",\"REGISTRATIONDATEFROM\": 1498847400000}]}");
 
-        assertEquals("regid003", registrationId);
+        assertEquals("2018 ODD SEM - ITER", registrationId);
     }
 }
