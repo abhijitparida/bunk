@@ -3,17 +3,13 @@
 
     <color name="indigo">#3F51B5</color>
     <color name="indigo_dark">#303F9F</color>
-
+    <color name="blue">#254573</color>
+    <color name="green">#64DD17</color>
+    <color name="yellow">#FFD600</color>
     <color name="red">#FF5252</color>
     <color name="red_dark">#D50000</color>
-
+    <color name="black">#DD000000</color>
+    <color name="gray">#424242</color>
     <color name="white">#FFFFFF</color>
-
-    <color name="black_opacity_87">#DD000000</color>
-    <color name="black_opacity_54">#89000000</color>
-
-    <color name="grey">#E0E0E0</color>
-    <color name="grey_dark">#424242</color>
-    <color name="grey_light">#FAFAFA</color>
 
 </resources>

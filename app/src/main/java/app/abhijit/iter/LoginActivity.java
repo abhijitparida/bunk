@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Abhijit Parida <abhijitparida.me@gmail.com>
+ * Copyright (c) 2016 Abhijit Parida <abhijitparida.me@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,12 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,8 +47,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
-import java.util.Random;
 
 import app.abhijit.iter.data.Cache;
 import app.abhijit.iter.data.IterApi;
@@ -63,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mUsernameInput;
     private EditText mPasswordInput;
+    private TextInputLayout mPasswordVisibility;
     private Button mLoginButton;
 
     @Override
@@ -77,11 +82,31 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameInput = findViewById(R.id.username);
         mPasswordInput = findViewById(R.id.password);
+        mPasswordVisibility = findViewById(R.id.password_visibility);
         mLoginButton = findViewById(R.id.login);
 
         setupToolbar();
+        setupUsernameInput();
+        setupPasswordInput();
         setupLoginButton();
 
+        Student selectedStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
+        if (selectedStudent != null) {
+            mUsernameInput.setText(selectedStudent.username);
+            mPasswordInput.setText(selectedStudent.password);
+            mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
+            if (mSharedPreferences.getBoolean("pref_auto_login", true)) {
+                mLoginButton.performClick();
+            }
+        }
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void setupUsernameInput() {
         final ArrayList<Student> students = mCache.getStudents();
         final ArrayList<String> usernames = new ArrayList<>();
         for (Student student : students) {
@@ -99,33 +124,43 @@ public class LoginActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int index = usernames.indexOf(mUsernameInput.getText().toString());
                 mPasswordInput.setText(students.get(index).password);
+                mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
             }
         });
-
-        Student selectedStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
-        if (selectedStudent != null) {
-            mUsernameInput.setText(selectedStudent.username);
-            mPasswordInput.setText(selectedStudent.password);
-            mLoginButton.performClick();
-        }
     }
 
-    private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private void setupPasswordInput() {
+        mPasswordInput.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0) mPasswordVisibility.setPasswordVisibilityToggleEnabled(true);
+            }
+        });
     }
 
     private void setupLoginButton() {
         Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String username = mUsernameInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
+
+                if (username.isEmpty()) return;
+
                 mSharedPreferences.edit().putString("pref_student", username).apply();
 
                 mUsernameInput.setEnabled(false);
                 mPasswordInput.setEnabled(false);
+                mPasswordVisibility.setEnabled(false);
                 mLoginButton.setEnabled(false);
 
                 mLoginButton.setText("LOADING...");
@@ -139,11 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (mCache.getStudent(student.username) == null) {
                             Toast.makeText(mContext, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
                         }
-
-                        String[] emojis = {":^)", ":)", ":3", emoji(0x1F60F),
-                                emoji(0x1F60F) + emoji(0x1F60F) + emoji(0x1F60F)};
-                        mLoginButton.setText(emojis[new Random().nextInt(emojis.length)]);
-
+                        mLoginButton.setText(StringUtils.repeat(new String(Character.toChars(0x1F60F)), 3));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -158,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onError(@NonNull RuntimeException error) {
                         if (error instanceof ConnectionFailedException) {
-                            Toast.makeText(mContext, "Could not connect to server", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, "ITER servers are currently down", Toast.LENGTH_LONG).show();
                         } else if (error instanceof InvalidCredentialsException) {
                             Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
                         } else if (error instanceof InvalidResponseException) {
@@ -182,6 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                             ((AnimationDrawable) mLoginButton.getBackground()).stop();
                             mUsernameInput.setEnabled(true);
                             mPasswordInput.setEnabled(true);
+                            mPasswordVisibility.setEnabled(true);
                             mLoginButton.setBackgroundResource(R.drawable.bg_login_button_error);
                             mLoginButton.setText("ERROR");
 
@@ -198,9 +230,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    private String emoji(int unicode) {
-        return new String(Character.toChars(unicode));
     }
 }

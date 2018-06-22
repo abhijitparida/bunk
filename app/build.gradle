@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "app.abhijit.iter"
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 18
-        versionName "v2.3"
+        targetSdkVersion 27
+        versionCode 20
+        versionName "v2.5"
         resConfig "en"
     }
 
@@ -36,30 +36,14 @@ android {
     }
 }
 
-task copySampleGoogleServicesJson << {
-    if (!file("${projectDir}/google-services.json").exists()) {
-        println("google-services.json doesn't exist");
-        println("copying google-services.sample.json to google-services.json");
-        copy {
-            from("${projectDir}/")
-            into("${projectDir}/")
-            include("google-services.sample.json")
-            rename("google-services.sample.json", "google-services.json")
-        }
-    }
-}
-
-preBuild.dependsOn(copySampleGoogleServicesJson)
-
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support:design:26.0.1'
-    compile 'com.google.android.gms:play-services-ads-lite:11.0.4'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'org.apache.commons:commons-lang3:3.4'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.7.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'org.apache.commons:commons-lang3:3.4'
 }
 
 repositories {
@@ -67,5 +51,3 @@ repositories {
         url 'https://maven.google.com'
     }
 }
-
-apply plugin: 'com.google.gms.google-services'

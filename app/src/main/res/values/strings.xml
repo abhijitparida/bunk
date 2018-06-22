@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_name">Bunk</string>
 
-    <string name="about_disclaimer">USE THE APP RESPONSIBLY. THIS APP DOES NOT PROMOTE BUNKING. THE CALCULATED DATA MIGHT BE INACCURATE. THE DEVELOPER IS NOT RESPONSIBLE FOR THE USER\'S ATTENDANCE.</string>
-    <string name="about_unofficial">THIS IS NOT AN OFFICIAL APP.</string>
-    <string name="about_icons">Icons from flaticon.com licensed under the Creative Commons BY 3.0 license</string>
-
-    <string name="nav_github">github.com/abhijitparida/bunk</string>
-
-    <string name="label_registration_number">Registration Number</string>
-    <string name="label_add">ADD</string>
-    <string name="label_update_available">Update Available</string>
-    <string name="label_update">Update</string>
-    <string name="label_attendance">Attendance:</string>
-    <string name="label_last_updated">Last Updated:</string>
+    <string name="label_last_updated">Last Updated</string>
     <string name="label_theory">Theory:</string>
     <string name="label_lab">Lab:</string>
     <string name="label_absent">Absent:</string>
@@ -23,21 +11,16 @@
     <string name="label_username">USERNAME</string>
     <string name="label_password">PASSWORD</string>
     <string name="label_login">BUNK!</string>
-    <string name="label_feedback">Feedback</string>
     <string name="label_refresh">Refresh</string>
     <string name="label_settings">Settings</string>
     <string name="label_logout">Logout</string>
 
-    <string name="hint_getting_started_1">"Tap the "</string> <!-- hamburger menu -->
-    <string name="hint_getting_started_2">" button or swipe from the left edge to get started"</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="about_disclaimer">USE THE APP RESPONSIBLY. THIS APP DOES NOT PROMOTE BUNKING. THE CALCULATED DATA MIGHT BE INACCURATE. THE DEVELOPER IS NOT RESPONSIBLE FOR THE USER\'S ATTENDANCE.</string>
+    <string name="about_unofficial">THIS IS NOT AN OFFICIAL APP.</string>
+    <string name="about_icons">Icons from flaticon.com licensed under the Creative Commons BY 3.0 license</string>
+    <string name="github">github.com/abhijitparida/bunk</string>
     <string name="hint_subjects_empty">Attendance is currently unavailable</string>
-    <string name="hint_students_empty">Registration numbers will appear here after you add them</string>
-
-    <string name="url_feedback">https://goo.gl/forms/MsrY3JciZD</string>
-    <string name="url_store">https://play.google.com/store/apps/details?id=app.abhijit.iter</string>
-    <string name="url_github">https://github.com/abhijitparida/bunk</string>
-
-    <string name="message_student_deleted">Registration number %1$s removed</string>
-    <string name="message_update_available">A new version of this app is available!</string>
-
+    <string name="github_url">https://github.com/abhijitparida/bunk</string>
 </resources>

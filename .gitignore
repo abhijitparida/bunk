@@ -2,7 +2,7 @@
 *.iml
 .gradle
 .idea
-app/google-services.json
 app/build
+app/release
 build
 local.properties

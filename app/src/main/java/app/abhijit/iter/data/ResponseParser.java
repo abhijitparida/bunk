@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Abhijit Parida <abhijitparida.me@gmail.com>
+ * Copyright (c) 2016 Abhijit Parida <abhijitparida.me@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@
 package app.abhijit.iter.data;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -55,7 +54,35 @@ class ResponseParser {
     }
 
     @NonNull
-    Student parse(@NonNull String loginJson, @NonNull String attendanceJson)
+    String parseRegistrationId(@NonNull String registrationIdJson)
+            throws InvalidResponseException {
+        JsonObject registrationId;
+        try {
+            registrationId = this.jsonParser.parse(registrationIdJson).getAsJsonObject();
+        } catch (Exception e) {
+            throw new InvalidResponseException();
+        }
+
+        if (!registrationId.has("studentdata")) {
+            throw new InvalidResponseException();
+        }
+
+        JsonArray years = registrationId.getAsJsonArray("studentdata");
+        if (years.size() == 0) {
+            throw new InvalidResponseException();
+        }
+
+        JsonObject currentYear = years.get(0).getAsJsonObject();
+        if (!currentYear.has("REGISTRATIONID")) {
+            throw new InvalidResponseException();
+        }
+
+        // TODO: Ideally return REGISTRATIONID from year with largest REGISTRATIONDATEFROM
+        return currentYear.get("REGISTRATIONID").getAsString();
+    }
+
+    @NonNull
+    Student parseStudent(@NonNull String loginJson, @NonNull String attendanceJson)
             throws InvalidCredentialsException, InvalidResponseException {
         Student student = processLogin(loginJson);
         try {

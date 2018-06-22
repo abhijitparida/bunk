@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="margin_ultra_large">96dp</dimen>
-    <dimen name="margin_extra_large">48dp</dimen>
+    <dimen name="margin_x_large">48dp</dimen>
     <dimen name="margin_large">16dp</dimen>
-    <dimen name="margin_medium">8dp</dimen>
-    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">4dp</dimen>
+    <dimen name="margin_small">2dp</dimen>
 
-    <dimen name="text_extra_large">22sp</dimen>
-    <dimen name="text_large">20sp</dimen>
+    <dimen name="text_x_large">20sp</dimen>
+    <dimen name="text_large">15.5sp</dimen>
     <dimen name="text_medium">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
+    <dimen name="text_x_small">11.5sp</dimen>
 
     <dimen name="shadow">3dp</dimen>
 
     <dimen name="icon_subject_status">16sp</dimen>
-
     <dimen name="avatar_subject">48sp</dimen>
+    <dimen name="about_logo">68dp</dimen>
+    <dimen name="login_input">52dp</dimen>
 
     <dimen name="nav_header">180dp</dimen>
     <dimen name="nav_avatar">78dp</dimen>

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Abhijit Parida <abhijitparida.me@gmail.com>
+ * Copyright (c) 2016 Abhijit Parida <abhijitparida.me@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,11 +46,9 @@ import okhttp3.RequestBody;
 public class IterApi {
 
     private String baseUrl;
-    private String registrationId;
 
     public IterApi(Context context) {
         this.baseUrl = context.getResources().getString(R.string.api_base_url);
-        this.registrationId = context.getResources().getString(R.string.registration_id);
     }
 
     public void getStudent(@NonNull String username, @NonNull String password, @NonNull Callback callback) {
@@ -65,30 +63,38 @@ public class IterApi {
                         .cookieJar(new CookieJar())
                         .build();
                 String baseUrl = (String) params[3];
-                String registrationId = (String) params[4];
                 MediaType json = MediaType.parse("application/json");
-
-                String loginRequestBody = new Formatter()
-                        .format("{\"username\":\"%s\",\"password\":\"%s\"}",
-                                username, password).toString();
-                Request loginRequest = new Request.Builder()
-                        .url(baseUrl + "/login")
-                        .post(RequestBody.create(json, loginRequestBody))
-                        .build();
-
-                String attendanceRequestBody = new Formatter()
-                        .format("{\"registerationid\":\"%s\"}", registrationId).toString();
-                Request attendanceRequest = new Request.Builder()
-                        .url(baseUrl + "/attendanceinfo")
-                        .post(RequestBody.create(json, attendanceRequestBody))
-                        .build();
+                ResponseParser responseParser = new ResponseParser();
 
                 try {
+                    String loginRequestBody = new Formatter()
+                            .format("{\"username\":\"%s\",\"password\":\"%s\",\"MemberType\":\"S\"}",
+                                    username, password).toString();
+                    Request loginRequest = new Request.Builder()
+                            .url(baseUrl + "/login")
+                            .post(RequestBody.create(json, loginRequestBody))
+                            .build();
                     String loginJson = okHttpClient.newCall(loginRequest)
                             .execute().body().string();
+
+                    Request registrationIdRequest = new Request.Builder()
+                            .url(baseUrl + "/studentSemester/lov")
+                            .post(RequestBody.create(json, ""))
+                            .build();
+                    String registrationIdJson = okHttpClient.newCall(registrationIdRequest)
+                            .execute().body().string();
+                    String registrationId = responseParser.parseRegistrationId(registrationIdJson);
+
+                    String attendanceRequestBody = new Formatter()
+                            .format("{\"registerationid\":\"%s\"}", registrationId).toString();
+                    Request attendanceRequest = new Request.Builder()
+                            .url(baseUrl + "/attendanceinfo")
+                            .post(RequestBody.create(json, attendanceRequestBody))
+                            .build();
                     String attendanceJson = okHttpClient.newCall(attendanceRequest)
                             .execute().body().string();
-                    Student student = new ResponseParser().parse(loginJson, attendanceJson);
+
+                    Student student = responseParser.parseStudent(loginJson, attendanceJson);
                     student.username = username;
                     student.password = password;
                     return new Object[]{student, null, callback};
@@ -113,7 +119,7 @@ public class IterApi {
                     }
                 }
             }
-        }.execute(username, password, callback, this.baseUrl, this.registrationId);
+        }.execute(username, password, callback, this.baseUrl);
     }
 
     public interface Callback {

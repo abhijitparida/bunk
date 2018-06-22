@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Abhijit Parida <abhijitparida.me@gmail.com>
+ * Copyright (c) 2016 Abhijit Parida <abhijitparida.me@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -52,14 +51,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,7 +79,6 @@ public class AttendanceActivity extends AppCompatActivity
     private int mPrefMinimumAttendance;
     private ArrayList<SubjectView> mSubjectViews;
     private SubjectAdapter mSubjectAdapter;
-    private int mRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +109,6 @@ public class AttendanceActivity extends AppCompatActivity
         setupListView();
 
         processAndDisplayAttendance();
-
-        if (!BuildConfig.DEBUG) {
-            displayBannerAd();
-        }
     }
 
     @Override
@@ -155,19 +147,7 @@ public class AttendanceActivity extends AppCompatActivity
             animation.setAnimationListener(new Animation.AnimationListener() {
 
                 @Override
-                public void onAnimationStart(Animation animation) {
-                    if (++mRefresh == 5) {
-                        Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(2000);
-                        findViewById(R.id.chicken).setVisibility(View.VISIBLE); // ¯\_(ツ)_/¯
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                findViewById(R.id.chicken).setVisibility(View.GONE);
-                            }
-                        }, 2000);
-                    }
-                }
+                public void onAnimationStart(Animation animation) { }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -183,8 +163,6 @@ public class AttendanceActivity extends AppCompatActivity
             Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             finish();
-        } else if (id == R.id.action_settings) {
-            startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
         }
 
         return true;
@@ -195,8 +173,8 @@ public class AttendanceActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_about) {
             startActivity(new Intent(AttendanceActivity.this, AboutActivity.class));
-        } else if (id == R.id.nav_feedback) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.url_feedback))));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
         }
 
         return true;
@@ -238,7 +216,7 @@ public class AttendanceActivity extends AppCompatActivity
         github.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.url_github))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.github_url))));
             }
         });
     }
@@ -264,18 +242,6 @@ public class AttendanceActivity extends AppCompatActivity
         subjectsList.setAdapter(mSubjectAdapter);
     }
 
-    private void displayBannerAd() {
-        AdView adView = findViewById(R.id.ad);
-        adView.setVisibility(View.VISIBLE);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) fab.getLayoutParams();
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        fab.setLayoutParams(layoutParams);
-
-        MobileAds.initialize(mContext, getResources().getString(R.string.banner_ad_unit_id));
-        adView.loadAd(new AdRequest.Builder().build());
-    }
-
     private void processAndDisplayAttendance() {
         ArrayList<SubjectView> subjectViews = new ArrayList<>();
         Boolean updated = false;
@@ -283,7 +249,7 @@ public class AttendanceActivity extends AppCompatActivity
             SubjectView subjectView = new SubjectView();
             subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
-            subjectView.attendance = String.format(Locale.US, "%.2f%%", subject.attendance());
+            subjectView.attendance = String.format(Locale.US, "%.0f%%", subject.attendance());
             subjectView.theory = String.format(Locale.US, "%d/%d classes", subject.theoryPresent, subject.theoryTotal);
             subjectView.lab = String.format(Locale.US, "%d/%d classes", subject.labPresent, subject.labTotal);
             subjectView.absent = String.format(Locale.US, "%d classes", subject.absent());
@@ -294,10 +260,10 @@ public class AttendanceActivity extends AppCompatActivity
                         || subject.labPresent != oldSubject.labPresent
                         || subject.labTotal != oldSubject.labTotal) {
                     updated = true;
-                    subjectView.oldAttendance = String.format(Locale.US, "%.2f%%", oldSubject.attendance());
                     subjectView.oldTheory = String.format(Locale.US, "%d/%d classes", oldSubject.theoryPresent, oldSubject.theoryTotal);
                     subjectView.oldLab = String.format(Locale.US, "%d/%d classes", oldSubject.labPresent, oldSubject.labTotal);
                     subjectView.oldAbsent = String.format(Locale.US, "%d classes", oldSubject.absent());
+                    subjectView.updated = true;
                     if (subject.attendance() >= oldSubject.attendance()) {
                         subjectView.status = R.drawable.ic_status_up;
                     } else {
@@ -305,17 +271,21 @@ public class AttendanceActivity extends AppCompatActivity
                     }
                 } else {
                     subject.lastUpdated = oldSubject.lastUpdated;
-                    if (subject.attendance() > 85.0) {
-                        subjectView.status = R.drawable.ic_status_ok;
-                    } else if (subject.attendance() > 75.0) {
-                        subjectView.status = R.drawable.ic_status_warning;
-                    } else {
-                        subjectView.status = R.drawable.ic_status_critical;
-                    }
                 }
             }
+            if (subject.attendance() > mPrefMinimumAttendance + 10.0) {
+                subjectView.attendanceBadge = R.drawable.bg_badge_green;
+            } else if (subject.attendance() > mPrefMinimumAttendance) {
+                subjectView.attendanceBadge = R.drawable.bg_badge_yellow;
+            } else {
+                subjectView.attendanceBadge = R.drawable.bg_badge_red;
+            }
             subjectView.bunkStats = subject.bunkStats(mPrefMinimumAttendance, mPrefExtendedStats);
-            subjectView.lastUpdated = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0).toString();
+            if (subjectView.updated) {
+                subjectView.lastUpdated = "just now";
+            } else {
+                subjectView.lastUpdated = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0).toString();
+            }
             subjectViews.add(subjectView);
         }
         mCache.setStudent(mNewStudent.username, mNewStudent);
@@ -335,36 +305,72 @@ public class AttendanceActivity extends AppCompatActivity
     }
 
     private int subjectAvatar(String subjectCode) {
-        int avatar;
-        String code = subjectCode.substring(0, Math.min(subjectCode.length(), 3));
-        switch (code) {
-            case "CHM": avatar = R.drawable.ic_subject_chemistry; break;
-            case "CSE": avatar = R.drawable.ic_subject_computer; break;
-            case "CVL": avatar = R.drawable.ic_subject_civil; break;
-            case "EET": avatar = R.drawable.ic_subject_electrical; break;
-            case "HSS": avatar = R.drawable.ic_subject_humanities; break;
-            case "MEL": avatar = R.drawable.ic_subject_mechanical; break;
-            case "MTH": avatar = R.drawable.ic_subject_maths; break;
-            case "PHY": avatar = R.drawable.ic_subject_physics; break;
-            default: avatar = R.drawable.ic_subject_generic;
+        switch (subjectCode) {
+            case "CHM1002": return R.drawable.ic_subject_environmental_studies;
+            case "CSE1002": return R.drawable.ic_subject_maths;
+            case "CSE1011": return R.drawable.ic_subject_electrical;
+            case "CSE2031": return R.drawable.ic_subject_maths;
+            case "CSE3151": return R.drawable.ic_subject_database;
+            case "CSE4042": return R.drawable.ic_subject_network;
+            case "CSE4043": return R.drawable.ic_subject_security;
+            case "CSE4044": return R.drawable.ic_subject_security;
+            case "CSE4051": return R.drawable.ic_subject_database;
+            case "CSE4052": return R.drawable.ic_subject_database;
+            case "CSE4053": return R.drawable.ic_subject_database;
+            case "CSE4054": return R.drawable.ic_subject_database;
+            case "CSE4102": return R.drawable.ic_subject_html;
+            case "CSE4141": return R.drawable.ic_subject_android;
+            case "CSE4151": return R.drawable.ic_subject_server;
+            case "CVL3071": return R.drawable.ic_subject_traffic;
+            case "CVL3241": return R.drawable.ic_subject_water;
+            case "CVL4031": return R.drawable.ic_subject_earth;
+            case "CVL4032": return R.drawable.ic_subject_soil;
+            case "CVL4041": return R.drawable.ic_subject_water;
+            case "CVL4042": return R.drawable.ic_subject_water;
+            case "EET1001": return R.drawable.ic_subject_matlab;
+            case "EET3041": return R.drawable.ic_subject_electromagnetic_waves;
+            case "EET3061": return R.drawable.ic_subject_communication;
+            case "EET3062": return R.drawable.ic_subject_communication;
+            case "EET4014": return R.drawable.ic_subject_renewable_energy;
+            case "EET4041": return R.drawable.ic_subject_electromagnetic_waves;
+            case "EET4061": return R.drawable.ic_subject_wifi;
+            case "EET4063": return R.drawable.ic_subject_communication;
+            case "EET4161": return R.drawable.ic_subject_communication;
+            case "HSS1001": return R.drawable.ic_subject_effective_speech;
+            case "HSS1021": return R.drawable.ic_subject_economics;
+            case "HSS2021": return R.drawable.ic_subject_economics;
+            case "MEL3211": return R.drawable.ic_subject_water;
+            case "MTH2002": return R.drawable.ic_subject_probability_statistics;
+            case "MTH4002": return R.drawable.ic_subject_matlab;
         }
 
-        return avatar;
+        switch (subjectCode.substring(0, Math.min(subjectCode.length(), 3))) {
+            case "CHM": return R.drawable.ic_subject_chemistry;
+            case "CSE": return R.drawable.ic_subject_computer;
+            case "CVL": return R.drawable.ic_subject_civil;
+            case "EET": return R.drawable.ic_subject_electrical;
+            case "HSS": return R.drawable.ic_subject_humanities;
+            case "MEL": return R.drawable.ic_subject_mechanical;
+            case "MTH": return R.drawable.ic_subject_maths;
+            case "PHY": return R.drawable.ic_subject_physics;
+        }
 
+        return R.drawable.ic_subject_generic;
     }
 
     private class SubjectView {
 
+        private boolean updated;
         private int avatar;
-        private String name;
-        private String oldAttendance;
         private String attendance;
-        private int status;
+        private int attendanceBadge;
+        private String name;
         private String lastUpdated;
-        private String oldTheory;
-        private String theory;
+        private int status;
         private String oldLab;
         private String lab;
+        private String oldTheory;
+        private String theory;
         private String oldAbsent;
         private String absent;
         private String bunkStats;
@@ -383,15 +389,16 @@ public class AttendanceActivity extends AppCompatActivity
         private class ViewHolder {
 
             private ImageView avatar;
-            private TextView name;
-            private TextView oldAttendance;
             private TextView attendance;
-            private ImageView status;
+            private TextView name;
             private TextView lastUpdated;
-            private TextView oldTheory;
-            private TextView theory;
+            private ImageView status;
+            private TextView labLabel;
             private TextView oldLab;
             private TextView lab;
+            private TextView theoryLabel;
+            private TextView oldTheory;
+            private TextView theory;
             private TextView oldAbsent;
             private TextView absent;
             private TextView bunkStats;
@@ -404,15 +411,16 @@ public class AttendanceActivity extends AppCompatActivity
                 viewHolder = new ViewHolder();
                 convertView = mLayoutInflater.inflate(R.layout.item_subject, parent, false);
                 viewHolder.avatar = convertView.findViewById(R.id.subject_avatar);
-                viewHolder.name = convertView.findViewById(R.id.subject_name);
-                viewHolder.oldAttendance = convertView.findViewById(R.id.subject_old_attendance);
                 viewHolder.attendance = convertView.findViewById(R.id.subject_attendance);
-                viewHolder.status = convertView.findViewById(R.id.subject_status);
+                viewHolder.name = convertView.findViewById(R.id.subject_name);
                 viewHolder.lastUpdated = convertView.findViewById(R.id.subject_last_updated);
-                viewHolder.oldTheory = convertView.findViewById(R.id.subject_old_theory);
-                viewHolder.theory = convertView.findViewById(R.id.subject_theory);
+                viewHolder.status = convertView.findViewById(R.id.subject_status);
+                viewHolder.labLabel = convertView.findViewById(R.id.subject_lab_label);
                 viewHolder.oldLab = convertView.findViewById(R.id.subject_old_lab);
                 viewHolder.lab = convertView.findViewById(R.id.subject_lab);
+                viewHolder.theoryLabel = convertView.findViewById(R.id.subject_theory_label);
+                viewHolder.oldTheory = convertView.findViewById(R.id.subject_old_theory);
+                viewHolder.theory = convertView.findViewById(R.id.subject_theory);
                 viewHolder.oldAbsent = convertView.findViewById(R.id.subject_old_absent);
                 viewHolder.absent = convertView.findViewById(R.id.subject_absent);
                 viewHolder.bunkStats = convertView.findViewById(R.id.subject_bunk_stats);
@@ -422,35 +430,57 @@ public class AttendanceActivity extends AppCompatActivity
             }
 
             final SubjectView subjectView = getItem(position);
+
+            viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.black));
+            viewHolder.labLabel.setVisibility(View.VISIBLE);
+            viewHolder.oldLab.setVisibility(View.GONE);
+            viewHolder.lab.setVisibility(View.VISIBLE);
+            viewHolder.theoryLabel.setVisibility(View.VISIBLE);
+            viewHolder.oldTheory.setVisibility(View.GONE);
+            viewHolder.theory.setVisibility(View.VISIBLE);
+            viewHolder.oldAbsent.setVisibility(View.GONE);
+
             viewHolder.avatar.setImageResource(subjectView.avatar);
-            viewHolder.name.setText(subjectView.name);
-            if (subjectView.oldAttendance != null) {
-                viewHolder.oldAttendance.setText(subjectView.oldAttendance);
-                viewHolder.oldAttendance.setVisibility(View.VISIBLE);
-                viewHolder.oldAttendance.setPaintFlags(viewHolder.oldAttendance.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
             viewHolder.attendance.setText(subjectView.attendance);
-            viewHolder.status.setImageResource(subjectView.status);
+            viewHolder.attendance.setBackgroundResource(subjectView.attendanceBadge);
+            viewHolder.name.setText(subjectView.name);
             viewHolder.lastUpdated.setText(subjectView.lastUpdated);
-            if (subjectView.oldTheory != null) {
-                viewHolder.oldTheory.setText(subjectView.oldTheory);
-                viewHolder.oldTheory.setVisibility(View.VISIBLE);
-                viewHolder.oldTheory.setPaintFlags(viewHolder.oldTheory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-            viewHolder.theory.setText(subjectView.theory);
-            if (subjectView.oldLab != null) {
-                viewHolder.oldLab.setText(subjectView.oldLab);
-                viewHolder.oldLab.setVisibility(View.VISIBLE);
-                viewHolder.oldLab.setPaintFlags(viewHolder.oldLab.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
+            viewHolder.status.setImageResource(subjectView.status);
+            viewHolder.oldLab.setText(subjectView.oldLab);
             viewHolder.lab.setText(subjectView.lab);
-            if (subjectView.oldAbsent != null) {
-                viewHolder.oldAbsent.setText(subjectView.oldAbsent);
-                viewHolder.oldAbsent.setVisibility(View.VISIBLE);
-                viewHolder.oldAbsent.setPaintFlags(viewHolder.oldAbsent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
+            viewHolder.oldTheory.setText(subjectView.oldTheory);
+            viewHolder.theory.setText(subjectView.theory);
+            viewHolder.oldAbsent.setText(subjectView.oldAbsent);
             viewHolder.absent.setText(subjectView.absent);
             viewHolder.bunkStats.setText(subjectView.bunkStats);
+
+            if (subjectView.updated) {
+                viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.blue));
+
+                if (!StringUtils.equals(subjectView.lab, subjectView.oldLab)) {
+                    viewHolder.oldLab.setVisibility(View.VISIBLE);
+                    viewHolder.oldLab.setPaintFlags(viewHolder.oldLab.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                if (!StringUtils.equals(subjectView.theory, subjectView.oldTheory)) {
+                    viewHolder.oldTheory.setVisibility(View.VISIBLE);
+                    viewHolder.oldTheory.setPaintFlags(viewHolder.oldTheory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                if (!StringUtils.equals(subjectView.absent, subjectView.oldAbsent)) {
+                    viewHolder.oldAbsent.setVisibility(View.VISIBLE);
+                    viewHolder.oldAbsent.setPaintFlags(viewHolder.oldAbsent.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+            }
+
+            if (StringUtils.equals(subjectView.lab, "0/0 classes")) {
+                viewHolder.labLabel.setVisibility(View.GONE);
+                viewHolder.oldLab.setVisibility(View.GONE);
+                viewHolder.lab.setVisibility(View.GONE);
+            }
+            if (StringUtils.equals(subjectView.theory, "0/0 classes")) {
+                viewHolder.theoryLabel.setVisibility(View.GONE);
+                viewHolder.oldTheory.setVisibility(View.GONE);
+                viewHolder.theory.setVisibility(View.GONE);
+            }
 
             return convertView;
         }
