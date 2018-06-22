@@ -9,7 +9,7 @@
     <style name="AppTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/blue_dark</item>
+        <item name="colorAccent">@color/indigo_dark</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
