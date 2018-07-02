@@ -3,7 +3,7 @@
 
     <string name="app_name">Bunk</string>
 
-    <string name="label_last_updated">Last Updated</string>
+    <string name="label_last_updated">Last updated</string>
     <string name="label_theory">Theory:</string>
     <string name="label_lab">Lab:</string>
     <string name="label_absent">Absent:</string>
