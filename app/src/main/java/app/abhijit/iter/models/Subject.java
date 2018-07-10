@@ -75,7 +75,7 @@ public class Subject {
         int classesPresent = present();
         int classesAbsent = absent();
         int lastDays;
-        int approxTotalClasses = 60;
+        int approxTotalClasses = 55;
 
         if (classes != 0 && attendance <= minimumAttendance) {
             bunk.add("DO NOT BUNK ANY MORE CLASSES\n");
