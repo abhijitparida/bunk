@@ -284,7 +284,8 @@ public class AttendanceActivity extends AppCompatActivity
             if (subjectView.updated) {
                 subjectView.lastUpdated = "just now";
             } else {
-                subjectView.lastUpdated = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0).toString();
+                CharSequence timeSpan = DateUtils.getRelativeTimeSpanString(subject.lastUpdated, new Date().getTime(), 0);
+                subjectView.lastUpdated = timeSpan.toString().toLowerCase();
             }
             subjectViews.add(subjectView);
         }
