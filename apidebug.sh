@@ -29,6 +29,9 @@ read -sp "password: " password
 echo -e "\n\nlogin - invalid credentials\n"
 login $api_url invalid credentials
 
+echo -e "\n\nregistration ids\n"
+registerationid $api_url
+
 echo -e "\n\nlogin - valid credentials\n"
 login $api_url $username $password
 
