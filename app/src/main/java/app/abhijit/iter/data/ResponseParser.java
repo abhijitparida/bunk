@@ -64,7 +64,7 @@ class ResponseParser {
         }
 
         if (!registrationId.has("studentdata")) {
-            throw new InvalidResponseException();
+            throw new InvalidCredentialsException();
         }
 
         JsonArray years = registrationId.getAsJsonArray("studentdata");
