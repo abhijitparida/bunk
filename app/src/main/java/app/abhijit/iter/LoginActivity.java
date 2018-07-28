@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
+import android.content.DialogInterface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -189,12 +190,16 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onError(@NonNull RuntimeException error) {
                         if (error instanceof ConnectionFailedException) {
-                            Toast.makeText(mContext, "ITER servers are currently down", Toast.LENGTH_LONG).show();
+                           customDialog("ITER BUNK","ITER servers are currently down");
+
                         } else if (error instanceof InvalidCredentialsException) {
-                            Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
+                            customDialog("ITER BUNK","Invalid Credentials");
+
                         } else if (error instanceof InvalidResponseException) {
-                            Toast.makeText(mContext, "Invalid API response", Toast.LENGTH_LONG).show();
+                            customDialog("ITER BUNK","Invalid API Response");
                         }
+
+
 
                         if ((error instanceof InvalidResponseException || error instanceof ConnectionFailedException) &&
                                 mCache.getStudent(mSharedPreferences.getString("pref_student", null)) != null) {
@@ -230,5 +235,47 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    private void closeMethod(){
+        //finish();
+        System.exit(2);
+
+    }
+
+    private void Refresh(){
+        Intent intent=new Intent(LoginActivity.this,LoginActivity.class);
+        startActivity(intent);
+    }
+
+        public void customDialog(String title, String message){
+        final android.support.v7.app.AlertDialog.Builder builderSingle = new android.support.v7.app.AlertDialog.Builder(this);
+        builderSingle.setIcon(R.mipmap.ic_launcher);
+        builderSingle.setTitle(title);
+        builderSingle.setMessage(message);
+
+        builderSingle.setNegativeButton(
+                "Close",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                             closeMethod();
+                      }
+                    });
+
+        builderSingle.setPositiveButton(
+                "Refresh",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                            Refresh();
+                      }
+                   });
+
+
+        builderSingle.show();
+    }
+
+    private String emoji(int unicode) {
+        return new String(Character.toChars(unicode));
     }
 }
