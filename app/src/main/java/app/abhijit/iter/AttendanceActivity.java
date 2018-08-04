@@ -250,9 +250,15 @@ public class AttendanceActivity extends AppCompatActivity
             subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
             subjectView.attendance = String.format(Locale.US, "%.0f%%", Math.floor(subject.attendance()));
-            subjectView.theory = String.format(Locale.US, "%d/%d classes", subject.theoryPresent, subject.theoryTotal);
-            subjectView.lab = String.format(Locale.US, "%d/%d classes", subject.labPresent, subject.labTotal);
-            subjectView.absent = String.format(Locale.US, "%d classes", subject.absent());
+            subjectView.theory = String.format(Locale.US,
+                    subject.theoryTotal == 1 ? "%d/%d class" : "%d/%d classes",
+                    subject.theoryPresent, subject.theoryTotal);
+            subjectView.lab = String.format(Locale.US,
+                    subject.labTotal == 1 ? "%d/%d class" : "%d/%d classes",
+                    subject.labPresent, subject.labTotal);
+            subjectView.absent = String.format(Locale.US,
+                    subject.absent() == 1 ? "%d class" : "%d classes",
+                    subject.absent());
             if (mOldStudent.subjects.containsKey(subject.code)) {
                 Subject oldSubject = mOldStudent.subjects.get(subject.code);
                 if (subject.theoryPresent != oldSubject.theoryPresent
@@ -260,9 +266,15 @@ public class AttendanceActivity extends AppCompatActivity
                         || subject.labPresent != oldSubject.labPresent
                         || subject.labTotal != oldSubject.labTotal) {
                     updated = true;
-                    subjectView.oldTheory = String.format(Locale.US, "%d/%d classes", oldSubject.theoryPresent, oldSubject.theoryTotal);
-                    subjectView.oldLab = String.format(Locale.US, "%d/%d classes", oldSubject.labPresent, oldSubject.labTotal);
-                    subjectView.oldAbsent = String.format(Locale.US, "%d classes", oldSubject.absent());
+                    subjectView.oldTheory = String.format(Locale.US,
+                            oldSubject.theoryTotal == 1 ? "%d/%d class" : "%d/%d classes",
+                            oldSubject.theoryPresent, oldSubject.theoryTotal);
+                    subjectView.oldLab = String.format(Locale.US,
+                            oldSubject.labTotal == 1 ? "%d/%d class" : "%d/%d classes",
+                            oldSubject.labPresent, oldSubject.labTotal);
+                    subjectView.oldAbsent = String.format(Locale.US,
+                            oldSubject.absent() == 1 ? "%d class" : "%d classes",
+                            oldSubject.absent());
                     subjectView.updated = true;
                     if (subject.attendance() >= oldSubject.attendance()) {
                         subjectView.status = R.drawable.ic_status_up;
