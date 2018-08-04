@@ -249,7 +249,7 @@ public class AttendanceActivity extends AppCompatActivity
             SubjectView subjectView = new SubjectView();
             subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
-            subjectView.attendance = String.format(Locale.US, "%.0f%%", subject.attendance());
+            subjectView.attendance = String.format(Locale.US, "%.0f%%", Math.floor(subject.attendance()));
             subjectView.theory = String.format(Locale.US, "%d/%d classes", subject.theoryPresent, subject.theoryTotal);
             subjectView.lab = String.format(Locale.US, "%d/%d classes", subject.labPresent, subject.labTotal);
             subjectView.absent = String.format(Locale.US, "%d classes", subject.absent());
