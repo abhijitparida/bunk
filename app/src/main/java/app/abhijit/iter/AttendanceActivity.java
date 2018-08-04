@@ -273,9 +273,9 @@ public class AttendanceActivity extends AppCompatActivity
                     subject.lastUpdated = oldSubject.lastUpdated;
                 }
             }
-            if (subject.attendance() > mPrefMinimumAttendance + 10.0) {
+            if (subject.attendance() >= mPrefMinimumAttendance + 10.0) {
                 subjectView.attendanceBadge = R.drawable.bg_badge_green;
-            } else if (subject.attendance() > mPrefMinimumAttendance) {
+            } else if (subject.attendance() >= mPrefMinimumAttendance) {
                 subjectView.attendanceBadge = R.drawable.bg_badge_yellow;
             } else {
                 subjectView.attendanceBadge = R.drawable.bg_badge_red;
