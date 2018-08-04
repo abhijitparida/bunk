@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onError(@NonNull RuntimeException error) {
                         if (error instanceof ConnectionFailedException) {
-                            Toast.makeText(mContext, "ITER servers are currently down", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, "Could not connect to ITER servers", Toast.LENGTH_LONG).show();
                         } else if (error instanceof InvalidCredentialsException) {
                             Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
                         } else if (error instanceof InvalidResponseException) {
