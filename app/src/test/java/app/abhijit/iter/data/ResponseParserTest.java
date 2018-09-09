@@ -121,4 +121,12 @@ public class ResponseParserTest {
 
         assertEquals("2018 ODD SEM - ITER", registrationId);
     }
+
+    @Test
+    public void parseRegistrationId_ValidRegistrationIdJson_ReturnsLatestRegistrationId() {
+        ResponseParser responseParser = new ResponseParser();
+        String registrationId = responseParser.parseRegistrationId("{\"studentdata\": [{\"REGISTRATIONID\": \"bbb\",\"REGISTRATIONDATEFROM\": 2},{\"REGISTRATIONID\": \"ccc\",\"REGISTRATIONDATEFROM\": 3},{\"REGISTRATIONID\": \"aaa\",\"REGISTRATIONDATEFROM\": 1}]}");
+
+        assertEquals("ccc", registrationId);
+    }
 }

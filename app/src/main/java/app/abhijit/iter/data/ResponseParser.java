@@ -32,6 +32,8 @@ import com.google.gson.JsonParser;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -67,18 +69,26 @@ class ResponseParser {
             throw new InvalidCredentialsException();
         }
 
-        JsonArray years = registrationId.getAsJsonArray("studentdata");
-        if (years.size() == 0) {
+        JsonArray studentData = registrationId.getAsJsonArray("studentdata");
+        if (studentData.size() == 0) {
             throw new InvalidResponseException();
         }
 
-        JsonObject currentYear = years.get(0).getAsJsonObject();
-        if (!currentYear.has("REGISTRATIONID")) {
-            throw new InvalidResponseException();
+        JsonObject[] years = new JsonObject[studentData.size()];
+        for (int i = 0; i < studentData.size(); i++) {
+            years[i] = studentData.get(i).getAsJsonObject();
+            if (!years[i].has("REGISTRATIONID") || !years[i].has("REGISTRATIONDATEFROM")) {
+                throw new InvalidResponseException();
+            }
         }
 
-        // TODO: Ideally return REGISTRATIONID from year with largest REGISTRATIONDATEFROM
-        return currentYear.get("REGISTRATIONID").getAsString();
+        Arrays.sort(years, new Comparator<JsonObject>() {
+            @Override
+            public int compare(JsonObject o1, JsonObject o2) {
+                return o1.get("REGISTRATIONDATEFROM").getAsString().compareTo(o2.get("REGISTRATIONDATEFROM").getAsString());
+            }
+        });
+        return years[years.length - 1].get("REGISTRATIONID").getAsString();
     }
 
     @NonNull
