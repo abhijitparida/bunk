@@ -24,9 +24,7 @@
 
 package app.abhijit.iter.data;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.HashMap;
 
@@ -39,29 +37,20 @@ import static org.junit.Assert.assertEquals;
 
 public class ResponseParserTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Test
+    @Test(expected = InvalidResponseException.class)
     public void parseStudent_EmptyLoginJson_ThrowsInvalidResponseException() {
-        thrown.expect(InvalidResponseException.class);
-
         ResponseParser responseParser = new ResponseParser();
         responseParser.parseStudent("", "");
     }
 
-    @Test
+    @Test(expected = InvalidResponseException.class)
     public void parseStudent_InvalidLoginJson_ThrowsInvalidResponseException() {
-        thrown.expect(InvalidResponseException.class);
-
         ResponseParser responseParser = new ResponseParser();
         responseParser.parseStudent("bad json", "");
     }
 
-    @Test
+    @Test(expected = InvalidCredentialsException.class)
     public void parseStudent_StatusError_ThrowsInvalidCredentialsException() {
-        thrown.expect(InvalidCredentialsException.class);
-
         ResponseParser responseParser = new ResponseParser();
         responseParser.parseStudent("{\"name\":\"NAME\",\"status\":\"error\"}", "");
     }
