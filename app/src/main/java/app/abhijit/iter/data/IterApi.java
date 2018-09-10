@@ -52,80 +52,82 @@ public class IterApi {
     }
 
     public void getStudent(@NonNull String username, @NonNull String password, @NonNull Callback callback) {
-        new AsyncTask<Object, Void, Object[]>() {
-
-            @Override
-            protected Object[] doInBackground(Object... params) {
-                String username = (String) params[0];
-                String password = (String) params[1];
-                Callback callback = (Callback) params[2];
-                OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .cookieJar(new CookieJar())
-                        .build();
-                String baseUrl = (String) params[3];
-                MediaType json = MediaType.parse("application/json");
-                ResponseParser responseParser = new ResponseParser();
-
-                try {
-                    String loginRequestBody = new Formatter()
-                            .format("{\"username\":\"%s\",\"password\":\"%s\",\"MemberType\":\"S\"}",
-                                    username, password).toString();
-                    Request loginRequest = new Request.Builder()
-                            .url(baseUrl + "/login")
-                            .post(RequestBody.create(json, loginRequestBody))
-                            .build();
-                    String loginJson = okHttpClient.newCall(loginRequest)
-                            .execute().body().string();
-
-                    Request registrationIdRequest = new Request.Builder()
-                            .url(baseUrl + "/studentSemester/lov")
-                            .post(RequestBody.create(json, ""))
-                            .build();
-                    String registrationIdJson = okHttpClient.newCall(registrationIdRequest)
-                            .execute().body().string();
-                    String registrationId = responseParser.parseRegistrationId(registrationIdJson);
-
-                    String attendanceRequestBody = new Formatter()
-                            .format("{\"registerationid\":\"%s\"}", registrationId).toString();
-                    Request attendanceRequest = new Request.Builder()
-                            .url(baseUrl + "/attendanceinfo")
-                            .post(RequestBody.create(json, attendanceRequestBody))
-                            .build();
-                    String attendanceJson = okHttpClient.newCall(attendanceRequest)
-                            .execute().body().string();
-
-                    Student student = responseParser.parseStudent(loginJson, attendanceJson);
-                    student.username = username;
-                    student.password = password;
-                    return new Object[]{student, null, callback};
-                } catch (InvalidCredentialsException | InvalidResponseException e) {
-                    return new Object[]{null, e, callback};
-                } catch (Exception e) {
-                    return new Object[]{null, new ConnectionFailedException(), callback};
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Object[] result) {
-                Student student = (Student) result[0];
-                RuntimeException error = (RuntimeException) result[1];
-                Callback callback = (Callback) result[2];
-
-                if (callback != null) {
-                    if (error != null) {
-                        callback.onError(error);
-                    } else {
-                        callback.onData(student);
-                    }
-                }
-            }
-        }.execute(username, password, callback, this.baseUrl);
+        new FetchApiResponse().execute(username, password, callback, this.baseUrl);
     }
 
     public interface Callback {
 
-        public void onData(@NonNull Student student);
+        void onData(@NonNull Student student);
 
-        public void onError(@NonNull RuntimeException error);
+        void onError(@NonNull RuntimeException error);
+    }
+
+    private static class FetchApiResponse extends AsyncTask<Object, Void, Object[]> {
+
+        @Override
+        protected Object[] doInBackground(Object... params) {
+            String username = (String) params[0];
+            String password = (String) params[1];
+            Callback callback = (Callback) params[2];
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .cookieJar(new CookieJar())
+                    .build();
+            String baseUrl = (String) params[3];
+            MediaType json = MediaType.parse("application/json");
+            ResponseParser responseParser = new ResponseParser();
+
+            try {
+                String loginRequestBody = new Formatter()
+                        .format("{\"username\":\"%s\",\"password\":\"%s\",\"MemberType\":\"S\"}",
+                                username, password).toString();
+                Request loginRequest = new Request.Builder()
+                        .url(baseUrl + "/login")
+                        .post(RequestBody.create(json, loginRequestBody))
+                        .build();
+                String loginJson = okHttpClient.newCall(loginRequest)
+                        .execute().body().string();
+
+                Request registrationIdRequest = new Request.Builder()
+                        .url(baseUrl + "/studentSemester/lov")
+                        .post(RequestBody.create(json, ""))
+                        .build();
+                String registrationIdJson = okHttpClient.newCall(registrationIdRequest)
+                        .execute().body().string();
+                String registrationId = responseParser.parseRegistrationId(registrationIdJson);
+
+                String attendanceRequestBody = new Formatter()
+                        .format("{\"registerationid\":\"%s\"}", registrationId).toString();
+                Request attendanceRequest = new Request.Builder()
+                        .url(baseUrl + "/attendanceinfo")
+                        .post(RequestBody.create(json, attendanceRequestBody))
+                        .build();
+                String attendanceJson = okHttpClient.newCall(attendanceRequest)
+                        .execute().body().string();
+
+                Student student = responseParser.parseStudent(loginJson, attendanceJson);
+                student.username = username;
+                student.password = password;
+                return new Object[]{student, null, callback};
+            } catch (InvalidCredentialsException | InvalidResponseException e) {
+                return new Object[]{null, e, callback};
+            } catch (Exception e) {
+                return new Object[]{null, new ConnectionFailedException(), callback};
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object[] result) {
+            Student student = (Student) result[0];
+            RuntimeException error = (RuntimeException) result[1];
+            Callback callback = (Callback) result[2];
+
+            if (callback != null) {
+                if (error != null) {
+                    callback.onError(error);
+                } else {
+                    callback.onData(student);
+                }
+            }
+        }
     }
 }
