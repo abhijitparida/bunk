@@ -187,16 +187,15 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError(@NonNull RuntimeException error) {
-                        if (error instanceof ConnectionFailedException) {
-                            Toast.makeText(mContext, "Could not connect to ITER servers", Toast.LENGTH_LONG).show();
-                        } else if (error instanceof InvalidCredentialsException) {
-                            Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
-                        } else if (error instanceof InvalidResponseException) {
-                            Toast.makeText(mContext, "Invalid API response", Toast.LENGTH_LONG).show();
+                    public void onError(@NonNull RuntimeException e) {
+                        // TODO: refactor exception handling
+
+                        if (e instanceof ConnectionFailedException || e instanceof InvalidCredentialsException
+                                || e instanceof InvalidResponseException) {
+                            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
-                        if ((error instanceof InvalidResponseException || error instanceof ConnectionFailedException) &&
+                        if ((e instanceof InvalidResponseException || e instanceof ConnectionFailedException) &&
                                 mCache.getStudent(mSharedPreferences.getString("pref_student", null)) != null) {
                                 mLoginButton.setText("¯\\_(ツ)_/¯");
                                 new Handler().postDelayed(new Runnable() {
