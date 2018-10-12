@@ -70,38 +70,38 @@ import app.abhijit.iter.models.Subject;
 public class AttendanceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    private Context mContext;
-    private SharedPreferences mSharedPreferences;
-    private Cache mCache;
-    private Student mNewStudent;
-    private Student mOldStudent;
-    private boolean mPrefExtendedStats;
-    private int mPrefMinimumAttendance;
-    private ArrayList<SubjectView> mSubjectViews;
-    private SubjectAdapter mSubjectAdapter;
+    private Context context;
+    private SharedPreferences sharedPreferences;
+    private Cache cache;
+    private Student newStudent;
+    private Student oldStudent;
+    private boolean prefExtendedStats;
+    private int prefMinimumAttendance;
+    private ArrayList<SubjectView> subjectViews;
+    private SubjectAdapter subjectAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
 
-        mContext = this;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mCache = new Cache(mContext);
+        this.context = this;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        this.cache = new Cache(this.context);
 
         try {
-            mNewStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
+            this.newStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
         } catch (Exception ignored) { }
-        mOldStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
-        if (mNewStudent == null && mOldStudent == null) {
+        this.oldStudent = this.cache.getStudent(this.sharedPreferences.getString("pref_student", null));
+        if (this.newStudent == null && this.oldStudent == null) {
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             finish();
         }
-        if (mNewStudent == null) mNewStudent = mOldStudent;
-        if (mOldStudent == null) mOldStudent = mNewStudent;
+        if (this.newStudent == null) this.newStudent = this.oldStudent;
+        if (this.oldStudent == null) this.oldStudent = this.newStudent;
 
-        mPrefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", true);
-        mPrefMinimumAttendance = Integer.parseInt(mSharedPreferences.getString("pref_minimum_attendance", "75"));
+        this.prefExtendedStats = this.sharedPreferences.getBoolean("pref_extended_stats", true);
+        this.prefMinimumAttendance = Integer.parseInt(this.sharedPreferences.getString("pref_minimum_attendance", "75"));
 
         setupToolbar();
         setupDrawer();
@@ -115,13 +115,13 @@ public class AttendanceActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        boolean prefExtendedStats = mSharedPreferences.getBoolean("pref_extended_stats", true);
-        int prefMinimumAttendance = Integer.parseInt(mSharedPreferences.getString("pref_minimum_attendance", "75"));
+        boolean prefExtendedStats = this.sharedPreferences.getBoolean("pref_extended_stats", true);
+        int prefMinimumAttendance = Integer.parseInt(this.sharedPreferences.getString("pref_minimum_attendance", "75"));
 
-        if (mPrefExtendedStats != prefExtendedStats
-                || mPrefMinimumAttendance != prefMinimumAttendance) {
-            mPrefExtendedStats = prefExtendedStats;
-            mPrefMinimumAttendance = prefMinimumAttendance;
+        if (this.prefExtendedStats != prefExtendedStats
+                || this.prefMinimumAttendance != prefMinimumAttendance) {
+            this.prefExtendedStats = prefExtendedStats;
+            this.prefMinimumAttendance = prefMinimumAttendance;
 
             processAndDisplayAttendance();
         }
@@ -159,8 +159,8 @@ public class AttendanceActivity extends AppCompatActivity
                 public void onAnimationRepeat(Animation animation) { }
             });
         } else if (id == R.id.action_logout) {
-            mCache.setStudent(mSharedPreferences.getString("pref_student", null), null);
-            Toast.makeText(mContext, "Logged out", Toast.LENGTH_SHORT).show();
+            this.cache.setStudent(this.sharedPreferences.getString("pref_student", null), null);
+            Toast.makeText(this.context, "Logged out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             finish();
         }
@@ -206,8 +206,8 @@ public class AttendanceActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View navigationViewHeader = navigationView.getHeaderView(0);
-        ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(mNewStudent.name);
-        ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(mNewStudent.username);
+        ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(this.newStudent.name);
+        ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(this.newStudent.username);
         String prompts[] = {"open source?", "coding?", "programming?", "code+coffee?"};
         TextView opensource = drawer.findViewById(R.id.opensource);
         opensource.setText(prompts[new Random().nextInt(prompts.length)]);
@@ -226,7 +226,7 @@ public class AttendanceActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSharedPreferences.edit().putString("pref_student", null).apply();
+                AttendanceActivity.this.sharedPreferences.edit().putString("pref_student", null).apply();
                 startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
                 finish();
             }
@@ -235,17 +235,17 @@ public class AttendanceActivity extends AppCompatActivity
 
     private void setupListView() {
         ListView subjectsList = findViewById(R.id.subjects);
-        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         subjectsList.addFooterView(layoutInflater.inflate(R.layout.listview_footer, null, false));
-        mSubjectViews = new ArrayList<>();
-        mSubjectAdapter = new SubjectAdapter(mSubjectViews);
-        subjectsList.setAdapter(mSubjectAdapter);
+        this.subjectViews = new ArrayList<>();
+        this.subjectAdapter = new SubjectAdapter(this.subjectViews);
+        subjectsList.setAdapter(this.subjectAdapter);
     }
 
     private void processAndDisplayAttendance() {
         ArrayList<SubjectView> subjectViews = new ArrayList<>();
         Boolean updated = false;
-        for (Subject subject : mNewStudent.subjects.values()) {
+        for (Subject subject : this.newStudent.subjects.values()) {
             SubjectView subjectView = new SubjectView();
             subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
@@ -259,8 +259,8 @@ public class AttendanceActivity extends AppCompatActivity
             subjectView.absent = String.format(Locale.US,
                     subject.absent() == 1 ? "%d class" : "%d classes",
                     subject.absent());
-            if (mOldStudent.subjects.containsKey(subject.code)) {
-                Subject oldSubject = mOldStudent.subjects.get(subject.code);
+            if (this.oldStudent.subjects.containsKey(subject.code)) {
+                Subject oldSubject = this.oldStudent.subjects.get(subject.code);
                 if (subject.theoryPresent != oldSubject.theoryPresent
                         || subject.theoryTotal != oldSubject.theoryTotal
                         || subject.labPresent != oldSubject.labPresent
@@ -285,14 +285,14 @@ public class AttendanceActivity extends AppCompatActivity
                     subject.lastUpdated = oldSubject.lastUpdated;
                 }
             }
-            if (subject.attendance() >= mPrefMinimumAttendance + 10.0) {
+            if (subject.attendance() >= this.prefMinimumAttendance + 10.0) {
                 subjectView.attendanceBadge = R.drawable.bg_badge_green;
-            } else if (subject.attendance() >= mPrefMinimumAttendance) {
+            } else if (subject.attendance() >= this.prefMinimumAttendance) {
                 subjectView.attendanceBadge = R.drawable.bg_badge_yellow;
             } else {
                 subjectView.attendanceBadge = R.drawable.bg_badge_red;
             }
-            subjectView.bunkStats = subject.bunkStats(mPrefMinimumAttendance, mPrefExtendedStats);
+            subjectView.bunkStats = subject.bunkStats(this.prefMinimumAttendance, this.prefExtendedStats);
             if (subjectView.updated) {
                 subjectView.lastUpdated = "just now";
             } else {
@@ -301,20 +301,20 @@ public class AttendanceActivity extends AppCompatActivity
             }
             subjectViews.add(subjectView);
         }
-        mCache.setStudent(mNewStudent.username, mNewStudent);
+        this.cache.setStudent(this.newStudent.username, this.newStudent);
 
         if (updated) {
-            Toast.makeText(mContext, "Attendance updated", Toast.LENGTH_SHORT).show();
-            Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+            Toast.makeText(this.context, "Attendance updated", Toast.LENGTH_SHORT).show();
+            Vibrator vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(500);
         }
 
         findViewById(R.id.no_attendance).setVisibility(subjectViews.isEmpty() ? View.VISIBLE : View.GONE);
         findViewById(R.id.subjects).setVisibility(subjectViews.isEmpty() ? View.GONE : View.VISIBLE);
 
-        mSubjectViews.clear();
-        mSubjectViews.addAll(subjectViews);
-        mSubjectAdapter.notifyDataSetChanged();
+        this.subjectViews.clear();
+        this.subjectViews.addAll(subjectViews);
+        this.subjectAdapter.notifyDataSetChanged();
     }
 
     private int subjectAvatar(String subjectCode) {
@@ -391,12 +391,12 @@ public class AttendanceActivity extends AppCompatActivity
 
     private class SubjectAdapter extends ArrayAdapter<SubjectView> {
 
-        private final LayoutInflater mLayoutInflater;
+        private final LayoutInflater layoutInflater;
 
         SubjectAdapter(ArrayList<SubjectView> subjectViews) {
-            super(mContext, R.layout.item_subject, subjectViews);
+            super(AttendanceActivity.this.context, R.layout.item_subject, subjectViews);
 
-            mLayoutInflater = LayoutInflater.from(mContext);
+            this.layoutInflater = LayoutInflater.from(AttendanceActivity.this.context);
         }
 
         private class ViewHolder {
@@ -422,7 +422,7 @@ public class AttendanceActivity extends AppCompatActivity
             final ViewHolder viewHolder;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-                convertView = mLayoutInflater.inflate(R.layout.item_subject, parent, false);
+                convertView = layoutInflater.inflate(R.layout.item_subject, parent, false);
                 viewHolder.avatar = convertView.findViewById(R.id.subject_avatar);
                 viewHolder.attendance = convertView.findViewById(R.id.subject_attendance);
                 viewHolder.name = convertView.findViewById(R.id.subject_name);
