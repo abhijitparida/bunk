@@ -60,43 +60,43 @@ import app.abhijit.iter.models.Student;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Context mContext;
-    private SharedPreferences mSharedPreferences;
-    private Cache mCache;
-    private IterApi mIterApi;
+    private Context context;
+    private SharedPreferences sharedPreferences;
+    private Cache cache;
+    private IterApi iterApi;
 
-    private AutoCompleteTextView mUsernameInput;
-    private EditText mPasswordInput;
-    private TextInputLayout mPasswordVisibility;
-    private Button mLoginButton;
+    private AutoCompleteTextView usernameInput;
+    private EditText passwordInput;
+    private TextInputLayout passwordVisibility;
+    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mContext = this;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mCache = new Cache(mContext);
-        mIterApi = new IterApi(mContext);
+        this.context = this;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        this.cache = new Cache(this.context);
+        this.iterApi = new IterApi(this.context);
 
-        mUsernameInput = findViewById(R.id.username);
-        mPasswordInput = findViewById(R.id.password);
-        mPasswordVisibility = findViewById(R.id.password_visibility);
-        mLoginButton = findViewById(R.id.login);
+        this.usernameInput = findViewById(R.id.username);
+        this.passwordInput = findViewById(R.id.password);
+        this.passwordVisibility = findViewById(R.id.password_visibility);
+        this.loginButton = findViewById(R.id.login);
 
         setupToolbar();
         setupUsernameInput();
         setupPasswordInput();
         setupLoginButton();
 
-        Student selectedStudent = mCache.getStudent(mSharedPreferences.getString("pref_student", null));
+        Student selectedStudent = this.cache.getStudent(this.sharedPreferences.getString("pref_student", null));
         if (selectedStudent != null) {
-            mUsernameInput.setText(selectedStudent.username);
-            mPasswordInput.setText(selectedStudent.password);
-            mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
-            if (mSharedPreferences.getBoolean("pref_auto_login", true)) {
-                mLoginButton.performClick();
+            this.usernameInput.setText(selectedStudent.username);
+            this.passwordInput.setText(selectedStudent.password);
+            this.passwordVisibility.setPasswordVisibilityToggleEnabled(false);
+            if (this.sharedPreferences.getBoolean("pref_auto_login", true)) {
+                this.loginButton.performClick();
             }
         }
     }
@@ -107,30 +107,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupUsernameInput() {
-        final ArrayList<Student> students = mCache.getStudents();
+        final ArrayList<Student> students = this.cache.getStudents();
         final ArrayList<String> usernames = new ArrayList<>();
         for (Student student : students) {
             usernames.add(student.username);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.context,
                 android.R.layout.simple_dropdown_item_1line, usernames);
-        mUsernameInput.setAdapter(adapter);
-        mUsernameInput.setThreshold(1);
+        this.usernameInput.setAdapter(adapter);
+        this.usernameInput.setThreshold(1);
 
-        mUsernameInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        this.usernameInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int index = usernames.indexOf(mUsernameInput.getText().toString());
-                mPasswordInput.setText(students.get(index).password);
-                mPasswordVisibility.setPasswordVisibilityToggleEnabled(false);
+                int index = usernames.indexOf(LoginActivity.this.usernameInput.getText().toString());
+                LoginActivity.this.passwordInput.setText(students.get(index).password);
+                LoginActivity.this.passwordVisibility.setPasswordVisibilityToggleEnabled(false);
             }
         });
     }
 
     private void setupPasswordInput() {
-        mPasswordInput.addTextChangedListener(new TextWatcher() {
+        this.passwordInput.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() == 0) mPasswordVisibility.setPasswordVisibilityToggleEnabled(true);
+                if (charSequence.length() == 0) passwordVisibility.setPasswordVisibilityToggleEnabled(true);
             }
         });
     }
@@ -151,30 +151,30 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String username = mUsernameInput.getText().toString();
-                String password = mPasswordInput.getText().toString();
+                String username = LoginActivity.this.usernameInput.getText().toString();
+                String password = LoginActivity.this.passwordInput.getText().toString();
 
                 if (username.isEmpty()) return;
 
-                mSharedPreferences.edit().putString("pref_student", username).apply();
+                LoginActivity.this.sharedPreferences.edit().putString("pref_student", username).apply();
 
-                mUsernameInput.setEnabled(false);
-                mPasswordInput.setEnabled(false);
-                mPasswordVisibility.setEnabled(false);
-                mLoginButton.setEnabled(false);
+                LoginActivity.this.usernameInput.setEnabled(false);
+                LoginActivity.this.passwordInput.setEnabled(false);
+                LoginActivity.this.passwordVisibility.setEnabled(false);
+                LoginActivity.this.loginButton.setEnabled(false);
 
-                mLoginButton.setText("LOADING...");
-                mLoginButton.setBackgroundResource(R.drawable.bg_login_button_loading);
-                ((AnimationDrawable) mLoginButton.getBackground()).start();
+                LoginActivity.this.loginButton.setText("LOADING...");
+                LoginActivity.this.loginButton.setBackgroundResource(R.drawable.bg_login_button_loading);
+                ((AnimationDrawable) LoginActivity.this.loginButton.getBackground()).start();
 
-                mIterApi.getStudent(username, password, new IterApi.Callback() {
+                LoginActivity.this.iterApi.getStudent(username, password, new IterApi.Callback() {
 
                     @Override
                     public void onData(@NonNull final Student student) {
-                        if (mCache.getStudent(student.username) == null) {
-                            Toast.makeText(mContext, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
+                        if (LoginActivity.this.cache.getStudent(student.username) == null) {
+                            Toast.makeText(LoginActivity.this.context, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
                         }
-                        mLoginButton.setText(StringUtils.repeat(new String(Character.toChars(0x1F60F)), 3));
+                        LoginActivity.this.loginButton.setText(StringUtils.repeat(new String(Character.toChars(0x1F60F)), 3));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -192,12 +192,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (e instanceof ConnectionFailedException || e instanceof InvalidCredentialsException
                                 || e instanceof InvalidResponseException) {
-                            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this.context, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
                         if ((e instanceof InvalidResponseException || e instanceof ConnectionFailedException) &&
-                                mCache.getStudent(mSharedPreferences.getString("pref_student", null)) != null) {
-                                mLoginButton.setText("¯\\_(ツ)_/¯");
+                                LoginActivity.this.cache.getStudent(LoginActivity.this.sharedPreferences.getString("pref_student", null)) != null) {
+                                LoginActivity.this.loginButton.setText("¯\\_(ツ)_/¯");
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -207,21 +207,21 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }, 400);
                         } else {
-                            mSharedPreferences.edit().putString("pref_student", null).apply();
+                            LoginActivity.this.sharedPreferences.edit().putString("pref_student", null).apply();
 
-                            ((AnimationDrawable) mLoginButton.getBackground()).stop();
-                            mUsernameInput.setEnabled(true);
-                            mPasswordInput.setEnabled(true);
-                            mPasswordVisibility.setEnabled(true);
-                            mLoginButton.setBackgroundResource(R.drawable.bg_login_button_error);
-                            mLoginButton.setText("ERROR");
+                            ((AnimationDrawable) LoginActivity.this.loginButton.getBackground()).stop();
+                            LoginActivity.this.usernameInput.setEnabled(true);
+                            LoginActivity.this.passwordInput.setEnabled(true);
+                            LoginActivity.this.passwordVisibility.setEnabled(true);
+                            LoginActivity.this.loginButton.setBackgroundResource(R.drawable.bg_login_button_error);
+                            LoginActivity.this.loginButton.setText("ERROR");
 
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mLoginButton.setEnabled(true);
-                                    mLoginButton.setText("BUNK!");
-                                    mLoginButton.setBackgroundResource(R.drawable.bg_login_button);
+                                    LoginActivity.this.loginButton.setEnabled(true);
+                                    LoginActivity.this.loginButton.setText("BUNK!");
+                                    LoginActivity.this.loginButton.setBackgroundResource(R.drawable.bg_login_button);
                                 }
                             }, 1200);
                         }
