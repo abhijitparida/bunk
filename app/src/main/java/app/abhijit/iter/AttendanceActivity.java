@@ -86,8 +86,8 @@ public class AttendanceActivity extends AppCompatActivity
         setContentView(R.layout.activity_attendance);
 
         mContext = this;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mCache = new Cache(mContext);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mCache = new Cache(this);
 
         try {
             mNewStudent = new Gson().fromJson(getIntent().getStringExtra("student"), Student.class);
