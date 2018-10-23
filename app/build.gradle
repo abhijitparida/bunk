@@ -1,13 +1,12 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "app.abhijit.iter"
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 25
         versionName "v2.6.2"
         resConfig "en"
@@ -17,7 +16,7 @@ android {
         variant.resValue "string", "app_version", variant.versionName
 
         if (variant.buildType.name == "debug") {
-            variant.resValue "string", "app_version", "dev build " + new Date().format('yyyyMMddHHmmss')
+            variant.resValue "string", "app_version", "dev build " + new Date().format("yyyyMMddHHmmss")
         }
     }
 
@@ -25,9 +24,9 @@ android {
         release {
             shrinkResources true
             minifyEnabled true
-            proguardFiles 'proguard-square-okhttp3.pro'
-            proguardFiles 'proguard-gson.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles "okhttp3.pro"
+            proguardFiles "gson.pro"
+            proguardFiles getDefaultProguardFile("proguard-android.txt")
         }
     }
 
@@ -37,17 +36,17 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.7.0'
-    implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    testImplementation "junit:junit:4.12"
+    implementation "com.android.support:appcompat-v7:28.0.0"
+    implementation "com.android.support:design:28.0.0"
+    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    implementation "com.google.code.gson:gson:2.8.2"
+    implementation "org.apache.commons:commons-lang3:3.4"
 }
 
 repositories {
     maven {
-        url 'https://maven.google.com'
+        url "https://maven.google.com"
     }
 }
