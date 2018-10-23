@@ -9,14 +9,7 @@ Bunk is the unofficial attendance calculator app for ITER.
 
 ## Contributing
 
-Make sure your code passes all unit tests before sending a pull request.
-
-Test server credentials:
-
-```
-Username: 1541001337
-Password: password
-```
+Read contributing guidelines here: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
