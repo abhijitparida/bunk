@@ -9,7 +9,7 @@ Bunk is the unofficial attendance calculator app for ITER.
 
 ## Contributing
 
-Read contributing guidelines here: [CONTRIBUTING.md](CONTRIBUTING.md)
+Read contributing guidelines here: [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 
 ## License
 
