@@ -9,7 +9,20 @@ Bunk is the unofficial attendance calculator app for ITER.
 
 ## Contributing
 
+Feel free to open new issues here: [https://github.com/abhijitparida/bunk/issues](https://github.com/abhijitparida/bunk/issues)
+
+If this is your first pull request, please read this article: [How To Create a Pull Request on GitHub](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github)
+
 Read contributing guidelines here: [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+
+### Debug Build Credentials
+
+```
+Username: <your registration number>
+Password: password
+```
+
+Debug builds are configured not to make API requests to ITER servers. You can use any registration number (provided that it is a 10 digit number) and the password must be `password`.
 
 ## License
 
