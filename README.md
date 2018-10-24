@@ -9,9 +9,11 @@ Bunk is the unofficial attendance calculator app for ITER.
 
 ## Contributing
 
-Feel free to open new issues here: [https://github.com/abhijitparida/bunk/issues](https://github.com/abhijitparida/bunk/issues)
-
 If this is your first pull request, please read this article: [How To Create a Pull Request on GitHub](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github)
+
+### Where To Start
+
+Take a look at the [open issues](https://github.com/abhijitparida/bunk/issues) and pick something to work on. Feel free to open new issues. You can also [search for code marked `TODO`](https://github.com/abhijitparida/bunk/search?q=TODO) in the repo.
 
 Read contributing guidelines here: [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 
