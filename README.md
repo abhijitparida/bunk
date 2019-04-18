@@ -1,4 +1,4 @@
-Bunk [![Build Status](https://travis-ci.org/abhijitparida/bunk.svg)](https://travis-ci.org/abhijitparida/bunk)
+Bunk [![Build Status](https://travis-ci.org/abhijitparida/bunk.svg)](https://travis-ci.org/abhijitparida/bunk) [![Build Status](https://app.bitrise.io/app/584aa105831110e4/status.svg?token=JV_NMApU52KjvYrHd9Ek9g)](https://app.bitrise.io/app/584aa105831110e4)
 ====
 
 Bunk is the unofficial attendance calculator app for ITER.
