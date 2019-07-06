@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cookies=/tmp/bunk-testserver-cookies.txt
-api_url="http://136.233.14.5:8282/CampusPortalSOA"
+api_url="http://136.233.14.3:8282/CampusPortalSOA"
 if [ "$1" == "-t" ] || [ "$1" == "--testserver" ] ; then
     api_url="https://bunk-testserver.herokuapp.com"
 fi

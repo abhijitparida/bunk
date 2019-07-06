@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="api_base_url">http://136.233.14.5:8282/CampusPortalSOA</string>
+    <string name="api_base_url">http://136.233.14.3:8282/CampusPortalSOA</string>
 </resources>
