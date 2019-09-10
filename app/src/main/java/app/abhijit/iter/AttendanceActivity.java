@@ -444,7 +444,7 @@ public class AttendanceActivity extends AppCompatActivity
             viewHolder.bunkStats.setText(subjectView.bunkStats);
 
             if (subjectView.updated) {
-                viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.blue));
+                viewHolder.lastUpdated.setTextColor(getResources().getColor(R.color.colorPrimary));
 
                 if (!StringUtils.equals(subjectView.lab, subjectView.oldLab)) {
                     viewHolder.oldLab.setVisibility(View.VISIBLE);
