@@ -55,15 +55,17 @@
                 android:layout_marginTop="@dimen/margin_x_large"
                 android:text="@string/about_disclaimer"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/text_small" />
+                android:textSize="@dimen/text_medium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:text="@string/about_unofficial"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_small" />
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_medium" />
 
             <TextView
                 android:layout_width="wrap_content"
