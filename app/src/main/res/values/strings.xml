@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Bunk</string>
+    <string name="app_version">v2.6.5</string>
 
     <string name="label_last_updated">Last updated</string>
     <string name="label_theory">Theory:</string>
