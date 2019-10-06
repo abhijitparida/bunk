@@ -55,7 +55,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_large"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:background="@drawable/bg_login_button"
+                android:background="@color/blue"
                 android:clickable="true"
                 android:textStyle="normal"
                 android:textColor="@color/white"
