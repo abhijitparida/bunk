@@ -81,8 +81,8 @@ public class IterApi {
                         .execute().body().string();
 
                 Student student = responseParser.parseStudent(loginJson, attendanceJson);
-                student.username = username;
-                student.password = password;
+                student.setUsername(username);
+                student.setPassword(password);
                 return new Object[]{student, null, callback};
             } catch (InvalidCredentialsException | InvalidResponseException e) {
                 return new Object[]{null, e, callback};

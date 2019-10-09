@@ -1,5 +1,6 @@
 package app.abhijit.iter.data;
 
+import java.util.Map;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class ResponseParserTest {
         ResponseParser responseParser = new ResponseParser();
         Student student = responseParser.parseStudent("{\"name\":\"fIrStNaMe LASTNAME\",\"status\":\"success\"}", "");
 
-        assertEquals("Firstname Lastname", student.name);
+        assertEquals("Firstname Lastname", student.getName());
     }
 
     @Test
@@ -44,7 +45,7 @@ public class ResponseParserTest {
         ResponseParser responseParser = new ResponseParser();
         Student student = responseParser.parseStudent("{\"name\":\"name\",\"status\":\"success\"}", "");
 
-        assertEquals(0, student.subjects.size());
+        assertEquals(0, student.getSubjects().size());
     }
 
     @Test
@@ -52,7 +53,7 @@ public class ResponseParserTest {
         ResponseParser responseParser = new ResponseParser();
         Student student = responseParser.parseStudent("{\"name\":\"name\",\"status\":\"success\"}", "bad json");
 
-        assertEquals(0, student.subjects.size());
+        assertEquals(0, student.getSubjects().size());
     }
 
     @Test
@@ -60,7 +61,7 @@ public class ResponseParserTest {
         ResponseParser responseParser = new ResponseParser();
         Student student = responseParser.parseStudent("{\"name\":\"name\",\"status\":\"success\"}",
                 "{\"griddata\":[{\"Latt\":\"10 / 10\",\"Patt\":\"Not Applicable\",\"subject\":\"Subject I\",\"subjectcode\":\"SUB001\"},{\"Latt\":\"Not Applicable\",\"Patt\":\"20 / 20\",\"subject\":\"Subject II\",\"subjectcode\":\"SUB002\"}]}");
-        HashMap<String, Subject> subjects = student.subjects;
+        Map<String, Subject> subjects = student.getSubjects();
 
         assertEquals(2, subjects.size());
 

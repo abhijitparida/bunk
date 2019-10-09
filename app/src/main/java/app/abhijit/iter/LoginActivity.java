@@ -68,8 +68,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Student selectedStudent = this.cache.getStudent(this.sharedPreferences.getString("pref_student", null));
         if (selectedStudent != null) {
-            this.usernameInput.setText(selectedStudent.username);
-            this.passwordInput.setText(selectedStudent.password);
+            this.usernameInput.setText(selectedStudent.getUsername());
+            this.passwordInput.setText(selectedStudent.getPassword());
             this.passwordVisibility.setPasswordVisibilityToggleEnabled(false);
             if (this.sharedPreferences.getBoolean("pref_auto_login", true)) {
                 this.loginButton.performClick();
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         final ArrayList<Student> students = this.cache.getStudents();
         final ArrayList<String> usernames = new ArrayList<>();
         for (Student student : students) {
-            usernames.add(student.username);
+            usernames.add(student.getUsername());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.context,
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int index = usernames.indexOf(LoginActivity.this.usernameInput.getText().toString());
-                LoginActivity.this.passwordInput.setText(students.get(index).password);
+                LoginActivity.this.passwordInput.setText(students.get(index).getPassword());
                 LoginActivity.this.passwordVisibility.setPasswordVisibilityToggleEnabled(false);
             }
         });
@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onData(@NonNull final Student student) {
-                        if (LoginActivity.this.cache.getStudent(student.username) == null) {
+                        if (LoginActivity.this.cache.getStudent(student.getUsername()) == null) {
                             Toast.makeText(LoginActivity.this.context, "Credentials will be stored on your device until you Logout", Toast.LENGTH_SHORT).show();
                         }
                         LoginActivity.this.loginButton.setText(StringUtils.repeat(new String(Character.toChars(0x1F60F)), 3));

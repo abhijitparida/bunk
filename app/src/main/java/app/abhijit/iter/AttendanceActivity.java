@@ -182,8 +182,8 @@ public class AttendanceActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View navigationViewHeader = navigationView.getHeaderView(0);
-        ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(this.newStudent.name);
-        ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(this.newStudent.username);
+        ((TextView) navigationViewHeader.findViewById(R.id.name)).setText(this.newStudent.getName());
+        ((TextView) navigationViewHeader.findViewById(R.id.username)).setText(this.newStudent.getUsername());
         String prompts[] = {"open source?", "coding?", "programming?", "code+coffee?"};
         TextView opensource = drawer.findViewById(R.id.opensource);
         opensource.setText(prompts[new Random().nextInt(prompts.length)]);
@@ -221,7 +221,7 @@ public class AttendanceActivity extends AppCompatActivity
     private void processAndDisplayAttendance() {
         ArrayList<SubjectView> subjectViews = new ArrayList<>();
         Boolean updated = false;
-        for (Subject subject : this.newStudent.subjects.values()) {
+        for (Subject subject : this.newStudent.getSubjects().values()) {
             SubjectView subjectView = new SubjectView();
             subjectView.avatar = subjectAvatar(subject.code);
             subjectView.name = subject.name;
@@ -235,8 +235,8 @@ public class AttendanceActivity extends AppCompatActivity
             subjectView.absent = String.format(Locale.US,
                     subject.absent() == 1 ? "%d class" : "%d classes",
                     subject.absent());
-            if (this.oldStudent.subjects.containsKey(subject.code)) {
-                Subject oldSubject = this.oldStudent.subjects.get(subject.code);
+            if (this.oldStudent.getSubjects().containsKey(subject.code)) {
+                Subject oldSubject = this.oldStudent.getSubjects().get(subject.code);
                 if (subject.theoryPresent != oldSubject.theoryPresent
                         || subject.theoryTotal != oldSubject.theoryTotal
                         || subject.labPresent != oldSubject.labPresent
@@ -277,7 +277,7 @@ public class AttendanceActivity extends AppCompatActivity
             }
             subjectViews.add(subjectView);
         }
-        this.cache.setStudent(this.newStudent.username, this.newStudent);
+        this.cache.setStudent(this.newStudent.getUsername(), this.newStudent);
 
         if (updated) {
             Toast.makeText(this.context, "Attendance updated", Toast.LENGTH_SHORT).show();
