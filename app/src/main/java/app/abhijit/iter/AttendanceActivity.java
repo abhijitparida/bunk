@@ -135,7 +135,7 @@ public class AttendanceActivity extends AppCompatActivity
                 public void onAnimationRepeat(Animation animation) { }
             });
         } else if (id == R.id.action_logout) {
-            this.cache.setStudent(this.sharedPreferences.getString("pref_student", null), null);
+            this.cache.deleteStudent(this.sharedPreferences.getString("pref_student", null));
             Toast.makeText(this.context, "Logged out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(AttendanceActivity.this, LoginActivity.class));
             finish();
