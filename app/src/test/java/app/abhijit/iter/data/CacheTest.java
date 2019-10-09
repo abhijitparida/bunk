@@ -99,6 +99,17 @@ public class CacheTest {
         verify(editor, times(1)).apply();
     }
 
+    @Test
+    public void deleteStudent_NullStudent_RemovesUsernameCorrectly() {
+        when(sharedPreferences.edit()).thenReturn(editor);
+        when(editor.remove(USERNAME_1)).thenReturn(editor);
+
+        cache.deleteStudent(USERNAME_1);
+
+        verify(editor, times(1)).remove(USERNAME_1);
+        verify(editor, times(1)).apply();
+    }
+
     private void mockStudents(String... usernames) {
         Map<String, String> studentsMap = new HashMap<>();
 
