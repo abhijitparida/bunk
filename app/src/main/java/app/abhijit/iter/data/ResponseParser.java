@@ -72,7 +72,7 @@ class ResponseParser {
             throws InvalidCredentialsException, InvalidResponseException {
         Student student = processLogin(loginJson);
         try {
-            student.subjects.putAll(processAttendance(attendanceJson));
+            student.getSubjects().putAll(processAttendance(attendanceJson));
         } catch (InvalidResponseException ignored) { }
 
         return student;
@@ -95,7 +95,7 @@ class ResponseParser {
         }
 
         Student student = new Student();
-        student.name = WordUtils.capitalizeFully(login.get("name").getAsString());
+        student.setName(WordUtils.capitalizeFully(login.get("name").getAsString()));
 
         return student;
     }
