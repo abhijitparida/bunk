@@ -49,9 +49,13 @@ public class Cache {
 
     public void setStudent(@Nullable String username, @Nullable Student student) {
         if (student == null) {
-            this.sharedPreferences.edit().remove(username).apply();
+            deleteStudent(username);
         } else {
             this.sharedPreferences.edit().putString(username, gson.toJson(student)).apply();
         }
+    }
+
+    public void deleteStudent(@Nullable String username) {
+        this.sharedPreferences.edit().remove(username).apply();
     }
 }
