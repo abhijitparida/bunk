@@ -1,12 +1,6 @@
 Bunk [![Build Status](https://travis-ci.org/abhijitparida/bunk.svg)](https://travis-ci.org/abhijitparida/bunk) [![Build Status](https://app.bitrise.io/app/584aa105831110e4/status.svg?token=JV_NMApU52KjvYrHd9Ek9g)](https://app.bitrise.io/app/584aa105831110e4)
 ====
 
-Bunk is the unofficial attendance calculator app for ITER.
-
-:information_source: **Looking for maintainers! Please contact abhijitparida.me@gmail.com for details.**
-
-[<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="65px" />](https://play.google.com/store/apps/details?id=app.abhijit.iter&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
-
 ![Screenshot](promo/screenshot.png)
 
 ## Contributing
@@ -26,7 +20,7 @@ Username: <your registration number>
 Password: password
 ```
 
-Debug builds are configured not to make API requests to ITER servers. You can use any registration number (provided that it is a 10 digit number) and the password must be `password`.
+Debug builds are configured not to make API requests to actual servers. You can use any registration number (provided that it is a 10 digit number) and the password must be `password`.
 
 ## License
 
