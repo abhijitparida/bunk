@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#254573</color>
+    <color name="colorPrimaryDark">#254573</color>
+    <color name="colorAccent">#303F9F</color>
     <color name="indigo">#3F51B5</color>
     <color name="indigo_dark">#303F9F</color>
     <color name="blue">#254573</color>
