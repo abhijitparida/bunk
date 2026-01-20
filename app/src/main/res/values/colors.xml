@@ -4,13 +4,13 @@
     <color name="indigo">#3F51B5</color>
     <color name="indigo_dark">#303F9F</color>
     <color name="blue">#254573</color>
-    <color name="green">#64DD17</color>
-    <color name="yellow">#FFD600</color>
-    <color name="red">#FF5252</color>
-    <color name="red_dark">#D50000</color>
-    <color name="black">#DD000000</color>
-    <color name="black_light">#66000000</color>
-    <color name="gray">#424242</color>
-    <color name="white">#FFFFFF</color>
+    <color name="green">#337349</color>
+    <color name="yellow">#DFDD50</color>
+    <color name="red">#AF5D82</color>
+    <color name="red_dark">#DF2634</color>
+    <color name="black">#D30A2C</color>
+    <color name="black_light">#93373E</color>
+    <color name="gray">#755C6B</color>
+    <color name="white">#F6F9FB</color>
 
 </resources>
